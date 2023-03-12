@@ -1,0 +1,24 @@
+plugins {
+    id 'java'
+}
+
+group 'me.senkoco'
+version '1.2.4'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+
+    maven {
+        name = 'glaremasters repo'
+        url = 'https://repo.glaremasters.me/repository/towny/'
+    }
+}
+
+dependencies {
+    compileOnly 'org.spigotmc:spigot:1.19-R0.1-SNAPSHOT'
+}
+
+sourceCompatibility = targetCompatibility = '17'
+compileJava.options.encoding = 'UTF-8'
+setLibsDirName('../builds')
