@@ -17,6 +17,7 @@ repositories {
 
 dependencies {
     compileOnly 'org.spigotmc:spigot:1.19-R0.1-SNAPSHOT'
+    compileOnly 'com.palmergames.bukkit.towny:towny:0.98.6.20'
 }
 
 sourceCompatibility = targetCompatibility = '17'
