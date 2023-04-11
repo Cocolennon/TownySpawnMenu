@@ -17,6 +17,8 @@ import java.util.List;
 import static me.senkoco.townyspawnmenu.utils.menu.General.getPagesCount;
 
 public class Nations {
+    public static ItemStack noNation = General.getItem(Material.BLUE_STAINED_GLASS_PANE, "§c§lNation-less Towns", "noNation");
+
     public static List<Inventory> getPages(){
         List<Nation> allNations = new LinkedList<Nation>(TownyAPI.getInstance().getNations());
         int allNationsCount = allNations.size();
@@ -39,6 +41,7 @@ public class Nations {
                 newPage.setItem(menuSlot, General.getItem(Material.RED_STAINED_GLASS_PANE, "§c§l" + nation.getName(), nation.getName(), setGlobalLore(nation)));
                 menuSlot++;
             }
+            addNoNationsItems(newPage);
             if(getPagesCount(allNationsCount) > 0){
                 if(pageNumber == 0){
                     newPage.setItem(23, General.getItem(Material.ARROW, "§6§lNext Page", "" + (pageNumber + 1)));
@@ -64,6 +67,12 @@ public class Nations {
         return itemlore;
     }
 
+    public static void addNoNationsItems(Inventory inv){
+        if(TownyAPI.getInstance().getTownsWithoutNation().size() != 0){
+            inv.setItem(22, noNation);
+        }
+    }
+
     public static void openTownsOfNation(ItemStack current, Player player, boolean isTownMenu, Nation nation){
         String currentDName = current.getItemMeta().getDisplayName();
         String currentLName = current.getItemMeta().getLocalizedName();
@@ -78,6 +87,9 @@ public class Nations {
         if(currentDName.equals("§6§lBack to Nations")){
             General.openInventory(player, Integer.parseInt(currentLName), Nations.getPages());
             return;
+        }
+        if(currentLName.equals("noNation")){
+            General.openInventory(player, 0, Towns.getPages(null));
         }
         General.openInventory(player, 0, Towns.getPages(TownyAPI.getInstance().getNation(currentLName)));
     }

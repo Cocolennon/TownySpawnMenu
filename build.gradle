@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'me.senkoco'
-version '1.2.4'
+version '1.2.5'
 
 repositories {
     mavenCentral()
@@ -17,7 +17,7 @@ repositories {
 
 dependencies {
     compileOnly 'org.spigotmc:spigot:1.19-R0.1-SNAPSHOT'
-    compileOnly 'com.palmergames.bukkit.towny:towny:0.98.6.20'
+    compileOnly 'com.palmergames.bukkit.towny:towny:0.99.0.1'
 }
 
 sourceCompatibility = targetCompatibility = '17'

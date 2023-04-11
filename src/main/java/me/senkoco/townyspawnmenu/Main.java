@@ -1,9 +1,12 @@
 package me.senkoco.townyspawnmenu;
 
-import me.senkoco.townyspawnmenu.commands.CommandInfo;
+import com.palmergames.bukkit.towny.TownyCommandAddonAPI;
+import me.senkoco.townyspawnmenu.commands.MainCommand;
 import me.senkoco.townyspawnmenu.listeners.onClickEvent;
 import me.senkoco.townyspawnmenu.utils.UpdateChecker;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.palmergames.bukkit.towny.TownyCommandAddonAPI.CommandType;
 
 public class Main extends JavaPlugin {
     public static String version;
@@ -26,7 +29,8 @@ public class Main extends JavaPlugin {
     }
 
     public void registerCommandsAndListeners(){
-        this.getCommand("townyspawnmenu").setExecutor(new CommandInfo());
+        this.getCommand("townyspawnmenu").setExecutor(new MainCommand());
+        TownyCommandAddonAPI.addSubCommand(CommandType.TOWN, "spawn-menu", new MainCommand());
         this.getServer().getPluginManager().registerEvents(new onClickEvent(), this);
     }
 

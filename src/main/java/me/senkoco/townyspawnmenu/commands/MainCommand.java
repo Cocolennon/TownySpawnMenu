@@ -11,8 +11,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class CommandInfo implements TabExecutor {
-    private String madeFor = "0.98.6.20";
+public class MainCommand implements TabExecutor {
+    private String madeFor = "0.99.0.1";
     private String townyVersion = Towny.getPlugin().getVersion();
 
     private static final List<String> autoComplete = Arrays.asList("help", "info", "menu");
@@ -24,22 +24,7 @@ public class CommandInfo implements TabExecutor {
         if(args.length >= 1){
             switch(args[0]) {
                 case "info":
-                    List<String> info = new LinkedList<String>();
-                    info.add("§c§l=========================");
-                    info.add("§6§lTowny Spawn Menu v" + Main.getVersion());
-                    if(!townyVersion.equals(madeFor)){
-                        info.add("§6§lMade for Towny v" + madeFor + " (using Towny v" + townyVersion + ")");
-                    }else {
-                        info.add("§6§lMade for Towny v" + madeFor);
-                    }
-                    if(Main.getUsingOldVersion()){
-                        info.add("§6§lAn update is available!");
-                    }else{
-                        info.add("§6§lYou're using the latest version");
-                    }
-                    info.add("§c§l=========================");
-
-                    info.forEach(sender::sendMessage);
+                    sendInfo(sender);
                     return true;
                 case "help":
                     return true;
@@ -63,6 +48,25 @@ public class CommandInfo implements TabExecutor {
         }
 
         return null;
+    }
+
+    private void sendInfo(CommandSender sender){
+        List<String> info = new LinkedList<String>();
+        info.add("§c§l=========================");
+        info.add("§6§lTowny Spawn Menu v" + Main.getVersion());
+        if(!townyVersion.equals(madeFor)){
+            info.add("§6§lMade for Towny v" + madeFor + " (using Towny v" + townyVersion + ")");
+        }else {
+            info.add("§6§lMade for Towny v" + madeFor);
+        }
+        if(Main.getUsingOldVersion()){
+            info.add("§6§lAn update is available!");
+        }else{
+            info.add("§6§lYou're using the latest version");
+        }
+        info.add("§c§l=========================");
+
+        info.forEach(sender::sendMessage);
     }
 
     private void Usage(CommandSender sender){

@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,14 +22,17 @@ import static org.bukkit.Bukkit.getPluginManager;
 public class Towns {
     static Plugin plugin = getPluginManager().getPlugin("TownySpawnMenu");
 
-    public static List<Inventory> getPages(Nation nation){
+    public static List<Inventory> getPages(@Nullable Nation nation){
         if(plugin != null){
             if(plugin instanceof Main){
                 Main main = (Main) plugin;
             }
         }
 
-        List<Town> allTownsInNation = new LinkedList<Town>(nation.getTowns());
+        List<Town> allTownsInNation;
+        if(nation == null) { allTownsInNation = new LinkedList<Town>(TownyAPI.getInstance().getTownsWithoutNation()); }
+        else { allTownsInNation = new LinkedList<Town>(nation.getTowns()); }
+
         int allTownsCount = allTownsInNation.size();
 
         int townsInPage = 0;
@@ -36,7 +40,9 @@ public class Towns {
         List<Inventory> inventories = new LinkedList<Inventory>();
 
         for(int pageNumber = 0; pageNumber < getPagesCount(allTownsCount)+1; pageNumber++){
-            Inventory newPage = Bukkit.createInventory(null, 27, "§6§l" + nation.getName() + "§f§l: §3§lTowns (" + (pageNumber+1 + "/" + (getPagesCount(allTownsCount)+1) + ")"));
+            Inventory newPage;
+            if(nation == null) { newPage = Bukkit.createInventory(null, 27, "§6§lNation-less§f§l: §3§lTowns (" + (pageNumber+1 + "/" + (getPagesCount(allTownsCount)+1) + ")")); }
+            else { newPage = Bukkit.createInventory(null, 27, "§6§l" + nation.getName() + "§f§l: §3§lTowns (" + (pageNumber+1 + "/" + (getPagesCount(allTownsCount)+1) + ")")); }
             List<Town> townsInCurrentPage = new LinkedList<Town>();
             if(pageNumber == getPagesCount(allTownsCount)) inventorySlots = allTownsCount - townsInPage;
             for(int j = 0; j < inventorySlots; j++){
@@ -60,7 +66,8 @@ public class Towns {
                 }
             }
             newPage.setItem(22, General.getItem(Material.ARROW, "§6§lBack to Nations", "0"));
-            newPage.setItem(26, General.getItem(Material.BLACK_STAINED_GLASS_PANE, " ", nation.getName()));
+            if(nation == null){ newPage.setItem(26, General.getItem(Material.BLACK_STAINED_GLASS_PANE, " ", "noNation")); }
+            else { newPage.setItem(26, General.getItem(Material.BLACK_STAINED_GLASS_PANE, " ", nation.getName())); }
             General.fillEmpty(newPage, General.getItem(Material.BLACK_STAINED_GLASS_PANE, " ", "townMenu"));
             inventories.add(newPage);
         }
@@ -72,7 +79,7 @@ public class Towns {
         if(!town.isPublic()) { spawnCost = "Private"; }
 
         ArrayList<String> itemlore = new ArrayList<>();
-        itemlore.add("§6§lNation§f§l: §3§l" + town.getNationOrNull().getName());
+        if(town.hasNation()) itemlore.add("§6§lNation§f§l: §3§l" + town.getNationOrNull().getName());
         itemlore.add("§6§lMayor§f§l: §2§l" + town.getMayor().getName());
         itemlore.add("§6§lResidents§f§l: §d§l" + town.getResidents().size());
         itemlore.add("§6§lSpawn Cost§f§l: §c§l" + spawnCost);
@@ -81,13 +88,7 @@ public class Towns {
 
     public static void teleportToTown(Player player, String townName){
         Town town = TownyAPI.getInstance().getTown(townName);
-        /*if(!player.hasPermission("townyspawnui.menu.teleport")) {
-            player.sendMessage(ChatColor.RED + "You can't do that!");
-            return;
-        }*/
         if(!town.isPublic()) return;
         player.performCommand("t spawn " + townName + " -ignore");
-        //PlayerTeleportToTown playerTeleportToTown = new PlayerTeleportToTown(player, town);
-        //getPluginManager().callEvent(playerTeleportToTown);
     }
 }

@@ -23,8 +23,11 @@ public class onClickEvent implements Listener {
             String currentLName = current.getItemMeta().getLocalizedName();
             if(inv.getItem(0).getItemMeta().getLocalizedName().equals("nationMenu")) {
                 switch(currentLName){
-                    //case "noNation": break;
-                    //case "notPublic": break;
+                    case "noNation":
+                        Nations.openTownsOfNation(current, player, true, null);
+                        break;
+                    case "notPublic":
+                        break;
                     case "nationMenu":
                         break;
                     default:
