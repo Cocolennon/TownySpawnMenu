@@ -18,6 +18,8 @@ import static me.senkoco.townyspawnmenu.utils.menu.General.getPagesCount;
 
 public class Nations {
     public static ItemStack noNation = General.getItem(Material.BLUE_STAINED_GLASS_PANE, "§c§lNation-less Towns", "noNation");
+    public static ItemStack notPublic = General.getItem(Material.LIME_STAINED_GLASS_PANE, "§c§lPrivate Towns", "notPublic");
+    public static ItemStack atWar = General.getItem(Material.PURPLE_STAINED_GLASS_PANE, "§c§lTowns at War", "atWar");
 
     public static List<Inventory> getPages(){
         List<Nation> allNations = new LinkedList<Nation>(TownyAPI.getInstance().getNations());
@@ -41,7 +43,9 @@ public class Nations {
                 newPage.setItem(menuSlot, General.getItem(Material.RED_STAINED_GLASS_PANE, "§c§l" + nation.getName(), nation.getName(), setGlobalLore(nation)));
                 menuSlot++;
             }
-            addNoNationsItems(newPage);
+            addNoNationsItem(newPage);
+            addPrivatesItem(newPage);
+            addAtWarItem(newPage);
             if(getPagesCount(allNationsCount) > 0){
                 if(pageNumber == 0){
                     newPage.setItem(23, General.getItem(Material.ARROW, "§6§lNext Page", "" + (pageNumber + 1)));
@@ -67,9 +71,35 @@ public class Nations {
         return itemlore;
     }
 
-    public static void addNoNationsItems(Inventory inv){
+    public static void addPrivatesItem(Inventory inv){
+        int privateTownsCount = 0;
+        for(int j = 0; j < TownyAPI.getInstance().getTowns().size(); j++){
+            if(!TownyAPI.getInstance().getTowns().get(j).isPublic()){
+                privateTownsCount++;
+            }
+        }
+
+        if(privateTownsCount != 0){
+            inv.setItem(18, notPublic);
+        }
+    }
+
+    public static void addNoNationsItem(Inventory inv){
         if(TownyAPI.getInstance().getTownsWithoutNation().size() != 0){
             inv.setItem(22, noNation);
+        }
+    }
+
+    public static void addAtWarItem(Inventory inv){
+        int townsAtWarCount = 0;
+        for(int j = 0; j < TownyAPI.getInstance().getTowns().size(); j++){
+            if(TownyAPI.getInstance().getTowns().get(j).hasActiveWar()){
+                townsAtWarCount++;
+            }
+        }
+
+        if(townsAtWarCount != 0){
+            inv.setItem(26, atWar);
         }
     }
 
@@ -80,17 +110,22 @@ public class Nations {
             if(!isTownMenu){
                 General.openInventory(player, Integer.parseInt(currentLName), Nations.getPages());
             }else{
-                General.openInventory(player, Integer.parseInt(current.getItemMeta().getLocalizedName()), Towns.getPages(nation));
+                General.openInventory(player, Integer.parseInt(current.getItemMeta().getLocalizedName()), Towns.getPages(nation, false, false));
             }
             return;
-        }
-        if(currentDName.equals("§6§lBack to Nations")){
+        }else if(currentDName.equals("§6§lBack to Nations")){
             General.openInventory(player, Integer.parseInt(currentLName), Nations.getPages());
             return;
+        }else if(currentLName.equals("noNation")){
+            General.openInventory(player, 0, Towns.getPages(null, false, false));
+            return;
+        }else if(currentLName.equals("atWar")){
+            General.openInventory(player, 0, Towns.getPages(null, true, false));
+            return;
+        }else if(currentLName.equals("notPublic")){
+            General.openInventory(player, 0, Towns.getPages(null, false, true));
+            return;
         }
-        if(currentLName.equals("noNation")){
-            General.openInventory(player, 0, Towns.getPages(null));
-        }
-        General.openInventory(player, 0, Towns.getPages(TownyAPI.getInstance().getNation(currentLName)));
+        General.openInventory(player, 0, Towns.getPages(TownyAPI.getInstance().getNation(currentLName), false, false));
     }
 }
