@@ -37,6 +37,7 @@ public class onClickEvent implements Listener {
                 if(currentDName.equals("§6§lNext Page") || currentDName.equals("§6§lPrevious Page") || currentDName.equals("§6§lBack to Nations")){
                     Nations.openTownsOfNation(current, player, true, TownyAPI.getInstance().getNation(inv.getItem(26).getItemMeta().getLocalizedName()));
                 }else{
+                    if(!player.hasPermission("townyspawnmenu.menu.teleport")) { player.sendMessage("§4You can't do that!"); return; }
                     Towns.teleportToTown(player, currentLName);
                 }
             }

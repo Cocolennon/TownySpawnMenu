@@ -24,11 +24,14 @@ public class MainCommand implements TabExecutor {
         if(args.length >= 1){
             switch(args[0]) {
                 case "info":
+                    if(!sender.hasPermission("townyspawnmenu.showinfo")) { sender.sendMessage("§4You can't do that!"); return false; }
                     sendInfo(sender);
                     return true;
                 case "help":
+                    Usage(sender);
                     return true;
                 case "menu":
+                    if(!sender.hasPermission("townyspawnmenu.menu.open")) { sender.sendMessage("§4You can't do that!"); return false; }
                     List<Inventory> inventories = new LinkedList<Inventory>(Nations.getPages());
                     player.openInventory(inventories.get(0));
                     return true;
@@ -44,7 +47,7 @@ public class MainCommand implements TabExecutor {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         if(sender instanceof Player){
-            return autoComplete;
+            if(args.length == 1) return autoComplete;
         }
 
         return null;

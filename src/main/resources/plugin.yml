@@ -2,10 +2,52 @@ name: TownySpawnMenu
 description: This plugin adds a browsable menu to teleport to other towns in Towny
 author: Senkoco
 main: me.senkoco.townyspawnmenu.Main
-version: 1.2.4
+version: 1.2.6
 api-version: 1.19
 depend: [Towny]
 commands:
   townyspawnmenu:
     description: Main command for usage of the plugin
     aliases: tsm
+permissions:
+  townyspawnmenu.set.*:
+    description: All set permissions (Including admin permissions)
+    children:
+      townyspawnmenu.set.town: true
+      townyspawnmenu.set.nation: true
+      townyspawnmenu.set.admin: true
+  townyspawnmenu.set.town:
+    description: Allows a user to set their town's item (Mayors only)
+    default: true
+  townyspawnmenu.set.nation:
+    description: Allows a user to set their nation's item (Kings only)
+    default: true
+  townyspawnmenu.set.default:
+    description: Allows a user to set the default item for towns and nations that haven't set their item
+  townyspawnmenu.set.admin:
+    description: Allows a user to set any town or nation's item
+  townyspawnmenu.menu.*:
+    description: All menu permissions
+    children:
+      townyspawnmenu.menu.open: true
+      townyspawnmenu.menu.teleport: true
+  townyspawnmenu.menu.open:
+    description: Allows a user to open the menu
+    default: true
+  townyspawnmenu.menu.teleport:
+    description: Allows a user to teleport to a town through the menu
+    default: true
+  townyspawnmenu.admin:
+    description: Grants all admin permissions
+    children:
+      townyspawnmenu.set.admin: true
+      townyspawnmenu.set.default: true
+  townyspawnmenu.*:
+    description: Grants all permissions
+    children:
+      townyspawnmenu.menu.*: true
+      townyspawnmenu.set.*: true
+      townyspawnmenu.showinfo: true
+  townyspawnmenu.showinfo:
+    description: Allows a user to show the plugin's information
+    default: true

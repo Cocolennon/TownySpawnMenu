@@ -1,9 +1,14 @@
 package me.senkoco.townyspawnmenu;
 
 import com.palmergames.bukkit.towny.TownyCommandAddonAPI;
+import me.senkoco.townyspawnmenu.commands.DefaultItemCommand;
 import me.senkoco.townyspawnmenu.commands.MainCommand;
+import me.senkoco.townyspawnmenu.commands.metadata.MetadataNations;
+import me.senkoco.townyspawnmenu.commands.metadata.MetadataTowns;
 import me.senkoco.townyspawnmenu.listeners.onClickEvent;
+import me.senkoco.townyspawnmenu.listeners.onPlayerJoinEvent;
 import me.senkoco.townyspawnmenu.utils.UpdateChecker;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.palmergames.bukkit.towny.TownyCommandAddonAPI.CommandType;
@@ -12,6 +17,7 @@ public class Main extends JavaPlugin {
     public static String version;
     public static String latestVersion;
     public static boolean usingOldVersion = false;
+    FileConfiguration config = getConfig();
 
     @Override
     public void onEnable() {
@@ -23,15 +29,33 @@ public class Main extends JavaPlugin {
                 usingOldVersion = true;
             }
         });
+        setUpConfig();
         registerCommandsAndListeners();
-
         getLogger().info("Plugin enabled!");
+    }
+
+    @Override
+    public void onDisable() {
+        saveConfig();
+        getLogger().info("Plugin disabled!");
     }
 
     public void registerCommandsAndListeners(){
         this.getCommand("townyspawnmenu").setExecutor(new MainCommand());
         TownyCommandAddonAPI.addSubCommand(CommandType.TOWN, "spawn-menu", new MainCommand());
+        TownyCommandAddonAPI.addSubCommand(CommandType.TOWN_SET, "menu-item", new MetadataTowns());
+        TownyCommandAddonAPI.addSubCommand(CommandType.NATION_SET, "menu-item", new MetadataNations());
+        TownyCommandAddonAPI.addSubCommand(CommandType.TOWNYADMIN_SET, "default-item", new DefaultItemCommand());
         this.getServer().getPluginManager().registerEvents(new onClickEvent(), this);
+        this.getServer().getPluginManager().registerEvents(new onPlayerJoinEvent(), this);
+    }
+
+    public void setUpConfig(){
+        if(config == null) {
+            config.addDefault("menu.defaultItem", "RED_STAINED_GLASS_PANE");
+            config.options().copyDefaults(true);
+            saveConfig();
+        }
     }
 
     public static String getVersion() { return version; }

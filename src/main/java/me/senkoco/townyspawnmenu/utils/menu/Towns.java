@@ -3,7 +3,9 @@ package me.senkoco.townyspawnmenu.utils.menu;
 import com.palmergames.bukkit.towny.TownyAPI;
 import com.palmergames.bukkit.towny.object.Nation;
 import com.palmergames.bukkit.towny.object.Town;
+import com.palmergames.bukkit.towny.utils.MetaDataUtil;
 import me.senkoco.townyspawnmenu.Main;
+import me.senkoco.townyspawnmenu.utils.Metadata;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -78,7 +80,11 @@ public class Towns {
             int menuSlot = 10;
             for(int k = 0; k < townsInCurrentPage.size(); k++){
                 Town town = townsInCurrentPage.get(k);
-                newPage.setItem(menuSlot, General.getItem(Material.RED_STAINED_GLASS_PANE, "§c§l" + town.getName(), town.getName(), setGlobalLore(town)));
+                Material material = Material.valueOf(plugin.getConfig().getString("menu.defaultItem"));
+                if(MetaDataUtil.hasMeta(town, Metadata.blockInMenu)){
+                    material = Material.valueOf(Metadata.getBlockInMenu(town));
+                }
+                newPage.setItem(menuSlot, General.getItem(material, "§c§l" + town.getName(), town.getName(), setGlobalLore(town)));
                 menuSlot++;
             }
             if(getPagesCount(allTownsCount) > 0){

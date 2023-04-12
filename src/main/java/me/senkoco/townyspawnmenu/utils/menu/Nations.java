@@ -1,27 +1,37 @@
 package me.senkoco.townyspawnmenu.utils.menu;
 
+import com.palmergames.bukkit.towny.utils.MetaDataUtil;
 import me.senkoco.townyspawnmenu.Main;
 import com.palmergames.bukkit.towny.TownyAPI;
 import com.palmergames.bukkit.towny.object.Nation;
+import me.senkoco.townyspawnmenu.utils.Metadata;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import static me.senkoco.townyspawnmenu.utils.menu.General.getPagesCount;
+import static org.bukkit.Bukkit.getPluginManager;
 
 public class Nations {
+    static Plugin plugin = getPluginManager().getPlugin("TownySpawnMenu");
     public static ItemStack noNation = General.getItem(Material.BLUE_STAINED_GLASS_PANE, "§c§lNation-less Towns", "noNation");
     public static ItemStack notPublic = General.getItem(Material.LIME_STAINED_GLASS_PANE, "§c§lPrivate Towns", "notPublic");
     public static ItemStack atWar = General.getItem(Material.PURPLE_STAINED_GLASS_PANE, "§c§lTowns at War", "atWar");
 
     public static List<Inventory> getPages(){
+        if(plugin != null){
+            if(plugin instanceof Main){
+                Main main = (Main) plugin;
+            }
+        }
+
         List<Nation> allNations = new LinkedList<Nation>(TownyAPI.getInstance().getNations());
         int allNationsCount = allNations.size();
 
@@ -40,7 +50,11 @@ public class Nations {
             int menuSlot = 10;
             for(int j = 0; j < nationsInCurrentPage.size(); j++){
                 Nation nation = nationsInCurrentPage.get(j);
-                newPage.setItem(menuSlot, General.getItem(Material.RED_STAINED_GLASS_PANE, "§c§l" + nation.getName(), nation.getName(), setGlobalLore(nation)));
+                Material material = Material.valueOf(plugin.getConfig().getString("menu.defaultItem"));
+                if(MetaDataUtil.hasMeta(nation, Metadata.blockInMenu)){
+                    material = Material.valueOf(Metadata.getBlockInMenu(nation));
+                }
+                newPage.setItem(menuSlot, General.getItem(material, "§c§l" + nation.getName(), nation.getName(), setGlobalLore(nation)));
                 menuSlot++;
             }
             addNoNationsItem(newPage);
