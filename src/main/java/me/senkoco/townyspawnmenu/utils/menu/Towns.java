@@ -5,6 +5,7 @@ import com.palmergames.bukkit.towny.object.Nation;
 import com.palmergames.bukkit.towny.object.Town;
 import com.palmergames.bukkit.towny.utils.MetaDataUtil;
 import me.senkoco.townyspawnmenu.Main;
+import me.senkoco.townyspawnmenu.events.PlayerTeleportedToTown;
 import me.senkoco.townyspawnmenu.utils.Metadata;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -125,8 +126,14 @@ public class Towns {
     }
 
     public static void teleportToTown(Player player, String townName){
+        if(!player.hasPermission("townyspawnmenu.menu.teleport")) {
+            player.sendMessage("§6[Towny Spawn Menu] §cYou can't do that!");
+            return;
+        }
         Town town = TownyAPI.getInstance().getTown(townName);
         if(!town.isPublic()) return;
         player.performCommand("t spawn " + townName + " -ignore");
+        PlayerTeleportedToTown playerTeleportedToTown = new PlayerTeleportedToTown(player, town);
+        getPluginManager().callEvent(playerTeleportedToTown);
     }
 }

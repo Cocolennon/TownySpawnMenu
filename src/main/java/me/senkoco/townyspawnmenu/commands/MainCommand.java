@@ -2,14 +2,19 @@ package me.senkoco.townyspawnmenu.commands;
 
 import com.palmergames.bukkit.towny.Towny;
 import me.senkoco.townyspawnmenu.Main;
+import me.senkoco.townyspawnmenu.events.PlayerOpenedMenu;
 import me.senkoco.townyspawnmenu.utils.menu.Nations;
-import org.bukkit.command.*;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+
+import static org.bukkit.Bukkit.getPluginManager;
 
 public class MainCommand implements TabExecutor {
     private String madeFor = "0.99.0.6";
@@ -33,6 +38,8 @@ public class MainCommand implements TabExecutor {
                     if(!sender.hasPermission("townyspawnmenu.menu.open")) { sender.sendMessage("§6[Towny Spawn Menu] §cYou can't do that!"); return false; }
                     List<Inventory> inventories = new LinkedList<Inventory>(Nations.getPages());
                     player.openInventory(inventories.get(0));
+                    PlayerOpenedMenu playerOpenedMenu = new PlayerOpenedMenu(player);
+                    getPluginManager().callEvent(playerOpenedMenu);
                     return true;
                 default:
                     Usage(sender);
