@@ -19,7 +19,7 @@ import static org.bukkit.Bukkit.getPluginManager;
 public class MainCommand implements TabExecutor {
     private final String townyVersion = Towny.getPlugin().getVersion();
 
-    private static final List<String> autoComplete = Arrays.asList("help", "info", "menu");
+    private static final List<String> autoComplete = Arrays.asList("info", "menu");
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -32,10 +32,6 @@ public class MainCommand implements TabExecutor {
                         return false;
                     }
                     sendInfo(sender);
-                    return true;
-                }
-                case "help" -> {
-                    Usage(sender);
                     return true;
                 }
                 case "menu" -> {
