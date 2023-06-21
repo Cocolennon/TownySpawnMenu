@@ -17,8 +17,7 @@ import java.util.List;
 import static org.bukkit.Bukkit.getPluginManager;
 
 public class MainCommand implements TabExecutor {
-    private String madeFor = "0.99.0.6";
-    private String townyVersion = Towny.getPlugin().getVersion();
+    private final String townyVersion = Towny.getPlugin().getVersion();
 
     private static final List<String> autoComplete = Arrays.asList("help", "info", "menu");
 
@@ -26,24 +25,34 @@ public class MainCommand implements TabExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(!(sender instanceof Player player)) return false;
         if(args.length >= 1){
-            switch(args[0]) {
-                case "info":
-                    if(!sender.hasPermission("townyspawnmenu.showinfo")) { sender.sendMessage("§6[Towny Spawn Menu] §cYou can't do that!"); return false; }
+            switch (args[0]) {
+                case "info" -> {
+                    if (!sender.hasPermission("townyspawnmenu.showinfo")) {
+                        sender.sendMessage("§6[Towny Spawn Menu] §cYou can't do that!");
+                        return false;
+                    }
                     sendInfo(sender);
                     return true;
-                case "help":
+                }
+                case "help" -> {
                     Usage(sender);
                     return true;
-                case "menu":
-                    if(!sender.hasPermission("townyspawnmenu.menu.open")) { sender.sendMessage("§6[Towny Spawn Menu] §cYou can't do that!"); return false; }
-                    List<Inventory> inventories = new LinkedList<Inventory>(Nations.getPages());
+                }
+                case "menu" -> {
+                    if (!sender.hasPermission("townyspawnmenu.menu.open")) {
+                        sender.sendMessage("§6[Towny Spawn Menu] §cYou can't do that!");
+                        return false;
+                    }
+                    List<Inventory> inventories = new LinkedList<>(Nations.getPages());
                     player.openInventory(inventories.get(0));
                     PlayerOpenedMenu playerOpenedMenu = new PlayerOpenedMenu(player);
                     getPluginManager().callEvent(playerOpenedMenu);
                     return true;
-                default:
+                }
+                default -> {
                     Usage(sender);
                     return false;
+                }
             }
         }
         Usage(sender);
@@ -60,9 +69,10 @@ public class MainCommand implements TabExecutor {
     }
 
     private void sendInfo(CommandSender sender){
-        List<String> info = new LinkedList<String>();
+        List<String> info = new LinkedList<>();
         info.add("§c§l=========================");
         info.add("§6§lTowny Spawn Menu " + Main.getVersion());
+        String madeFor = "0.99.2.2";
         if(!townyVersion.equals(madeFor)){
             info.add("§6Made for §lTowny " + madeFor + " §6(using §lTowny v" + townyVersion + "§6)");
         }else {

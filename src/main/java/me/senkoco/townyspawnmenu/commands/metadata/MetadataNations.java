@@ -12,11 +12,13 @@ import org.bukkit.entity.Player;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class MetadataNations implements TabExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Resident res = TownyAPI.getInstance().getResident((Player)sender);
+        assert res != null;
         if(!sender.hasPermission("townyspawnmenu.set.nation") || !sender.hasPermission("townyspawnmenu.set.admin")) { sender.sendMessage("§6[Towny Spawn Menu] §cYou can't do that!"); return false; }
         if(!res.hasNation()) { sender.sendMessage("§6[Towny Spawn Menu] §cYou aren't in a nation!"); return false; }
         if(!res.isKing()) { sender.sendMessage("§6[Towny Spawn Menu] §cYou aren't the king of your nation!"); return false; }
@@ -32,10 +34,10 @@ public class MetadataNations implements TabExecutor {
 
         if(args.length > 1) {
             if(!sender.hasPermission("townyspawnmenu.set.admin")) { sender.sendMessage("§4You can't do that!"); return false; }
-            Metadata.setBlockInMenu(TownyAPI.getInstance().getNation(args[1]), material.name());
+            Metadata.setBlockInMenu(Objects.requireNonNull(TownyAPI.getInstance().getNation(args[1])), material.name());
             sender.sendMessage("§6[Towny Spawn Menu] §3This nation's item/block in the menu now is: " + material.name().toLowerCase());
         }else{
-            Metadata.setBlockInMenu(res.getNationOrNull(), material.name());
+            Metadata.setBlockInMenu(Objects.requireNonNull(res.getNationOrNull()), material.name());
             sender.sendMessage("§6[Towny Spawn Menu] §3Your nation's item/block in the menu now is: " + material.name().toLowerCase());
         }
         return true;
@@ -46,10 +48,9 @@ public class MetadataNations implements TabExecutor {
         if(!(sender instanceof Player)) return null;
         if(args.length == 1) {
             List<Material> allMaterials = new LinkedList<>(Arrays.stream(Material.values()).toList());
-            List<String> materials = new LinkedList<String>();
-            for(int i = 0; i < allMaterials.size(); i++){
-                Material current = allMaterials.get(i);
-                if(current.name().startsWith("LEGACY_")) break;
+            List<String> materials = new LinkedList<>();
+            for (Material current : allMaterials) {
+                if (current.name().startsWith("LEGACY_")) break;
                 materials.add("minecraft:" + current.name().toLowerCase());
             }
             return materials;

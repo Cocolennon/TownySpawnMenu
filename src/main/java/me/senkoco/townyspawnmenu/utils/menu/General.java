@@ -21,6 +21,7 @@ public class General {
     public static ItemStack getItem(Material material, String newName, String localizedName){
         ItemStack it = new ItemStack(material, 1);
         ItemMeta itM = it.getItemMeta();
+        assert itM != null;
         if(newName != null) itM.setDisplayName(newName);
         if(localizedName != null) itM.setLocalizedName(localizedName);
         it.setItemMeta(itM);
@@ -30,6 +31,7 @@ public class General {
     public static ItemStack getItem(Material material, String newName, String localizedName, ArrayList<String> itemlore){
         ItemStack it = new ItemStack(material, 1);
         ItemMeta itM = it.getItemMeta();
+        assert itM != null;
         if(newName != null) itM.setDisplayName(newName);
         if(localizedName != null) itM.setLocalizedName(localizedName);
         if(itemlore != null) itM.setLore(itemlore);

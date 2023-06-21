@@ -1,7 +1,5 @@
 package me.senkoco.townyspawnmenu.commands;
 
-import me.senkoco.townyspawnmenu.Main;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -19,12 +17,6 @@ public class DefaultItemCommand implements TabExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (plugin != null) {
-            if (plugin instanceof Main) {
-                Main main = (Main) plugin;
-            }
-        }
-
         if(!sender.hasPermission("townyspawnmenu.set.default")) { sender.sendMessage("§6[Towny Spawn Menu] §cYou can't do that!"); return false; }
 
         Material material;
@@ -46,10 +38,9 @@ public class DefaultItemCommand implements TabExecutor {
         if(sender instanceof Player) {
             if(args.length == 1) {
                 List<Material> allMaterials = new LinkedList<>(Arrays.stream(Material.values()).toList());
-                List<String> materials = new LinkedList<String>();
-                for(int i = 0; i < allMaterials.size(); i++){
-                    Material current = allMaterials.get(i);
-                    if(current.name().startsWith("LEGACY_")) break;
+                List<String> materials = new LinkedList<>();
+                for (Material current : allMaterials) {
+                    if (current.name().startsWith("LEGACY_")) break;
                     materials.add("minecraft:" + current.name().toLowerCase());
                 }
                 return materials;

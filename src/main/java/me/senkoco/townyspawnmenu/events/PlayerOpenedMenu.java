@@ -12,10 +12,6 @@ public class PlayerOpenedMenu extends Event {
         this.player = player;
     }
 
-    public static HandlerList getHandlerList() {
-        return HANDLERS;
-    }
-
     @Override
     public HandlerList getHandlers() {
         return HANDLERS;

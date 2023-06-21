@@ -13,11 +13,13 @@ import org.bukkit.entity.Player;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class MetadataTowns implements TabExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Resident res = TownyAPI.getInstance().getResident((Player)sender);
+        assert res != null;
         if(!sender.hasPermission("townyspawnmenu.set.town") || !sender.hasPermission("townyspawnmenu.set.admin")) { sender.sendMessage("§6[Towny Spawn Menu] §cYou can't do that!"); return false; }
         if(!res.hasTown()) { sender.sendMessage("§6[Towny Spawn Menu] §cYou aren't in a town!"); return false; }
         if(!res.isMayor()) { sender.sendMessage("§6[Towny Spawn Menu] §cYou aren't  the mayor of your town!"); return false; }
@@ -33,10 +35,10 @@ public class MetadataTowns implements TabExecutor {
 
         if(args.length > 1) {
             if(!sender.hasPermission("townyspawnmenu.set.admin")) { sender.sendMessage("§4You can't do that!"); return false; }
-            Metadata.setBlockInMenu(TownyAPI.getInstance().getTown(args[1]), material.name());
+            Metadata.setBlockInMenu(Objects.requireNonNull(TownyAPI.getInstance().getTown(args[1])), material.name());
             sender.sendMessage("§6[Towny Spawn Menu] §3This town's item/block in the menu now is: " + material.name().toLowerCase());
         }else{
-            Metadata.setBlockInMenu(res.getTownOrNull(), material.name());
+            Metadata.setBlockInMenu(Objects.requireNonNull(res.getTownOrNull()), material.name());
             sender.sendMessage("§6[Towny Spawn Menu] §3Your town's item/block in the menu now is: " + material.name().toLowerCase());
         }
         return true;
@@ -47,21 +49,19 @@ public class MetadataTowns implements TabExecutor {
         if(!(sender instanceof Player)) return null;
         if(args.length == 1) {
             List<Material> allMaterials = new LinkedList<>(Arrays.stream(Material.values()).toList());
-            List<String> materials = new LinkedList<String>();
-            for(int i = 0; i < allMaterials.size(); i++){
-                Material current = allMaterials.get(i);
-                if(current.name().startsWith("LEGACY_")) break;
+            List<String> materials = new LinkedList<>();
+            for (Material current : allMaterials) {
+                if (current.name().startsWith("LEGACY_")) break;
                 materials.add("minecraft:" + current.name().toLowerCase());
             }
             return materials;
         }
         if(sender.hasPermission("townyspawnmenu.set.admin")) {
             if(args.length == 2) {
-                List<Town> allTowns = new LinkedList<Town>(TownyAPI.getInstance().getTowns());
-                List<String> townNames = new LinkedList<String>();
+                List<Town> allTowns = new LinkedList<>(TownyAPI.getInstance().getTowns());
+                List<String> townNames = new LinkedList<>();
 
-                for(int i = 0; i < allTowns.size(); i++) {
-                    Town current = allTowns.get(i);
+                for (Town current : allTowns) {
                     townNames.add(current.getName());
                 }
                 return townNames;

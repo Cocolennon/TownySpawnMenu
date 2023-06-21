@@ -15,10 +15,6 @@ public class PlayerTeleportedToTown extends Event {
         this.town = town;
     }
 
-    public static HandlerList getHandlerList() {
-        return HANDLERS;
-    }
-
     @Override
     public HandlerList getHandlers() {
         return HANDLERS;
