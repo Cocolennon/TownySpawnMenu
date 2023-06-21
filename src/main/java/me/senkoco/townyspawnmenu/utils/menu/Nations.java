@@ -40,7 +40,7 @@ public class Nations {
         List<Inventory> inventories = new LinkedList<Inventory>();
 
         for(int pageNumber = 0; pageNumber <= getPagesCount(allNationsCount); pageNumber++){
-            Inventory newPage = Bukkit.createInventory(null, 27, "§6§lTowny§f§l: §3§lNations (" + (pageNumber+1) + "/" + (getPagesCount(allNationsCount)+1) + ")");
+            Inventory newPage = Bukkit.createInventory(null, 27, "§6§lTowny§f§l: §3Nations (" + (pageNumber+1) + "/" + (getPagesCount(allNationsCount)+1) + ")");
             List<Nation> nationsInCurrentPage = new LinkedList<Nation>();
             if(pageNumber == getPagesCount(allNationsCount)) inventorySlots = allNationsCount - nationsCount;
             for(int i = 0; i < inventorySlots; i++){
@@ -78,10 +78,10 @@ public class Nations {
 
     public static ArrayList<String> setGlobalLore(Nation nation){
         ArrayList<String> itemlore = new ArrayList<>();
-        itemlore.add("§6§lLeader§f§l: §3§l" + nation.getKing().getName());
-        itemlore.add("§6§lCapital§f§l: §2§l" + nation.getCapital().getName());
-        itemlore.add("§6§lTowns§f§l: §9§l" + nation.getTowns().size());
-        itemlore.add("§6§lTotal Residents§f§l: §d§l" + nation.getResidents().size());
+        itemlore.add("§6§lLeader§f§l: §3" + nation.getKing().getName());
+        itemlore.add("§6§lCapital§f§l: §2" + nation.getCapital().getName());
+        itemlore.add("§6§lTowns§f§l: §9" + nation.getTowns().size());
+        itemlore.add("§6§lTotal Residents§f§l: §d" + nation.getResidents().size());
         return itemlore;
     }
 

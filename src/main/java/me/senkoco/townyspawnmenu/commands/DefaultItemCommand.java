@@ -25,18 +25,19 @@ public class DefaultItemCommand implements TabExecutor {
             }
         }
 
-        if(!sender.hasPermission("townyspawnmenu.set.default")) { sender.sendMessage("§4You can't do that!"); return false; }
+        if(!sender.hasPermission("townyspawnmenu.set.default")) { sender.sendMessage("§6[Towny Spawn Menu] §cYou can't do that!"); return false; }
 
         Material material;
         try {
             material = Material.valueOf(args[0].replace("minecraft:", "").toUpperCase());
         }catch(IllegalArgumentException e){
-            sender.sendMessage("§4Please provide a valid item or block name!");
-            sender.sendMessage("§4Example: nether_star (Case insensitive, spaces must be replaced by underscores)");
+            sender.sendMessage("§6[Towny Spawn Menu] §cPlease provide a valid item or block name!");
+            sender.sendMessage("§cExample: nether_star (Case insensitive, spaces must be replaced by underscores)");
             return false;
         }
         plugin.getConfig().set("menu.defaultItem", material.name());
-        sender.sendMessage("§aThe default item for towns and nations in the menu now is: " + args[0].replace("minecraft:", ""));
+        plugin.saveConfig();
+        sender.sendMessage("§6[Towny Spawn Menu] §3The default item for towns and nations in the menu now is: " + args[0].replace("minecraft:", ""));
         return true;
     }
 

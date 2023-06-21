@@ -12,7 +12,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,7 +22,7 @@ import static org.bukkit.Bukkit.getPluginManager;
 public class Towns {
     static Plugin plugin = getPluginManager().getPlugin("TownySpawnMenu");
 
-    public static List<Inventory> getPages(@Nullable Nation nation, boolean warMenu, boolean privateMenu){
+    public static List<Inventory> getPages(Nation nation, boolean warMenu, boolean privateMenu){
         if(plugin != null){
             if(plugin instanceof Main){
                 Main main = (Main) plugin;
@@ -63,14 +62,14 @@ public class Towns {
             Inventory newPage;
             if(nation == null) {
                 if(warMenu){
-                    newPage = Bukkit.createInventory(null, 27, "§6§lTowns§f§l: §3§lAt War (" + (pageNumber+1 + "/" + (getPagesCount(allTownsCount)+1) + ")"));
+                    newPage = Bukkit.createInventory(null, 27, "§6§lTowns§f§l: §3At War (" + (pageNumber+1 + "/" + (getPagesCount(allTownsCount)+1) + ")"));
                 }else if(privateMenu){
-                    newPage = Bukkit.createInventory(null, 27, "§6§lTowns§f§l: §3§lPrivate (" + (pageNumber+1 + "/" + (getPagesCount(allTownsCount)+1) + ")"));
+                    newPage = Bukkit.createInventory(null, 27, "§6§lTowns§f§l: §3Private (" + (pageNumber+1 + "/" + (getPagesCount(allTownsCount)+1) + ")"));
                 }else{
-                    newPage = Bukkit.createInventory(null, 27, "§6§lNation-less§f§l: §3§lTowns (" + (pageNumber+1 + "/" + (getPagesCount(allTownsCount)+1) + ")"));
+                    newPage = Bukkit.createInventory(null, 27, "§6§lNation-less§f§l: §3Towns (" + (pageNumber+1 + "/" + (getPagesCount(allTownsCount)+1) + ")"));
                 }
             }
-            else { newPage = Bukkit.createInventory(null, 27, "§6§l" + nation.getName() + "§f§l: §3§lTowns (" + (pageNumber+1 + "/" + (getPagesCount(allTownsCount)+1) + ")")); }
+            else { newPage = Bukkit.createInventory(null, 27, "§6§l" + nation.getName() + "§f§l: §3Towns (" + (pageNumber+1 + "/" + (getPagesCount(allTownsCount)+1) + ")")); }
             List<Town> townsInCurrentPage = new LinkedList<Town>();
             if(pageNumber == getPagesCount(allTownsCount)) inventorySlots = allTownsCount - townsInPage;
             for(int j = 0; j < inventorySlots; j++){
@@ -119,9 +118,9 @@ public class Towns {
 
         ArrayList<String> itemlore = new ArrayList<>();
         if(town.hasNation()) itemlore.add("§6§lNation§f§l: §3§l" + town.getNationOrNull().getName());
-        itemlore.add("§6§lMayor§f§l: §2§l" + town.getMayor().getName());
-        itemlore.add("§6§lResidents§f§l: §d§l" + town.getResidents().size());
-        itemlore.add("§6§lSpawn Cost§f§l: §c§l" + spawnCost);
+        itemlore.add("§6§lMayor§f§l: §2" + town.getMayor().getName());
+        itemlore.add("§6§lResidents§f§l: §d" + town.getResidents().size());
+        itemlore.add("§6§lSpawn Cost§f§l: §c" + spawnCost);
         return itemlore;
     }
 
