@@ -61,7 +61,7 @@ public class Towns {
                 }else if(privateMenu){
                     newPage = Bukkit.createInventory(null, 27, "§6§lTowns§f§l: §3Private (" + (pageNumber+1 + "/" + (getPagesCount(allTownsCount)+1) + ")"));
                 }else{
-                    newPage = Bukkit.createInventory(null, 27, "§6§lNation-less§f§l: §3Towns (" + (pageNumber+1 + "/" + (getPagesCount(allTownsCount)+1) + ")"));
+                    newPage = Bukkit.createInventory(null, 27, "§6§lTowns§f§l: §3Nation-less (" + (pageNumber+1 + "/" + (getPagesCount(allTownsCount)+1) + ")"));
                 }
             }
             else { newPage = Bukkit.createInventory(null, 27, "§6§l" + nation.getName() + "§f§l: §3Towns (" + (pageNumber+1 + "/" + (getPagesCount(allTownsCount)+1) + ")")); }
@@ -111,7 +111,7 @@ public class Towns {
         if(!town.isPublic()) { spawnCost = "Private"; }
 
         ArrayList<String> itemlore = new ArrayList<>();
-        if(town.hasNation()) itemlore.add("§6§lNation§f§l: §3§l" + Objects.requireNonNull(town.getNationOrNull()).getName());
+        if(town.hasNation()) itemlore.add("§6§lNation§f§l: §3" + Objects.requireNonNull(town.getNationOrNull()).getName());
         itemlore.add("§6§lMayor§f§l: §2" + town.getMayor().getName());
         itemlore.add("§6§lResidents§f§l: §d" + town.getResidents().size());
         itemlore.add("§6§lSpawn Cost§f§l: §c" + spawnCost);

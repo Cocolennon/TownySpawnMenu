@@ -1,6 +1,7 @@
 package me.senkoco.townyspawnmenu.listeners;
 
 import com.palmergames.bukkit.towny.TownyAPI;
+import io.github.townyadvanced.townymenus.gui.MenuHistory;
 import me.senkoco.townyspawnmenu.utils.menu.Nations;
 import me.senkoco.townyspawnmenu.utils.menu.Towns;
 import org.bukkit.entity.Player;
@@ -33,6 +34,9 @@ public class onClickEvent implements Listener {
                     Nations.openTownsOfNation(current, player, true, null);
                     break;
                 case "nationMenu":
+                    break;
+                case "BTTM":
+                    MenuHistory.last(player);
                     break;
                 default:
                     Nations.openTownsOfNation(current, player, false, null);

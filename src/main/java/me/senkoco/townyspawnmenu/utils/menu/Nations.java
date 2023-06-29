@@ -18,6 +18,7 @@ import java.util.Objects;
 
 import static me.senkoco.townyspawnmenu.utils.menu.General.getPagesCount;
 import static org.bukkit.Bukkit.getPluginManager;
+import static org.bukkit.Bukkit.getServer;
 
 public class Nations {
     static Plugin plugin = getPluginManager().getPlugin("TownySpawnMenu");
@@ -63,6 +64,7 @@ public class Nations {
                     newPage.setItem(21, General.getItem(Material.ARROW, "§6§lPrevious Page", String.valueOf(pageNumber - 1)));
                 }
             }
+            if(getServer().getPluginManager().getPlugin("TownyMenus") != null) newPage.setItem(22, General.getItem(Material.ARROW, "§6§lBack to Towny Menus", "BTTM"));
             General.fillEmpty(newPage, General.getItem(Material.BLACK_STAINED_GLASS_PANE, " ", "nationMenu"));
             inventories.add(newPage);
         }

@@ -85,6 +85,6 @@ public class MainCommand implements TabExecutor {
     }
 
     private void Usage(CommandSender sender){
-        sender.sendMessage("§6[Towny Spawn Menu] §cUsage: /townyspawnmenu <help/info/menu>\n§c<> = Mandatory");
+        sender.sendMessage("§6[Towny Spawn Menu] §cUsage: /townyspawnmenu <info/menu>\n§c<> = Mandatory");
     }
 }
