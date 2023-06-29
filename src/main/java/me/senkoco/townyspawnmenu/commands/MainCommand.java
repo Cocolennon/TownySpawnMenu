@@ -68,7 +68,7 @@ public class MainCommand implements TabExecutor {
         List<String> info = new LinkedList<>();
         info.add("§c§l=========================");
         info.add("§6§lTowny Spawn Menu " + Main.getVersion());
-        String madeFor = "0.99.2.2";
+        String madeFor = "0.99.2.5";
         if(!townyVersion.equals(madeFor)){
             info.add("§6Made for §lTowny " + madeFor + " §6(using §lTowny v" + townyVersion + "§6)");
         }else {

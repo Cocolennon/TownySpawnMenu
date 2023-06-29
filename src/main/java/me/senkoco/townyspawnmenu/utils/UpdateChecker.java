@@ -1,6 +1,6 @@
 package me.senkoco.townyspawnmenu.utils;
 
-import org.bukkit.Bukkit;
+import me.senkoco.townyspawnmenu.Main;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
@@ -11,16 +11,18 @@ import java.util.function.Consumer;
 
 public class UpdateChecker {
 
+    private Main main;
     private final JavaPlugin plugin;
     private final int resourceId;
 
-    public UpdateChecker(JavaPlugin plugin, int resourceId) {
+    public UpdateChecker(Main main, JavaPlugin plugin, int resourceId) {
+        this.main = main;
         this.plugin = plugin;
         this.resourceId = resourceId;
     }
 
     public void getVersion(final Consumer<String> consumer) {
-        Bukkit.getScheduler().runTaskAsynchronously(this.plugin, () -> {
+        main.getScheduler().runAsync(() -> {
             try (InputStream inputStream = new URL("https://api.spigotmc.org/legacy/update.php?resource=" + this.resourceId).openStream(); Scanner scanner = new Scanner(inputStream)) {
                 if (scanner.hasNext()) {
                     consumer.accept(scanner.next());

@@ -1,7 +1,12 @@
 package me.senkoco.townyspawnmenu;
 
+import com.palmergames.bukkit.towny.Towny;
 import com.palmergames.bukkit.towny.TownyCommandAddonAPI;
 import com.palmergames.bukkit.towny.TownyCommandAddonAPI.CommandType;
+import com.palmergames.bukkit.towny.scheduling.TaskScheduler;
+import com.palmergames.bukkit.towny.scheduling.impl.BukkitTaskScheduler;
+import com.palmergames.bukkit.towny.scheduling.impl.FoliaTaskScheduler;
+import com.palmergames.bukkit.util.Version;
 import me.senkoco.townyspawnmenu.commands.DefaultItemCommand;
 import me.senkoco.townyspawnmenu.commands.MainCommand;
 import me.senkoco.townyspawnmenu.commands.metadata.MetadataNations;
@@ -18,11 +23,17 @@ public class Main extends JavaPlugin {
     public static String version;
     public static String latestVersion;
     public static boolean usingOldVersion = false;
+    private static final Version requiredTownyVersion = Version.fromString("0.99.0.8");
     FileConfiguration config = getConfig();
+    private final Object scheduler;
+
+    public Main(){
+        this.scheduler = townyVersionCheck() ? isFoliaClassPresent() ? new FoliaTaskScheduler(this) : new BukkitTaskScheduler(this) : null;
+    }
 
     @Override
     public void onEnable() {
-        new UpdateChecker(this, 105225).getVersion(cVersion -> {
+        new UpdateChecker(this, this, 105225).getVersion(cVersion -> {
             version = this.getDescription().getVersion();
             latestVersion = cVersion;
             if (!getVersion().equals(cVersion)) {
@@ -63,5 +74,22 @@ public class Main extends JavaPlugin {
     }
     public static boolean getUsingOldVersion() {
         return usingOldVersion;
+    }
+
+    private boolean townyVersionCheck() {
+        return Version.fromString(Towny.getPlugin().getVersion()).compareTo(requiredTownyVersion) >= 0;
+    }
+
+    public TaskScheduler getScheduler() {
+        return (TaskScheduler) this.scheduler;
+    }
+
+    private static boolean isFoliaClassPresent() {
+        try {
+            Class.forName("io.papermc.paper.threadedregions.RegionizedServer");
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
     }
 }
