@@ -45,7 +45,7 @@ public class Nations {
             int menuSlot = 10;
             for (Nation nation : nationsInCurrentPage) {
                 Material material = Material.valueOf(plugin.getConfig().getString("menu.defaultItem"));
-                if (MetaDataUtil.hasMeta(nation, Metadata.blockInMenu)) {
+                if(MetaDataUtil.hasMeta(nation, Metadata.blockInMenu)) {
                     material = Material.valueOf(Metadata.getBlockInMenu(nation));
                 }
                 newPage.setItem(menuSlot, General.getItem(material, "§c§l" + nation.getName(), nation.getName(), setGlobalLore(nation)));
@@ -83,57 +83,60 @@ public class Nations {
     public static void addPrivatesItem(Inventory inv){
         int privateTownsCount = 0;
         for(int j = 0; j < TownyAPI.getInstance().getTowns().size(); j++){
-            if(!TownyAPI.getInstance().getTowns().get(j).isPublic()){
-                privateTownsCount++;
-            }
+            if(TownyAPI.getInstance().getTowns().get(j).isPublic()) break;
+            privateTownsCount++;
         }
 
-        if(privateTownsCount != 0){
-            inv.setItem(18, notPublic);
-        }
+        if(privateTownsCount == 0) return;
+        inv.setItem(18, notPublic);
     }
 
     public static void addNoNationsItem(Inventory inv){
-        if(TownyAPI.getInstance().getTownsWithoutNation().size() != 0){
-            inv.setItem(22, noNation);
-        }
+        if(TownyAPI.getInstance().getTownsWithoutNation().size() == 0) return;
+        inv.setItem(22, noNation);
     }
 
     public static void addAtWarItem(Inventory inv){
         int townsAtWarCount = 0;
         for(int j = 0; j < TownyAPI.getInstance().getTowns().size(); j++){
-            if(TownyAPI.getInstance().getTowns().get(j).hasActiveWar()){
-                townsAtWarCount++;
-            }
+            if(!TownyAPI.getInstance().getTowns().get(j).hasActiveWar()) break;
+            townsAtWarCount++;
         }
 
-        if(townsAtWarCount != 0){
-            inv.setItem(26, atWar);
-        }
+        if(townsAtWarCount == 0) return;
+        inv.setItem(26, atWar);
     }
 
     public static void openTownsOfNation(ItemStack current, Player player, boolean isTownMenu, Nation nation){
         String currentDName = Objects.requireNonNull(current.getItemMeta()).getDisplayName();
         String currentLName = current.getItemMeta().getLocalizedName();
-        if(currentDName.equals("§6§lNext Page") || currentDName.equals("§6§lPrevious Page")){
-            if(!isTownMenu){
-                General.openInventory(player, Integer.parseInt(currentLName), Nations.getPages());
-            }else{
-                General.openInventory(player, Integer.parseInt(current.getItemMeta().getLocalizedName()), Towns.getPages(nation, false, false));
+        switch (currentDName) {
+            case "§6§lNext Page", "§6§lPrevious Page" -> {
+                if (!isTownMenu) {
+                    General.openInventory(player, Integer.parseInt(currentLName), Nations.getPages());
+                } else {
+                    General.openInventory(player, Integer.parseInt(current.getItemMeta().getLocalizedName()), Towns.getPages(nation, false, false));
+                }
+                return;
             }
-            return;
-        }else if(currentDName.equals("§6§lBack to Nations")){
-            General.openInventory(player, Integer.parseInt(currentLName), Nations.getPages());
-            return;
-        }else if(currentLName.equals("noNation")){
-            General.openInventory(player, 0, Towns.getPages(null, false, false));
-            return;
-        }else if(currentLName.equals("atWar")){
-            General.openInventory(player, 0, Towns.getPages(null, true, false));
-            return;
-        }else if(currentLName.equals("notPublic")){
-            General.openInventory(player, 0, Towns.getPages(null, false, true));
-            return;
+            case "§6§lBack to Nations" -> {
+                General.openInventory(player, Integer.parseInt(currentLName), Nations.getPages());
+                return;
+            }
+        }
+        switch (currentLName) {
+            case "noNation" -> {
+                General.openInventory(player, 0, Towns.getPages(null, false, false));
+                return;
+            }
+            case "atWar" -> {
+                General.openInventory(player, 0, Towns.getPages(null, true, false));
+                return;
+            }
+            case "notPublic" -> {
+                General.openInventory(player, 0, Towns.getPages(null, false, true));
+                return;
+            }
         }
         General.openInventory(player, 0, Towns.getPages(TownyAPI.getInstance().getNation(currentLName), false, false));
     }

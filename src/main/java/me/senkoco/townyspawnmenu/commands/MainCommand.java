@@ -24,43 +24,38 @@ public class MainCommand implements TabExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(!(sender instanceof Player player)) return false;
-        if(args.length >= 1){
-            switch (args[0]) {
-                case "info" -> {
-                    if (!sender.hasPermission("townyspawnmenu.showinfo")) {
-                        sender.sendMessage("§6[Towny Spawn Menu] §cYou can't do that!");
-                        return false;
-                    }
-                    sendInfo(sender);
-                    return true;
-                }
-                case "menu" -> {
-                    if (!sender.hasPermission("townyspawnmenu.menu.open")) {
-                        sender.sendMessage("§6[Towny Spawn Menu] §cYou can't do that!");
-                        return false;
-                    }
-                    List<Inventory> inventories = new LinkedList<>(Nations.getPages());
-                    player.openInventory(inventories.get(0));
-                    PlayerOpenedMenu playerOpenedMenu = new PlayerOpenedMenu(player);
-                    getPluginManager().callEvent(playerOpenedMenu);
-                    return true;
-                }
-                default -> {
-                    Usage(sender);
+        if(!(args.length >= 1)) { Usage(sender); return false; }
+        switch (args[0]) {
+            case "info" -> {
+                if (!sender.hasPermission("townyspawnmenu.showinfo")) {
+                    sender.sendMessage("§6[Towny Spawn Menu] §cYou can't do that!");
                     return false;
                 }
+                sendInfo(sender);
+                return true;
+            }
+            case "menu" -> {
+                if (!sender.hasPermission("townyspawnmenu.menu.open")) {
+                    sender.sendMessage("§6[Towny Spawn Menu] §cYou can't do that!");
+                    return false;
+                }
+                List<Inventory> inventories = new LinkedList<>(Nations.getPages());
+                player.openInventory(inventories.get(0));
+                PlayerOpenedMenu playerOpenedMenu = new PlayerOpenedMenu(player);
+                getPluginManager().callEvent(playerOpenedMenu);
+                return true;
+            }
+            default -> {
+                Usage(sender);
+                return false;
             }
         }
-        Usage(sender);
-        return false;
     }
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
-        if(sender instanceof Player){
-            if(args.length == 1) return autoComplete;
-        }
-
+        if(!(sender instanceof Player)) return null;
+        if(args.length == 1) return autoComplete;
         return null;
     }
 

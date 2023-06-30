@@ -35,16 +35,15 @@ public class DefaultItemCommand implements TabExecutor {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
-        if(sender instanceof Player) {
-            if(args.length == 1) {
-                List<Material> allMaterials = new LinkedList<>(Arrays.stream(Material.values()).toList());
-                List<String> materials = new LinkedList<>();
-                for (Material current : allMaterials) {
-                    if (current.name().startsWith("LEGACY_")) break;
-                    materials.add("minecraft:" + current.name().toLowerCase());
-                }
-                return materials;
+        if(!(sender instanceof Player)) return null;
+        if(args.length == 1) {
+            List<Material> allMaterials = new LinkedList<>(Arrays.stream(Material.values()).toList());
+            List<String> materials = new LinkedList<>();
+            for (Material current : allMaterials) {
+                if (current.name().startsWith("LEGACY_")) break;
+                materials.add("minecraft:" + current.name().toLowerCase());
             }
+            return materials;
         }
         return null;
     }

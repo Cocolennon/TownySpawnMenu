@@ -38,17 +38,12 @@ public class Towns {
             }else if(privateMenu) {
                 allTownsInNation = new LinkedList<>();
                 for(int i = 0; i < allTownsCount; i++){
-                    if(!allTowns.get(i).isPublic()){
-                        allTownsInNation.add(allTowns.get(i));
-                    }
+                    if(allTowns.get(i).isPublic()) break;
+                    allTownsInNation.add(allTowns.get(i));
                 }
-            }else{
-                allTownsInNation = new LinkedList<>(TownyAPI.getInstance().getTownsWithoutNation());
-            }
-        }
-        else { allTownsInNation = new LinkedList<>(nation.getTowns()); }
+            }else{ allTownsInNation = new LinkedList<>(TownyAPI.getInstance().getTownsWithoutNation()); }
+        }else{ allTownsInNation = new LinkedList<>(nation.getTowns()); }
         int allTownsCount = allTownsInNation.size();
-
         int townsInPage = 0;
         int inventorySlots = 7;
         List<Inventory> inventories = new LinkedList<>();
@@ -63,8 +58,7 @@ public class Towns {
                 }else{
                     newPage = Bukkit.createInventory(null, 27, "§6§lTowns§f§l: §3Nation-less (" + (pageNumber+1 + "/" + (getPagesCount(allTownsCount)+1) + ")"));
                 }
-            }
-            else { newPage = Bukkit.createInventory(null, 27, "§6§l" + nation.getName() + "§f§l: §3Towns (" + (pageNumber+1 + "/" + (getPagesCount(allTownsCount)+1) + ")")); }
+            }else{ newPage = Bukkit.createInventory(null, 27, "§6§l" + nation.getName() + "§f§l: §3Towns (" + (pageNumber+1 + "/" + (getPagesCount(allTownsCount)+1) + ")")); }
             List<Town> townsInCurrentPage = new LinkedList<>();
             if(pageNumber == getPagesCount(allTownsCount)) inventorySlots = allTownsCount - townsInPage;
             for(int j = 0; j < inventorySlots; j++){
@@ -99,7 +93,7 @@ public class Towns {
                 }else{
                     newPage.setItem(26, General.getItem(Material.BLACK_STAINED_GLASS_PANE, " ", "noNation"));
                 }
-            }else { newPage.setItem(26, General.getItem(Material.BLACK_STAINED_GLASS_PANE, " ", nation.getName())); }
+            }else{ newPage.setItem(26, General.getItem(Material.BLACK_STAINED_GLASS_PANE, " ", nation.getName())); }
             General.fillEmpty(newPage, General.getItem(Material.BLACK_STAINED_GLASS_PANE, " ", "townMenu"));
             inventories.add(newPage);
         }
@@ -108,7 +102,7 @@ public class Towns {
 
     public static ArrayList<String> setGlobalLore(Town town){
         String spawnCost = String.valueOf(town.getSpawnCost());
-        if(!town.isPublic()) { spawnCost = "Private"; }
+        if(!town.isPublic()) spawnCost = "Private";
 
         ArrayList<String> itemlore = new ArrayList<>();
         if(town.hasNation()) itemlore.add("§6§lNation§f§l: §3" + Objects.requireNonNull(town.getNationOrNull()).getName());

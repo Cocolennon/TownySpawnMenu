@@ -33,16 +33,10 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        new UpdateChecker(this, this, 105225).getVersion(cVersion -> {
-            version = this.getDescription().getVersion();
-            latestVersion = cVersion;
-            if (!getVersion().equals(cVersion)) {
-                getLogger().info("You are using an older version of Towny Spawn Menu, please update to version " + cVersion);
-                usingOldVersion = true;
-            }
-        });
+        checkVersion();
         setUpConfig();
-        registerCommandsAndListeners();
+        registerCommands();
+        registerListeners();
         getLogger().info("Plugin enabled!");
     }
 
@@ -52,20 +46,34 @@ public class Main extends JavaPlugin {
         getLogger().info("Plugin disabled!");
     }
 
-    public void registerCommandsAndListeners(){
+    public void setUpConfig(){
+        config.addDefault("menu.defaultItem", "RED_STAINED_GLASS_PANE");
+        config.options().copyDefaults(true);
+        saveConfig();
+    }
+
+    public void checkVersion() {
+        new UpdateChecker(this, this, 105225).getVersion(cVersion -> {
+            version = this.getDescription().getVersion();
+            latestVersion = cVersion;
+            if (!getVersion().equals(cVersion)) {
+                getLogger().info("You are using an older version of Towny Spawn Menu, please update to version " + cVersion);
+                usingOldVersion = true;
+            }
+        });
+    }
+
+    public void registerCommands(){
         Objects.requireNonNull(getCommand("townyspawnmenu")).setExecutor(new MainCommand());
         TownyCommandAddonAPI.addSubCommand(CommandType.TOWN, "spawn-menu", new MainCommand());
         TownyCommandAddonAPI.addSubCommand(CommandType.TOWN_SET, "menu-item", new MetadataTowns());
         TownyCommandAddonAPI.addSubCommand(CommandType.NATION_SET, "menu-item", new MetadataNations());
         TownyCommandAddonAPI.addSubCommand(CommandType.TOWNYADMIN_SET, "default-item", new DefaultItemCommand());
-        getServer().getPluginManager().registerEvents(new onClickEvent(), this);
-        getServer().getPluginManager().registerEvents(new onPlayerJoinEvent(), this);
     }
 
-    public void setUpConfig(){
-        config.addDefault("menu.defaultItem", "RED_STAINED_GLASS_PANE");
-        config.options().copyDefaults(true);
-        saveConfig();
+    public void registerListeners(){
+        getServer().getPluginManager().registerEvents(new onClickEvent(), this);
+        getServer().getPluginManager().registerEvents(new onPlayerJoinEvent(), this);
     }
 
     public static String getVersion() { return version; }
