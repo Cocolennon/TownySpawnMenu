@@ -1,6 +1,7 @@
 package me.senkoco.townyspawnmenu.utils;
 
 import me.senkoco.townyspawnmenu.Main;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
@@ -22,14 +23,28 @@ public class UpdateChecker {
     }
 
     public void getVersion(final Consumer<String> consumer) {
-        main.getScheduler().runAsync(() -> {
-            try (InputStream inputStream = new URL("https://api.spigotmc.org/legacy/update.php?resource=" + this.resourceId).openStream(); Scanner scanner = new Scanner(inputStream)) {
-                if (scanner.hasNext()) {
-                    consumer.accept(scanner.next());
+        boolean isFolia = Main.isFoliaClassPresent();
+
+        if(isFolia) {
+            main.getScheduler().runAsync(() -> {
+                try (InputStream inputStream = new URL("https://api.spigotmc.org/legacy/update.php?resource=" + this.resourceId).openStream(); Scanner scanner = new Scanner(inputStream)) {
+                    if (scanner.hasNext()) {
+                        consumer.accept(scanner.next());
+                    }
+                } catch (IOException exception) {
+                    plugin.getLogger().info("Unable to check for updates: " + exception.getMessage());
                 }
-            } catch (IOException exception) {
-                plugin.getLogger().info("Unable to check for updates: " + exception.getMessage());
-            }
-        });
+            });
+        }else{
+            Bukkit.getScheduler().runTaskAsynchronously(this.plugin, () -> {
+                try (InputStream inputStream = new URL("https://api.spigotmc.org/legacy/update.php?resource=" + this.resourceId).openStream(); Scanner scanner = new Scanner(inputStream)) {
+                    if (scanner.hasNext()) {
+                        consumer.accept(scanner.next());
+                    }
+                } catch (IOException exception) {
+                    plugin.getLogger().info("Unable to check for updates: " + exception.getMessage());
+                }
+            });
+        }
     }
 }

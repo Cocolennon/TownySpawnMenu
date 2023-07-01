@@ -92,7 +92,7 @@ public class Main extends JavaPlugin {
         return (TaskScheduler) this.scheduler;
     }
 
-    private static boolean isFoliaClassPresent() {
+    public static boolean isFoliaClassPresent() {
         try {
             Class.forName("io.papermc.paper.threadedregions.RegionizedServer");
             return true;
