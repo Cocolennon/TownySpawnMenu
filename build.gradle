@@ -9,10 +9,7 @@ repositories {
     mavenCentral()
     mavenLocal()
 
-    maven {
-        name = 'glaremasters repo'
-        url = 'https://repo.glaremasters.me/repository/towny/'
-    }
+    maven { url = 'https://repo.glaremasters.me/repository/towny/' }
 }
 
 dependencies {
