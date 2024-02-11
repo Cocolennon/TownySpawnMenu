@@ -11,10 +11,7 @@ import java.util.List;
 
 public class General {
     public static void fillEmpty(Inventory inv, ItemStack item){
-        for(int i = 0; i < inv.getSize(); i++){
-            if(inv.getItem(i) != null) break;
-            inv.setItem(i, item);
-        }
+        for(int i = 0; i < inv.getSize(); i++) if(inv.getItem(i) == null) inv.setItem(i, item);
     }
 
     public static ItemStack getItem(Material material, String newName, String localizedName){
