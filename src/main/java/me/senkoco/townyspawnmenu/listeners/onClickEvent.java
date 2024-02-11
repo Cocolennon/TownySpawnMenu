@@ -2,6 +2,7 @@ package me.senkoco.townyspawnmenu.listeners;
 
 import com.palmergames.bukkit.towny.TownyAPI;
 import io.github.townyadvanced.townymenus.gui.MenuHistory;
+import me.senkoco.townyspawnmenu.Main;
 import me.senkoco.townyspawnmenu.utils.menu.Nations;
 import me.senkoco.townyspawnmenu.utils.menu.Towns;
 import org.bukkit.entity.Player;
@@ -25,25 +26,25 @@ public class onClickEvent implements Listener {
         if(inv.getItem(0) == null) return;
         if(current == null) return;
         if(!current.hasItemMeta()) return;
-        if(getItemMeta(current).hasLocalizedName()) return;
+        if(!current.getItemMeta().hasLocalizedName()) return;
 
         event.setCancelled(true);
-        String currentDName = getItemMeta(current).getDisplayName();
-        String currentLName = getItemMeta(current).getLocalizedName();
-        switch(getItemMeta(inv, 0).getLocalizedName()){
+        String currentDName = current.getItemMeta().getDisplayName();
+        String currentLName = current.getItemMeta().getLocalizedName();
+        switch(inv.getItem(0).getItemMeta().getLocalizedName()){
             case "nationMenu":
                 switch(currentLName){
                     case "noNation", "atWar":
                         Nations.openTownsOfNation(current, player, true, null);
-                        break;
+                        return;
                     case "nationMenu":
-                        break;
+                        return;
                     case "BTTM":
                         MenuHistory.last(player);
-                        break;
+                        return;
                     default:
                         Nations.openTownsOfNation(current, player, false, null);
-                        break;
+                        return;
                 }
             case "townMenu":
                 if(currentLName.equals("townMenu")) return;
@@ -54,15 +55,5 @@ public class onClickEvent implements Listener {
                     Towns.teleportToTown(player, currentLName);
                 }
         }
-    }
-
-    @Nonnull
-    public ItemMeta getItemMeta(Inventory inventory, int slot) {
-        return Objects.requireNonNull(Objects.requireNonNull(inventory.getItem(slot)).getItemMeta());
-    }
-
-    @Nonnull
-    public ItemMeta getItemMeta(ItemStack item) {
-        return Objects.requireNonNull(item.getItemMeta());
     }
 }
