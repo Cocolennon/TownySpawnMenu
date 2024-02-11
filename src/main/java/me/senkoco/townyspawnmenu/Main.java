@@ -20,6 +20,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.Objects;
 
 public class Main extends JavaPlugin {
+    private static Main instance;
     public static String version;
     public static String latestVersion;
     public static boolean usingOldVersion = false;
@@ -33,6 +34,7 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        instance = this;
         checkVersion();
         setUpConfig();
         registerCommands();
@@ -48,6 +50,12 @@ public class Main extends JavaPlugin {
 
     public void setUpConfig(){
         config.addDefault("menu.defaultItem", "RED_STAINED_GLASS_PANE");
+        /*
+        config.addDefault("menu.menuFiller", "BLACK_STAINED_GLASS_PANE");
+        config.addDefault("menu.warItem", "PURPLE_STAINED_GLASS_PANE");
+        config.addDefault("menu.noNationItem", "BLUE_STAINED_GLASS_PANE");
+        config.addDefault("menu.privateItem", "LIME_STAINED_GLASS_PANE");
+        */
         config.options().copyDefaults(true);
         saveConfig();
     }
@@ -99,5 +107,9 @@ public class Main extends JavaPlugin {
         } catch (ClassNotFoundException e) {
             return false;
         }
+    }
+
+    public static Main getInstance() {
+        return instance;
     }
 }
