@@ -24,7 +24,7 @@ public class MainCommand implements TabExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(!(sender instanceof Player player)) return false;
-        if(!(args.length >= 1)) { Usage(sender); return false; }
+        if(!(args.length >= 1)) { Usage(sender, label); return false; }
         switch (args[0]) {
             case "info" -> {
                 if (!sender.hasPermission("townyspawnmenu.showinfo")) {
@@ -46,7 +46,7 @@ public class MainCommand implements TabExecutor {
                 return true;
             }
             default -> {
-                Usage(sender);
+                Usage(sender, label);
                 return false;
             }
         }
@@ -63,7 +63,7 @@ public class MainCommand implements TabExecutor {
         List<String> info = new LinkedList<>();
         info.add("§c§l=========================");
         info.add("§6§lTowny Spawn Menu " + Main.getVersion());
-        String madeFor = "0.99.2.5";
+        String madeFor = "0.100.1.11";
         if(!townyVersion.equals(madeFor)){
             info.add("§6Made for §lTowny " + madeFor + " §6(using §lTowny v" + townyVersion + "§6)");
         }else {
@@ -79,7 +79,7 @@ public class MainCommand implements TabExecutor {
         info.forEach(sender::sendMessage);
     }
 
-    private void Usage(CommandSender sender){
-        sender.sendMessage("§6[Towny Spawn Menu] §cUsage: /townyspawnmenu <info/menu>\n§c<> = Mandatory");
+    private void Usage(CommandSender sender, String lbl){
+        sender.sendMessage("§6[Towny Spawn Menu] §cUsage: /" + lbl + "<info/menu>\n§c<> = Mandatory");
     }
 }
