@@ -5,18 +5,20 @@ import me.senkoco.townyspawnmenu.commands.sub.ConfigSubCommand;
 import me.senkoco.townyspawnmenu.commands.sub.DefaultSubCommand;
 import me.senkoco.townyspawnmenu.commands.sub.InfoSubCommand;
 import me.senkoco.townyspawnmenu.commands.sub.MenuSubCommand;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class MainCommand implements TabExecutor {
     private final String townyVersion = Towny.getPlugin().getVersion();
 
-    private static final List<String> autoComplete = Arrays.asList("info", "menu");
+    private static final List<String> autoComplete = Arrays.asList("menu", "config", "info");
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -41,7 +43,22 @@ public class MainCommand implements TabExecutor {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         if(!(sender instanceof Player)) return null;
-        if(args.length == 1) return autoComplete;
+        List<String> fixedAutoComplete = new ArrayList<>();
+        if(args.length == 1) {
+            for (String current : autoComplete) if (current.startsWith(args[0])) fixedAutoComplete.add(current);
+            return fixedAutoComplete;
+        }else if(args.length == 2){
+            if(args[0].equals("config")){
+                for(String current : ConfigSubCommand.autoComplete) if(current.startsWith(args[1])) fixedAutoComplete.add(current);
+                return fixedAutoComplete;
+            }
+        }else if(args.length == 3) {
+            if(args[0].equals("config")) {
+                Material[] items = Material.values();
+                for(Material mat : items) if(mat.name().startsWith(args[2])) fixedAutoComplete.add(mat.name());
+                return fixedAutoComplete;
+            }
+        }
         return null;
     }
 }
