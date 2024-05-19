@@ -2,6 +2,7 @@ package me.senkoco.townyspawnmenu.commands;
 
 import com.palmergames.bukkit.towny.Towny;
 import me.senkoco.townyspawnmenu.Main;
+import me.senkoco.townyspawnmenu.commands.sub.InfoSubCommand;
 import me.senkoco.townyspawnmenu.events.PlayerOpenedMenu;
 import me.senkoco.townyspawnmenu.utils.menu.Nations;
 import org.bukkit.command.Command;
@@ -27,12 +28,7 @@ public class MainCommand implements TabExecutor {
         if(!(args.length >= 1)) { Usage(sender, label); return false; }
         switch (args[0]) {
             case "info" -> {
-                if (!sender.hasPermission("townyspawnmenu.showinfo")) {
-                    sender.sendMessage("§6[Towny Spawn Menu] §cYou can't do that!");
-                    return false;
-                }
-                sendInfo(sender);
-                return true;
+                return InfoSubCommand.execute(player);
             }
             case "menu" -> {
                 if (!sender.hasPermission("townyspawnmenu.menu.open")) {
