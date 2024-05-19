@@ -50,12 +50,10 @@ public class Main extends JavaPlugin {
 
     public void setUpConfig(){
         config.addDefault("menu.defaultItem", "RED_STAINED_GLASS_PANE");
-        /*
         config.addDefault("menu.menuFiller", "BLACK_STAINED_GLASS_PANE");
         config.addDefault("menu.warItem", "PURPLE_STAINED_GLASS_PANE");
         config.addDefault("menu.noNationItem", "BLUE_STAINED_GLASS_PANE");
         config.addDefault("menu.privateItem", "LIME_STAINED_GLASS_PANE");
-        */
         config.options().copyDefaults(true);
         saveConfig();
     }
