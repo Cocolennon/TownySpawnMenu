@@ -92,7 +92,7 @@ public class Nations {
     }
 
     public static void addNoNationsItem(Inventory inv){
-        if(TownyAPI.getInstance().getTownsWithoutNation().size() == 0) return;
+        if(TownyAPI.getInstance().getTownsWithoutNation().isEmpty()) return;
         inv.setItem(22, noNation);
     }
 
