@@ -1,6 +1,7 @@
 package me.senkoco.townyspawnmenu.commands;
 
 import com.palmergames.bukkit.towny.Towny;
+import me.senkoco.townyspawnmenu.commands.sub.ConfigSubCommand;
 import me.senkoco.townyspawnmenu.commands.sub.DefaultSubCommand;
 import me.senkoco.townyspawnmenu.commands.sub.InfoSubCommand;
 import me.senkoco.townyspawnmenu.commands.sub.MenuSubCommand;
@@ -27,6 +28,9 @@ public class MainCommand implements TabExecutor {
             }
             case "menu" -> {
                 return MenuSubCommand.execute(player);
+            }
+            case "config", "cfg" -> {
+                return ConfigSubCommand.execute(player, args);
             }
             default -> {
                 return DefaultSubCommand.execute(player, label);
