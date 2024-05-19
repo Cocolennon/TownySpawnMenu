@@ -20,7 +20,7 @@ public class ConfigSubCommand {
             return false;
         }
         String option = args[1].toLowerCase();
-        String itemName = args[2].replace("minecraft:", "");
+        String itemName = args[2].replace("minecraft:", "").toUpperCase();
         Material item = Material.getMaterial(itemName.toUpperCase());
         if(item == null) {
             player.sendMessage("§6[Towny Spawn Menu] §cYou must provide a valid item!\");");
