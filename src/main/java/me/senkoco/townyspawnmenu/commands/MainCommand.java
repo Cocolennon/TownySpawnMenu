@@ -40,7 +40,7 @@ public class MainCommand implements TabExecutor {
                     return false;
                 }
                 List<Inventory> inventories = new LinkedList<>(Nations.getPages());
-                player.openInventory(inventories.get(0));
+                player.openInventory(inventories.getFirst());
                 PlayerOpenedMenu playerOpenedMenu = new PlayerOpenedMenu(player);
                 getPluginManager().callEvent(playerOpenedMenu);
                 return true;
@@ -63,7 +63,7 @@ public class MainCommand implements TabExecutor {
         List<String> info = new LinkedList<>();
         info.add("§c§l=========================");
         info.add("§6§lTowny Spawn Menu " + Main.getVersion());
-        String madeFor = "0.100.1.11";
+        String madeFor = "0.100.2.9";
         if(!townyVersion.equals(madeFor)){
             info.add("§6Made for §lTowny " + madeFor + " §6(using §lTowny v" + townyVersion + "§6)");
         }else {
