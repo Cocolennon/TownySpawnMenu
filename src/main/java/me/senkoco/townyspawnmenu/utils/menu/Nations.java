@@ -3,12 +3,16 @@ package me.senkoco.townyspawnmenu.utils.menu;
 import com.palmergames.bukkit.towny.TownyAPI;
 import com.palmergames.bukkit.towny.object.Nation;
 import com.palmergames.bukkit.towny.utils.MetaDataUtil;
+import me.senkoco.townyspawnmenu.Main;
 import me.senkoco.townyspawnmenu.utils.Metadata;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
@@ -18,7 +22,6 @@ import java.util.Objects;
 
 import static me.senkoco.townyspawnmenu.utils.menu.General.getPagesCount;
 import static org.bukkit.Bukkit.getPluginManager;
-import static org.bukkit.Bukkit.getServer;
 
 public class Nations {
     static Plugin plugin = getPluginManager().getPlugin("TownySpawnMenu");
@@ -109,13 +112,15 @@ public class Nations {
 
     public static void openTownsOfNation(ItemStack current, Player player, boolean isTownMenu, Nation nation){
         String currentDName = Objects.requireNonNull(current.getItemMeta()).getDisplayName();
-        String currentLName = current.getItemMeta().getLocalizedName();
+        NamespacedKey buttonAction = new NamespacedKey(Main.getInstance(), "buttonAction");
+        PersistentDataContainer pdc = current.getItemMeta().getPersistentDataContainer();
+        String currentLName = pdc.get(buttonAction, PersistentDataType.STRING);
         switch (currentDName) {
             case "§6§lNext Page", "§6§lPrevious Page" -> {
                 if (!isTownMenu) {
                     General.openInventory(player, Integer.parseInt(currentLName), Nations.getPages());
                 } else {
-                    General.openInventory(player, Integer.parseInt(current.getItemMeta().getLocalizedName()), Towns.getPages(nation, false, false));
+                    General.openInventory(player, Integer.parseInt(currentLName), Towns.getPages(nation, false, false));
                 }
                 return;
             }
