@@ -55,7 +55,7 @@ public class MainCommand implements TabExecutor {
         }else if(args.length == 3) {
             if(args[0].equals("config")) {
                 Material[] items = Material.values();
-                for(Material mat : items) if(mat.name().startsWith(args[2])) fixedAutoComplete.add(mat.name());
+                for(Material mat : items) if(mat.name().startsWith(args[2])) fixedAutoComplete.add("minecraft:" + mat.name().toLowerCase());
                 return fixedAutoComplete;
             }
         }
