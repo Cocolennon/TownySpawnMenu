@@ -25,9 +25,9 @@ import static org.bukkit.Bukkit.getPluginManager;
 
 public class Nations {
     static Plugin plugin = getPluginManager().getPlugin("TownySpawnMenu");
-    public static ItemStack noNation = General.getItem(Material.BLUE_STAINED_GLASS_PANE, "§c§lNation-less Towns", "noNation");
-    public static ItemStack notPublic = General.getItem(Material.LIME_STAINED_GLASS_PANE, "§c§lPrivate Towns", "notPublic");
-    public static ItemStack atWar = General.getItem(Material.PURPLE_STAINED_GLASS_PANE, "§c§lTowns at War", "atWar");
+    public static ItemStack noNation = General.getItem(Material.getMaterial(Main.getInstance().getConfig().getString("menu.noNationItem")), "§c§lNation-less Towns", "noNation");
+    public static ItemStack notPublic = General.getItem(Material.getMaterial(Main.getInstance().getConfig().getString("menu.privateItem")), "§c§lPrivate Towns", "notPublic");
+    public static ItemStack atWar = General.getItem(Material.getMaterial(Main.getInstance().getConfig().getString("menu.warItem")), "§c§lTowns at War", "atWar");
 
     public static List<Inventory> getPages(){
         List<Nation> allNations = new LinkedList<>(TownyAPI.getInstance().getNations());
@@ -68,7 +68,7 @@ public class Nations {
                 }
             }
             //if(getServer().getPluginManager().getPlugin("TownyMenus") != null) newPage.setItem(22, General.getItem(Material.ARROW, "§6§lBack to Towny Menus", "BTTM"));
-            General.fillEmpty(newPage, General.getItem(Material.BLACK_STAINED_GLASS_PANE, " ", "nationMenu"));
+            General.fillEmpty(newPage, General.getItem(Material.getMaterial(Main.getInstance().getConfig().getString("menu.menuFiller")), " ", "nationMenu"));
             inventories.add(newPage);
         }
         return inventories;
@@ -85,10 +85,7 @@ public class Nations {
 
     public static void addPrivatesItem(Inventory inv){
         int privateTownsCount = 0;
-        for(int j = 0; j < TownyAPI.getInstance().getTowns().size(); j++){
-            if(TownyAPI.getInstance().getTowns().get(j).isPublic()) break;
-            privateTownsCount++;
-        }
+        for(int j = 0; j < TownyAPI.getInstance().getTowns().size(); j++) if(!TownyAPI.getInstance().getTowns().get(j).isPublic()) privateTownsCount++;
 
         if(privateTownsCount == 0) return;
         inv.setItem(18, notPublic);
@@ -101,10 +98,7 @@ public class Nations {
 
     public static void addAtWarItem(Inventory inv){
         int townsAtWarCount = 0;
-        for(int j = 0; j < TownyAPI.getInstance().getTowns().size(); j++){
-            if(!TownyAPI.getInstance().getTowns().get(j).hasActiveWar()) break;
-            townsAtWarCount++;
-        }
+        for(int j = 0; j < TownyAPI.getInstance().getTowns().size(); j++) if(TownyAPI.getInstance().getTowns().get(j).hasActiveWar()) townsAtWarCount++;
 
         if(townsAtWarCount == 0) return;
         inv.setItem(26, atWar);
