@@ -5,6 +5,7 @@ import io.github.townyadvanced.townymenus.gui.MenuHistory;
 import me.senkoco.townyspawnmenu.Main;
 import me.senkoco.townyspawnmenu.utils.menu.Nations;
 import me.senkoco.townyspawnmenu.utils.menu.Towns;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,6 +13,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
@@ -26,12 +29,14 @@ public class onClickEvent implements Listener {
         if(inv.getItem(0) == null) return;
         if(current == null) return;
         if(!current.hasItemMeta()) return;
-        if(!current.getItemMeta().hasLocalizedName()) return;
+        NamespacedKey buttonAction = new NamespacedKey(Main.getInstance(), "buttonAction");
+        PersistentDataContainer pdc = current.getItemMeta().getPersistentDataContainer();
+        if(!pdc.has(buttonAction)) return;
 
         event.setCancelled(true);
         String currentDName = current.getItemMeta().getDisplayName();
-        String currentLName = current.getItemMeta().getLocalizedName();
-        switch(inv.getItem(0).getItemMeta().getLocalizedName()){
+        String currentLName = pdc.get(buttonAction, PersistentDataType.STRING);
+        switch(inv.getItem(0).getItemMeta().getPersistentDataContainer().get(buttonAction, PersistentDataType.STRING)){
             case "nationMenu":
                 switch(currentLName){
                     case "noNation", "atWar":
@@ -49,7 +54,7 @@ public class onClickEvent implements Listener {
             case "townMenu":
                 if(currentLName.equals("townMenu")) return;
                 if(currentDName.equals("§6§lNext Page") || currentDName.equals("§6§lPrevious Page") || currentDName.equals("§6§lBack to Nations")){
-                    Nations.openTownsOfNation(current, player, true, TownyAPI.getInstance().getNation(Objects.requireNonNull(Objects.requireNonNull(inv.getItem(26)).getItemMeta()).getLocalizedName()));
+                    Nations.openTownsOfNation(current, player, true, TownyAPI.getInstance().getNation(Objects.requireNonNull(Objects.requireNonNull(inv.getItem(26)).getItemMeta()).getPersistentDataContainer().get(buttonAction, PersistentDataType.STRING)));
                 }else{
                     if(!player.hasPermission("townyspawnmenu.menu.teleport")) { player.sendMessage("§6[Towny Spawn Menu] §cYou can't do that!"); return; }
                     Towns.teleportToTown(player, currentLName);
