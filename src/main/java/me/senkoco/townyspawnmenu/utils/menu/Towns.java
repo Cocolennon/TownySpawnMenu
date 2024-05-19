@@ -4,6 +4,7 @@ import com.palmergames.bukkit.towny.TownyAPI;
 import com.palmergames.bukkit.towny.object.Nation;
 import com.palmergames.bukkit.towny.object.Town;
 import com.palmergames.bukkit.towny.utils.MetaDataUtil;
+import me.senkoco.townyspawnmenu.Main;
 import me.senkoco.townyspawnmenu.events.PlayerTeleportedToTown;
 import me.senkoco.townyspawnmenu.utils.Metadata;
 import org.bukkit.Bukkit;
@@ -37,10 +38,7 @@ public class Towns {
                 }
             }else if(privateMenu) {
                 allTownsInNation = new LinkedList<>();
-                for(int i = 0; i < allTownsCount; i++){
-                    if(allTowns.get(i).isPublic()) break;
-                    allTownsInNation.add(allTowns.get(i));
-                }
+                for(int i = 0; i < allTownsCount; i++) if(!allTowns.get(i).isPublic()) allTownsInNation.add(allTowns.get(i));
             }else{ allTownsInNation = new LinkedList<>(TownyAPI.getInstance().getTownsWithoutNation()); }
         }else{ allTownsInNation = new LinkedList<>(nation.getTowns()); }
         int allTownsCount = allTownsInNation.size();
@@ -87,14 +85,14 @@ public class Towns {
             newPage.setItem(22, General.getItem(Material.ARROW, "§6§lBack to Nations", "0"));
             if(nation == null){
                 if(warMenu){
-                    newPage.setItem(26, General.getItem(Material.BLACK_STAINED_GLASS_PANE, " ", "atWar"));
+                    newPage.setItem(26, General.getItem(Material.getMaterial(Main.getInstance().getConfig().getString("menu.menuFiller")), " ", "atWar"));
                 }else if(privateMenu){
-                    newPage.setItem(26, General.getItem(Material.BLACK_STAINED_GLASS_PANE, " ", "notPublic"));
+                    newPage.setItem(26, General.getItem(Material.getMaterial(Main.getInstance().getConfig().getString("menu.menuFiller")), " ", "notPublic"));
                 }else{
-                    newPage.setItem(26, General.getItem(Material.BLACK_STAINED_GLASS_PANE, " ", "noNation"));
+                    newPage.setItem(26, General.getItem(Material.getMaterial(Main.getInstance().getConfig().getString("menu.menuFiller")), " ", "noNation"));
                 }
-            }else{ newPage.setItem(26, General.getItem(Material.BLACK_STAINED_GLASS_PANE, " ", nation.getName())); }
-            General.fillEmpty(newPage, General.getItem(Material.BLACK_STAINED_GLASS_PANE, " ", "townMenu"));
+            }else{ newPage.setItem(26, General.getItem(Material.getMaterial(Main.getInstance().getConfig().getString("menu.menuFiller")), " ", nation.getName())); }
+            General.fillEmpty(newPage, General.getItem(Material.getMaterial(Main.getInstance().getConfig().getString("menu.menuFiller")), " ", "townMenu"));
             inventories.add(newPage);
         }
         return inventories;
