@@ -5,16 +5,11 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 public class ConfigSubCommand {
     private static final Main instance = Main.getInstance();
     public static List<String> autoComplete = Arrays.asList("default-item", "menu-filler", "war-item", "no-nation", "private");
-
-    // ADD AUTO COMPLETION FOR SUBCOMMANDS
-    // ADD DEFAULT ITEM FOR CONFIG SUB COMMAND
-    // REMOVE DEFAULTITEMCOMMAND
 
     public static boolean execute(Player player, String[] args) {
         if(args.length == 1) {
