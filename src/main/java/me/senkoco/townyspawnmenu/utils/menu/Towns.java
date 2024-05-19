@@ -31,11 +31,7 @@ public class Towns {
             int allTownsCount = allTowns.size();
             if(warMenu){
                 allTownsInNation = new LinkedList<>();
-                for (Town allTown : allTowns) {
-                    if (allTown.hasActiveWar()) {
-                        allTownsInNation.add(allTown);
-                    }
-                }
+                for (Town allTown : allTowns) if (allTown.hasActiveWar()) allTownsInNation.add(allTown);
             }else if(privateMenu) {
                 allTownsInNation = new LinkedList<>();
                 for(int i = 0; i < allTownsCount; i++) if(!allTowns.get(i).isPublic()) allTownsInNation.add(allTowns.get(i));
