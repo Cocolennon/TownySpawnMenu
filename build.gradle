@@ -18,6 +18,6 @@ dependencies {
     compileOnly files("libs/TownyMenus-0.0.8.jar")
 }
 
-sourceCompatibility = targetCompatibility = '16'
+sourceCompatibility = targetCompatibility = '21'
 compileJava.options.encoding = 'UTF-8'
 setLibsDirName('../builds')
