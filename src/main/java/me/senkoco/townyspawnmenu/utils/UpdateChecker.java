@@ -23,7 +23,7 @@ public class UpdateChecker {
     }
 
     public void getVersion(final Consumer<String> consumer) {
-        boolean isFolia = Main.isFoliaClassPresent();
+        boolean isFolia = Main.getInstance().isFoliaClassPresent();
 
         if(isFolia) {
             main.getScheduler().runAsync(() -> {
