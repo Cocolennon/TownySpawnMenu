@@ -17,7 +17,7 @@ public class MenuSubCommand {
             return false;
         }
         List<Inventory> inventories = new LinkedList<>(Nations.getPages());
-        player.openInventory(inventories.getFirst());
+        player.openInventory(inventories.get(0));
         PlayerOpenedMenu playerOpenedMenu = new PlayerOpenedMenu(player);
         getPluginManager().callEvent(playerOpenedMenu);
         return true;
