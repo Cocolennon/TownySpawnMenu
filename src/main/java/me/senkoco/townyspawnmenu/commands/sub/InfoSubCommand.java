@@ -18,7 +18,7 @@ public class InfoSubCommand {
         List<String> info = new LinkedList<>();
         info.add("§c§l=========================");
         info.add("§6§lTowny Spawn Menu " + Main.getVersion());
-        String madeFor = "0.100.2.9";
+        String madeFor = "0.100.4.4";
         if(!townyVersion.equals(madeFor)){
             info.add("§6Made for §lTowny " + madeFor + " §6(using §lTowny v" + townyVersion + "§6)");
         }else {
