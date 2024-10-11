@@ -7,7 +7,12 @@ import com.palmergames.bukkit.towny.object.Resident;
 import me.senkoco.townyspawnmenu.utils.Metadata;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class HideSubCommand {
+    public static List<String> autoComplete = Arrays.asList("nation", "town");
+
     public static boolean execute(Player player, String type) {
         Resident res = TownyAPI.getInstance().getResident(player);
         assert res != null;

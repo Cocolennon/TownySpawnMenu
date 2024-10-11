@@ -52,6 +52,9 @@ public class MainCommand implements TabExecutor {
             if(args[0].equals("config")){
                 for(String current : ConfigSubCommand.autoComplete) if(current.startsWith(args[1])) fixedAutoComplete.add(current);
                 return fixedAutoComplete;
+            }else if(args[0].equals("hide")) {
+                for(String current : HideSubCommand.autoComplete) if(current.startsWith(args[1])) fixedAutoComplete.add(current);
+                return fixedAutoComplete;
             }
         }else if(args.length == 3) {
             if(args[0].equals("config")) {
