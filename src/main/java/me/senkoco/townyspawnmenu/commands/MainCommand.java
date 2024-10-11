@@ -1,10 +1,7 @@
 package me.senkoco.townyspawnmenu.commands;
 
 import com.palmergames.bukkit.towny.Towny;
-import me.senkoco.townyspawnmenu.commands.sub.ConfigSubCommand;
-import me.senkoco.townyspawnmenu.commands.sub.DefaultSubCommand;
-import me.senkoco.townyspawnmenu.commands.sub.InfoSubCommand;
-import me.senkoco.townyspawnmenu.commands.sub.MenuSubCommand;
+import me.senkoco.townyspawnmenu.commands.sub.*;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -18,7 +15,7 @@ import java.util.List;
 public class MainCommand implements TabExecutor {
     private final String townyVersion = Towny.getPlugin().getVersion();
 
-    private static final List<String> autoComplete = Arrays.asList("menu", "config", "info");
+    private static final List<String> autoComplete = Arrays.asList("menu", "config", "info", "hide");
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -33,6 +30,9 @@ public class MainCommand implements TabExecutor {
             }
             case "config", "cfg" -> {
                 return ConfigSubCommand.execute(player, args);
+            }
+            case "hide" -> {
+                return HideSubCommand.execute(player, args[0]);
             }
             default -> {
                 return DefaultSubCommand.execute(player, label);
