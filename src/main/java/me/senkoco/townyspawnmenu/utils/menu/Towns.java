@@ -2,6 +2,7 @@ package me.senkoco.townyspawnmenu.utils.menu;
 
 import com.palmergames.bukkit.towny.TownyAPI;
 import com.palmergames.bukkit.towny.object.Nation;
+import com.palmergames.bukkit.towny.object.Resident;
 import com.palmergames.bukkit.towny.object.Town;
 import com.palmergames.bukkit.towny.utils.MetaDataUtil;
 import me.senkoco.townyspawnmenu.Main;
@@ -24,7 +25,7 @@ import static org.bukkit.Bukkit.getPluginManager;
 public class Towns {
     static Plugin plugin = getPluginManager().getPlugin("TownySpawnMenu");
 
-    public static List<Inventory> getPages(Nation nation, boolean warMenu, boolean privateMenu){
+    public static List<Inventory> getPages(Resident res, Nation nation, boolean warMenu, boolean privateMenu){
         List<Town> allTownsInNation;
         if(nation == null) {
             List<Town> allTowns = new LinkedList<>(TownyAPI.getInstance().getTowns());
@@ -61,6 +62,13 @@ public class Towns {
             }
             int menuSlot = 10;
             for (Town town : townsInCurrentPage) {
+                if(Metadata.getTownHidden(town)) {
+                    if(!town.hasResident(res)) {
+                        newPage.setItem(menuSlot, General.getItem(Material.RED_STAINED_GLASS_PANE, "§c§lHidden Town", "hiddenTown"));
+                        menuSlot++;
+                        continue;
+                    }
+                }
                 Material material = Material.valueOf(plugin.getConfig().getString("menu.defaultItem"));
                 if (MetaDataUtil.hasMeta(town, Metadata.blockInMenu)) {
                     material = Material.valueOf(Metadata.getBlockInMenu(town));

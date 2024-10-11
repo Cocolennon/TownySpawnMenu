@@ -2,6 +2,7 @@ package me.senkoco.townyspawnmenu.utils.menu;
 
 import com.palmergames.bukkit.towny.TownyAPI;
 import com.palmergames.bukkit.towny.object.Nation;
+import com.palmergames.bukkit.towny.object.Resident;
 import com.palmergames.bukkit.towny.utils.MetaDataUtil;
 import me.senkoco.townyspawnmenu.Main;
 import me.senkoco.townyspawnmenu.utils.Metadata;
@@ -29,7 +30,7 @@ public class Nations {
     public static ItemStack notPublic = General.getItem(Material.getMaterial(Main.getInstance().getConfig().getString("menu.privateItem")), "§c§lPrivate Towns", "notPublic");
     public static ItemStack atWar = General.getItem(Material.getMaterial(Main.getInstance().getConfig().getString("menu.warItem")), "§c§lTowns at War", "atWar");
 
-    public static List<Inventory> getPages(){
+    public static List<Inventory> getPages(Resident res){
         List<Nation> allNations = new LinkedList<>(TownyAPI.getInstance().getNations());
         int allNationsCount = allNations.size();
 
@@ -47,6 +48,13 @@ public class Nations {
             }
             int menuSlot = 10;
             for (Nation nation : nationsInCurrentPage) {
+                if(Metadata.getNationHidden(nation)) {
+                    if(!nation.hasResident(res)) {
+                        newPage.setItem(menuSlot, General.getItem(Material.RED_STAINED_GLASS_PANE, "§c§lHidden Nation", "hiddenNation"));
+                        menuSlot++;
+                        continue;
+                    }
+                }
                 Material material = Material.valueOf(plugin.getConfig().getString("menu.defaultItem"));
                 if(MetaDataUtil.hasMeta(nation, Metadata.blockInMenu)) {
                     material = Material.valueOf(Metadata.getBlockInMenu(nation));
@@ -112,31 +120,31 @@ public class Nations {
         switch (currentDName) {
             case "§6§lNext Page", "§6§lPrevious Page" -> {
                 if (!isTownMenu) {
-                    General.openInventory(player, Integer.parseInt(currentLName), Nations.getPages());
+                    General.openInventory(player, Integer.parseInt(currentLName), Nations.getPages(TownyAPI.getInstance().getResident(player)));
                 } else {
-                    General.openInventory(player, Integer.parseInt(currentLName), Towns.getPages(nation, false, false));
+                    General.openInventory(player, Integer.parseInt(currentLName), Towns.getPages(TownyAPI.getInstance().getResident(player), nation, false, false));
                 }
                 return;
             }
             case "§6§lBack to Nations" -> {
-                General.openInventory(player, Integer.parseInt(currentLName), Nations.getPages());
+                General.openInventory(player, Integer.parseInt(currentLName), Nations.getPages(TownyAPI.getInstance().getResident(player)));
                 return;
             }
         }
         switch (currentLName) {
             case "noNation" -> {
-                General.openInventory(player, 0, Towns.getPages(null, false, false));
+                General.openInventory(player, 0, Towns.getPages(TownyAPI.getInstance().getResident(player),null, false, false));
                 return;
             }
             case "atWar" -> {
-                General.openInventory(player, 0, Towns.getPages(null, true, false));
+                General.openInventory(player, 0, Towns.getPages(TownyAPI.getInstance().getResident(player), null, true, false));
                 return;
             }
             case "notPublic" -> {
-                General.openInventory(player, 0, Towns.getPages(null, false, true));
+                General.openInventory(player, 0, Towns.getPages(TownyAPI.getInstance().getResident(player),null, false, true));
                 return;
             }
         }
-        General.openInventory(player, 0, Towns.getPages(TownyAPI.getInstance().getNation(currentLName), false, false));
+        General.openInventory(player, 0, Towns.getPages(TownyAPI.getInstance().getResident(player), TownyAPI.getInstance().getNation(currentLName), false, false));
     }
 }
