@@ -17,8 +17,6 @@ import me.senkoco.townyspawnmenu.utils.UpdateChecker;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Objects;
-
 public class Main extends JavaPlugin {
     private static Main instance;
     public static String version;
@@ -70,7 +68,7 @@ public class Main extends JavaPlugin {
     }
 
     public void registerCommands(){
-        Objects.requireNonNull(getCommand("townyspawnmenu")).setExecutor(new MainCommand());
+        getCommand("townyspawnmenu").setExecutor(new MainCommand());
         TownyCommandAddonAPI.addSubCommand(CommandType.TOWN, "spawn-menu", new MainCommand());
         TownyCommandAddonAPI.addSubCommand(CommandType.TOWN_SET, "menu-item", new MetadataTowns());
         TownyCommandAddonAPI.addSubCommand(CommandType.NATION_SET, "menu-item", new MetadataNations());
