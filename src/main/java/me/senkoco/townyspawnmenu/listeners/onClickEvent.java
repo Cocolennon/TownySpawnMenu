@@ -29,7 +29,7 @@ public class onClickEvent implements Listener {
         if(!current.hasItemMeta()) return;
         NamespacedKey buttonAction = new NamespacedKey(Main.getInstance(), "buttonAction");
         PersistentDataContainer pdc = current.getItemMeta().getPersistentDataContainer();
-        if(!pdc.has(buttonAction)) return;
+        if(!pdc.has(buttonAction, PersistentDataType.STRING)) return;
 
         event.setCancelled(true);
         String currentDName = current.getItemMeta().getDisplayName();
