@@ -2,6 +2,7 @@ package me.senkoco.townyspawnmenu.commands;
 
 import com.palmergames.bukkit.towny.Towny;
 import me.senkoco.townyspawnmenu.commands.sub.*;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -20,7 +21,7 @@ public class MainCommand implements TabExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(!(sender instanceof Player player)) return false;
-        if(!(args.length >= 1 && !args[0].equals("hide"))) return DefaultSubCommand.execute(player, label);
+        if(!(args.length >= 1)) return DefaultSubCommand.execute(player, label);
         switch (args[0]) {
             case "info" -> {
                 return InfoSubCommand.execute(player);
@@ -32,7 +33,6 @@ public class MainCommand implements TabExecutor {
                 return ConfigSubCommand.execute(player, args);
             }
             case "hide" -> {
-                if(args.length < 2) return DefaultSubCommand.execute(player, label);
                 return HideSubCommand.execute(player, args[1]);
             }
             default -> {

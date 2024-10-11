@@ -40,7 +40,7 @@ public class onClickEvent implements Listener {
                     case "noNation", "atWar":
                         Nations.openTownsOfNation(current, player, true, null);
                         return;
-                    case "nationMenu":
+                    case "nationMenu", "hiddenTown", "hiddenNation":
                         return;
                     case "BTTM":
                         MenuHistory.last(player);
@@ -50,7 +50,7 @@ public class onClickEvent implements Listener {
                         return;
                 }
             case "townMenu":
-                if(currentLName.equals("townMenu")) return;
+                if(currentLName.equals("townMenu") || currentLName.equals("hiddenTown")) return;
                 if(currentDName.equals("§6§lNext Page") || currentDName.equals("§6§lPrevious Page") || currentDName.equals("§6§lBack to Nations")){
                     Nations.openTownsOfNation(current, player, true, TownyAPI.getInstance().getNation(Objects.requireNonNull(Objects.requireNonNull(inv.getItem(26)).getItemMeta()).getPersistentDataContainer().get(buttonAction, PersistentDataType.STRING)));
                 }else{
