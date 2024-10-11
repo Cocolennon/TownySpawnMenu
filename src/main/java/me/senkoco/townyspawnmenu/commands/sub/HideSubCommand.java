@@ -45,7 +45,11 @@ public class HideSubCommand {
         if(!res.hasTown()) { player.sendMessage("§6[Towny Spawn Menu] §cYou aren't in a town!"); return false; }
         if(!res.isMayor()) { player.sendMessage("§6[Towny Spawn Menu] §cYou aren't the mayor of your town!"); return false; }
         Metadata.setTownHidden(res.getTown());
-        player.sendMessage("§6[Towny Spawn Menu] §3Your town is now hidden from everyone but you and your town's residents!");
+        if(Metadata.getTownHidden(res.getTown())) {
+            player.sendMessage("§6[Towny Spawn Menu] §3Your town is now hidden from everyone but you and your town's residents!");
+        }else{
+            player.sendMessage("§6[Towny Spawn Menu] §3Your town is now visible to everyone again!");
+        }
         return true;
     }
 
@@ -53,7 +57,11 @@ public class HideSubCommand {
         if(!res.hasNation()) { player.sendMessage("§6[Towny Spawn Menu] §cYou aren't in a nation!"); return false; }
         if(!res.isKing()) { player.sendMessage("§6[Towny Spawn Menu] §cYou aren't the king of your nation!"); return false; }
         Metadata.setNationHidden(res.getNation());
-        player.sendMessage("§6[Towny Spawn Menu] §3Your nation is now hidden from everyone but you and your nation's residents!");
+        if(Metadata.getNationHidden(res.getNation())) {
+            player.sendMessage("§6[Towny Spawn Menu] §3Your nation is now hidden from everyone but you and your nation's residents!");
+        }else{
+            player.sendMessage("§6[Towny Spawn Menu] §3Your nation is now visible to everyone again!");
+        }
         return true;
     }
 }
