@@ -1,5 +1,6 @@
 package me.senkoco.townyspawnmenu.commands.sub;
 
+import com.palmergames.bukkit.towny.TownyAPI;
 import me.senkoco.townyspawnmenu.events.PlayerOpenedMenu;
 import me.senkoco.townyspawnmenu.utils.menu.Nations;
 import org.bukkit.entity.Player;
@@ -16,7 +17,7 @@ public class MenuSubCommand {
             player.sendMessage("§6[Towny Spawn Menu] §cYou can't do that!");
             return false;
         }
-        List<Inventory> inventories = new LinkedList<>(Nations.getPages());
+        List<Inventory> inventories = new LinkedList<>(Nations.getPages(TownyAPI.getInstance().getResident(player)));
         player.openInventory(inventories.get(0));
         PlayerOpenedMenu playerOpenedMenu = new PlayerOpenedMenu(player);
         getPluginManager().callEvent(playerOpenedMenu);
