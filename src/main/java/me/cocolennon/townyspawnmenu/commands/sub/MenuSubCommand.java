@@ -18,7 +18,7 @@ public class MenuSubCommand {
             return false;
         }
         List<Inventory> inventories = new LinkedList<>(Nations.getPages(TownyAPI.getInstance().getResident(player)));
-        player.openInventory(inventories.get(0));
+        player.openInventory(inventories.getFirst());
         PlayerOpenedMenu playerOpenedMenu = new PlayerOpenedMenu(player);
         getPluginManager().callEvent(playerOpenedMenu);
         return true;
