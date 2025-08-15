@@ -1,10 +1,10 @@
-package me.senkoco.townyspawnmenu.listeners;
+package me.cocolennon.townyspawnmenu.listeners;
 
 import com.palmergames.bukkit.towny.TownyAPI;
 import io.github.townyadvanced.townymenus.gui.MenuHistory;
-import me.senkoco.townyspawnmenu.Main;
-import me.senkoco.townyspawnmenu.utils.menu.Nations;
-import me.senkoco.townyspawnmenu.utils.menu.Towns;
+import me.cocolennon.townyspawnmenu.Main;
+import me.cocolennon.townyspawnmenu.utils.menu.Nations;
+import me.cocolennon.townyspawnmenu.utils.menu.Towns;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

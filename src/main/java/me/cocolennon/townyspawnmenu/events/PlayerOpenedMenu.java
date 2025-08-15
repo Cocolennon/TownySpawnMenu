@@ -1,18 +1,15 @@
-package me.senkoco.townyspawnmenu.events;
+package me.cocolennon.townyspawnmenu.events;
 
-import com.palmergames.bukkit.towny.object.Town;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class PlayerTeleportedToTown extends Event {
+public class PlayerOpenedMenu extends Event {
     private static final HandlerList HANDLERS = new HandlerList();
     private final Player player;
-    private final Town town;
 
-    public PlayerTeleportedToTown(Player player, Town town) {
+    public PlayerOpenedMenu(Player player) {
         this.player = player;
-        this.town = town;
     }
 
     @Override
@@ -23,6 +20,4 @@ public class PlayerTeleportedToTown extends Event {
     public Player getPlayer(){
         return this.player;
     }
-
-    public Town getTown() { return this.town; }
 }

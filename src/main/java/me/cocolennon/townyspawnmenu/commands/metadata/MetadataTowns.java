@@ -1,9 +1,9 @@
-package me.senkoco.townyspawnmenu.commands.metadata;
+package me.cocolennon.townyspawnmenu.commands.metadata;
 
 import com.palmergames.bukkit.towny.TownyAPI;
 import com.palmergames.bukkit.towny.object.Resident;
 import com.palmergames.bukkit.towny.object.Town;
-import me.senkoco.townyspawnmenu.utils.Metadata;
+import me.cocolennon.townyspawnmenu.utils.Metadata;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

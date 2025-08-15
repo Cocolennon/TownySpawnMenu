@@ -1,8 +1,8 @@
-package me.senkoco.townyspawnmenu.commands.sub;
+package me.cocolennon.townyspawnmenu.commands.sub;
 
 import com.palmergames.bukkit.towny.TownyAPI;
-import me.senkoco.townyspawnmenu.events.PlayerOpenedMenu;
-import me.senkoco.townyspawnmenu.utils.menu.Nations;
+import me.cocolennon.townyspawnmenu.events.PlayerOpenedMenu;
+import me.cocolennon.townyspawnmenu.utils.menu.Nations;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 

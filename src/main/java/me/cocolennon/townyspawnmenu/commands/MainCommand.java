@@ -1,6 +1,7 @@
-package me.senkoco.townyspawnmenu.commands;
+package me.cocolennon.townyspawnmenu.commands;
 
 import com.palmergames.bukkit.towny.Towny;
+import me.cocolennon.townyspawnmenu.commands.sub.*;
 import me.senkoco.townyspawnmenu.commands.sub.*;
 import org.bukkit.Material;
 import org.bukkit.command.Command;

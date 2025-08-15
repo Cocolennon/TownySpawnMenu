@@ -1,6 +1,6 @@
-package me.senkoco.townyspawnmenu.utils.menu;
+package me.cocolennon.townyspawnmenu.utils.menu;
 
-import me.senkoco.townyspawnmenu.Main;
+import me.cocolennon.townyspawnmenu.Main;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;

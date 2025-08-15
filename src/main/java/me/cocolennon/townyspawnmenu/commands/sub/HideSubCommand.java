@@ -1,10 +1,10 @@
-package me.senkoco.townyspawnmenu.commands.sub;
+package me.cocolennon.townyspawnmenu.commands.sub;
 
 import com.palmergames.bukkit.towny.TownyAPI;
 import com.palmergames.bukkit.towny.exceptions.NotRegisteredException;
 import com.palmergames.bukkit.towny.exceptions.TownyException;
 import com.palmergames.bukkit.towny.object.Resident;
-import me.senkoco.townyspawnmenu.utils.Metadata;
+import me.cocolennon.townyspawnmenu.utils.Metadata;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;

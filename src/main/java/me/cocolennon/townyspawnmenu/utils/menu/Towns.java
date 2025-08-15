@@ -1,13 +1,13 @@
-package me.senkoco.townyspawnmenu.utils.menu;
+package me.cocolennon.townyspawnmenu.utils.menu;
 
 import com.palmergames.bukkit.towny.TownyAPI;
 import com.palmergames.bukkit.towny.object.Nation;
 import com.palmergames.bukkit.towny.object.Resident;
 import com.palmergames.bukkit.towny.object.Town;
 import com.palmergames.bukkit.towny.utils.MetaDataUtil;
-import me.senkoco.townyspawnmenu.Main;
-import me.senkoco.townyspawnmenu.events.PlayerTeleportedToTown;
-import me.senkoco.townyspawnmenu.utils.Metadata;
+import me.cocolennon.townyspawnmenu.Main;
+import me.cocolennon.townyspawnmenu.events.PlayerTeleportedToTown;
+import me.cocolennon.townyspawnmenu.utils.Metadata;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -19,7 +19,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-import static me.senkoco.townyspawnmenu.utils.menu.General.getPagesCount;
+import static me.cocolennon.townyspawnmenu.utils.menu.General.getPagesCount;
 import static org.bukkit.Bukkit.getPluginManager;
 
 public class Towns {

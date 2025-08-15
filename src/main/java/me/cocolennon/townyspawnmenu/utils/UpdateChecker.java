@@ -1,6 +1,6 @@
-package me.senkoco.townyspawnmenu.utils;
+package me.cocolennon.townyspawnmenu.utils;
 
-import me.senkoco.townyspawnmenu.Main;
+import me.cocolennon.townyspawnmenu.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 

@@ -1,4 +1,4 @@
-package me.senkoco.townyspawnmenu.utils;
+package me.cocolennon.townyspawnmenu.utils;
 
 import com.palmergames.bukkit.towny.object.Nation;
 import com.palmergames.bukkit.towny.object.Town;

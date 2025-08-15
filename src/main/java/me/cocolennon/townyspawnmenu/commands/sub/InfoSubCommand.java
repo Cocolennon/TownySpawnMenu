@@ -1,7 +1,7 @@
-package me.senkoco.townyspawnmenu.commands.sub;
+package me.cocolennon.townyspawnmenu.commands.sub;
 
 import com.palmergames.bukkit.towny.Towny;
-import me.senkoco.townyspawnmenu.Main;
+import me.cocolennon.townyspawnmenu.Main;
 import org.bukkit.entity.Player;
 
 import java.util.LinkedList;

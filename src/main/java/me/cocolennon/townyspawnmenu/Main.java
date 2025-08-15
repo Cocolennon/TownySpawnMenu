@@ -1,4 +1,4 @@
-package me.senkoco.townyspawnmenu;
+package me.cocolennon.townyspawnmenu;
 
 import com.palmergames.bukkit.towny.Towny;
 import com.palmergames.bukkit.towny.TownyCommandAddonAPI;
@@ -7,13 +7,13 @@ import com.palmergames.bukkit.towny.scheduling.TaskScheduler;
 import com.palmergames.bukkit.towny.scheduling.impl.BukkitTaskScheduler;
 import com.palmergames.bukkit.towny.scheduling.impl.FoliaTaskScheduler;
 import com.palmergames.bukkit.util.Version;
-import me.senkoco.townyspawnmenu.commands.DefaultItemCommand;
-import me.senkoco.townyspawnmenu.commands.MainCommand;
-import me.senkoco.townyspawnmenu.commands.metadata.MetadataNations;
-import me.senkoco.townyspawnmenu.commands.metadata.MetadataTowns;
-import me.senkoco.townyspawnmenu.listeners.onClickEvent;
-import me.senkoco.townyspawnmenu.listeners.onPlayerJoinEvent;
-import me.senkoco.townyspawnmenu.utils.UpdateChecker;
+import me.cocolennon.townyspawnmenu.commands.DefaultItemCommand;
+import me.cocolennon.townyspawnmenu.commands.MainCommand;
+import me.cocolennon.townyspawnmenu.commands.metadata.MetadataNations;
+import me.cocolennon.townyspawnmenu.commands.metadata.MetadataTowns;
+import me.cocolennon.townyspawnmenu.listeners.onClickEvent;
+import me.cocolennon.townyspawnmenu.listeners.onPlayerJoinEvent;
+import me.cocolennon.townyspawnmenu.utils.UpdateChecker;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 

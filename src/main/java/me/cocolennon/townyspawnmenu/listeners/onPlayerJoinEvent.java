@@ -1,6 +1,6 @@
-package me.senkoco.townyspawnmenu.listeners;
+package me.cocolennon.townyspawnmenu.listeners;
 
-import me.senkoco.townyspawnmenu.Main;
+import me.cocolennon.townyspawnmenu.Main;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

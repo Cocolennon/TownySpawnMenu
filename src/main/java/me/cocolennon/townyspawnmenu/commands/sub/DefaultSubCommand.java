@@ -1,4 +1,4 @@
-package me.senkoco.townyspawnmenu.commands.sub;
+package me.cocolennon.townyspawnmenu.commands.sub;
 
 import org.bukkit.entity.Player;
 

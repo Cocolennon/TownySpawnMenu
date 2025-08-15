@@ -1,4 +1,4 @@
-package me.senkoco.townyspawnmenu.commands;
+package me.cocolennon.townyspawnmenu.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
