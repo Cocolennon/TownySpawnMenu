@@ -58,7 +58,7 @@ public class Main extends JavaPlugin {
 
     public void checkVersion() {
         new UpdateChecker(this, this, 105225).getVersion(cVersion -> {
-            version = this.getDescription().getVersion();
+            version = this.getPluginMeta().getVersion();
             latestVersion = cVersion;
             if (!getVersion().equals(cVersion)) {
                 getLogger().info("You are using an older version of Towny Spawn Menu, please update to version " + cVersion);
