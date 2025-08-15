@@ -2,22 +2,23 @@ plugins {
     id 'java'
 }
 
-group 'me.senkoco'
-version '1.3.1'
+group 'me.cocolennon'
+version '1.3.2'
 
 repositories {
     mavenCentral()
     mavenLocal()
 
+    maven { url = 'https://repo.papermc.io/repository/maven-public/' }
     maven { url = 'https://repo.glaremasters.me/repository/towny/' }
 }
 
 dependencies {
-    compileOnly 'org.spigotmc:spigot:1.20.6-R0.1-SNAPSHOT'
-    compileOnly 'com.palmergames.bukkit.towny:towny:0.100.4.4'
-    compileOnly files("libs/TownyMenus-0.0.11.jar")
+    compileOnly 'io.papermc.paper:paper-api:1.21.8-R0.1-SNAPSHOT'
+    compileOnly 'com.palmergames.bukkit.towny:towny:0.101.2.2'
+    compileOnly files("libs/TownyMenus-0.0.13.jar")
 }
 
-sourceCompatibility = targetCompatibility = '17'
+sourceCompatibility = targetCompatibility = '21'
 compileJava.options.encoding = 'UTF-8'
 setLibsDirName('../builds')
