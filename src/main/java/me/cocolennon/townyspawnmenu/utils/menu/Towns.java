@@ -8,6 +8,7 @@ import com.palmergames.bukkit.towny.utils.MetaDataUtil;
 import me.cocolennon.townyspawnmenu.Main;
 import me.cocolennon.townyspawnmenu.events.PlayerTeleportedToTown;
 import me.cocolennon.townyspawnmenu.utils.Metadata;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -102,15 +103,15 @@ public class Towns {
         return inventories;
     }
 
-    public static ArrayList<String> setGlobalLore(Town town){
+    public static ArrayList<Component> setGlobalLore(Town town){
         String spawnCost = String.valueOf(town.getSpawnCost());
         if(!town.isPublic()) spawnCost = "Private";
 
-        ArrayList<String> itemlore = new ArrayList<>();
-        if(town.hasNation()) itemlore.add("§6§lNation§f§l: §3" + Objects.requireNonNull(town.getNationOrNull()).getName());
-        itemlore.add("§6§lMayor§f§l: §2" + town.getMayor().getName());
-        itemlore.add("§6§lResidents§f§l: §d" + town.getResidents().size());
-        itemlore.add("§6§lSpawn Cost§f§l: §c" + spawnCost);
+        ArrayList<Component> itemlore = new ArrayList<>();
+        if(town.hasNation()) itemlore.add(Component.text("§6§lNation§f§l: §3" + Objects.requireNonNull(town.getNationOrNull()).getName()));
+        itemlore.add(Component.text("\"§6§lMayor§f§l: §2\" + town.getMayor().getName()"));
+        itemlore.add(Component.text("§6§lResidents§f§l: §d" + town.getResidents().size()));
+        itemlore.add(Component.text("§6§lSpawn Cost§f§l: §c" + spawnCost));
         return itemlore;
     }
 

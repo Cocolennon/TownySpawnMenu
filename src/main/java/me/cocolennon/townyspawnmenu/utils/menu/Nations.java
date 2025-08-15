@@ -6,6 +6,7 @@ import com.palmergames.bukkit.towny.object.Resident;
 import com.palmergames.bukkit.towny.utils.MetaDataUtil;
 import me.cocolennon.townyspawnmenu.Main;
 import me.cocolennon.townyspawnmenu.utils.Metadata;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -82,12 +83,12 @@ public class Nations {
         return inventories;
     }
 
-    public static ArrayList<String> setGlobalLore(Nation nation){
-        ArrayList<String> itemlore = new ArrayList<>();
-        itemlore.add("§6§lLeader§f§l: §3" + nation.getKing().getName());
-        itemlore.add("§6§lCapital§f§l: §2" + nation.getCapital().getName());
-        itemlore.add("§6§lTowns§f§l: §9" + nation.getTowns().size());
-        itemlore.add("§6§lTotal Residents§f§l: §d" + nation.getResidents().size());
+    public static ArrayList<Component> setGlobalLore(Nation nation){
+        ArrayList<Component> itemlore = new ArrayList<>();
+        itemlore.add(Component.text("§6§lLeader§f§l: §3" + nation.getKing().getName()));
+        itemlore.add(Component.text("§6§lCapital§f§l: §2" + nation.getCapital().getName()));
+        itemlore.add(Component.text("§6§lTowns§f§l: §9" + nation.getTowns().size()));
+        itemlore.add(Component.text("§6§lTotal Residents§f§l: §d" + nation.getResidents().size()));
         return itemlore;
     }
 
@@ -113,7 +114,7 @@ public class Nations {
     }
 
     public static void openTownsOfNation(ItemStack current, Player player, boolean isTownMenu, Nation nation){
-        String currentDName = Objects.requireNonNull(current.getItemMeta()).displayName();
+        String currentDName = Objects.requireNonNull(current.getItemMeta()).displayName().toString();
         NamespacedKey buttonAction = new NamespacedKey(Main.getInstance(), "buttonAction");
         PersistentDataContainer pdc = current.getItemMeta().getPersistentDataContainer();
         String currentLName = pdc.get(buttonAction, PersistentDataType.STRING);
