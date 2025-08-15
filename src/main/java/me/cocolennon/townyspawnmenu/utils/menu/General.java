@@ -1,6 +1,7 @@
 package me.cocolennon.townyspawnmenu.utils.menu;
 
 import me.cocolennon.townyspawnmenu.Main;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -22,7 +23,7 @@ public class General {
         ItemStack it = new ItemStack(material, 1);
         ItemMeta itM = it.getItemMeta();
         assert itM != null;
-        if(newName != null) itM.setDisplayName(newName);
+        if(newName != null) itM.displayName(Component.text(newName));
         NamespacedKey buttonAction = new NamespacedKey(Main.getInstance(), "buttonAction");
         PersistentDataContainer pdc = itM.getPersistentDataContainer();
         if(localizedName != null) pdc.set(buttonAction, PersistentDataType.STRING, localizedName);
@@ -30,15 +31,15 @@ public class General {
         return it;
     }
 
-    public static ItemStack getItem(Material material, String newName, String localizedName, ArrayList<String> itemlore){
+    public static ItemStack getItem(Material material, String newName, String localizedName, ArrayList<Component> itemlore){
         ItemStack it = new ItemStack(material, 1);
         ItemMeta itM = it.getItemMeta();
         assert itM != null;
-        if(newName != null) itM.setDisplayName(newName);
+        if(newName != null) itM.displayName(Component.text(newName));
         NamespacedKey buttonAction = new NamespacedKey(Main.getInstance(), "buttonAction");
         PersistentDataContainer pdc = itM.getPersistentDataContainer();
         if(localizedName != null) pdc.set(buttonAction, PersistentDataType.STRING, localizedName);
-        if(itemlore != null) itM.setLore(itemlore);
+        if(itemlore != null) itM.lore(itemlore);
         it.setItemMeta(itM);
         return it;
     }

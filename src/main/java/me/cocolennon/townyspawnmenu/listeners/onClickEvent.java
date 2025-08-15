@@ -32,7 +32,7 @@ public class onClickEvent implements Listener {
         if(!pdc.has(buttonAction, PersistentDataType.STRING)) return;
 
         event.setCancelled(true);
-        String currentDName = current.getItemMeta().getDisplayName();
+        String currentDName = current.getItemMeta().displayName().toString();
         String currentLName = pdc.get(buttonAction, PersistentDataType.STRING);
         switch(inv.getItem(0).getItemMeta().getPersistentDataContainer().get(buttonAction, PersistentDataType.STRING)){
             case "nationMenu":

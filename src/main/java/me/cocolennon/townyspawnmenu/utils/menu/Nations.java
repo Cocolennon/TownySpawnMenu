@@ -113,7 +113,7 @@ public class Nations {
     }
 
     public static void openTownsOfNation(ItemStack current, Player player, boolean isTownMenu, Nation nation){
-        String currentDName = Objects.requireNonNull(current.getItemMeta()).getDisplayName();
+        String currentDName = Objects.requireNonNull(current.getItemMeta()).displayName();
         NamespacedKey buttonAction = new NamespacedKey(Main.getInstance(), "buttonAction");
         PersistentDataContainer pdc = current.getItemMeta().getPersistentDataContainer();
         String currentLName = pdc.get(buttonAction, PersistentDataType.STRING);
