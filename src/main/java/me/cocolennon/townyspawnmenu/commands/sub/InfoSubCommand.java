@@ -2,6 +2,7 @@ package me.cocolennon.townyspawnmenu.commands.sub;
 
 import com.palmergames.bukkit.towny.Towny;
 import me.cocolennon.townyspawnmenu.Main;
+import me.cocolennon.townyspawnmenu.utils.Localization;
 import org.bukkit.entity.Player;
 
 import java.util.LinkedList;
@@ -12,7 +13,7 @@ public class InfoSubCommand {
 
     public static boolean execute(Player player) {
         if (!player.hasPermission("townyspawnmenu.showinfo")) {
-            player.sendMessage("§6[Towny Spawn Menu] §cYou can't do that!");
+            player.sendMessage(Localization.get(player, "error.permission", true));
             return false;
         }
         List<String> info = new LinkedList<>();

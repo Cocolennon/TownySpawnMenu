@@ -1,7 +1,9 @@
 package me.cocolennon.townyspawnmenu.commands.metadata;
 
 import com.palmergames.bukkit.towny.TownyAPI;
+import com.palmergames.bukkit.towny.object.Nation;
 import com.palmergames.bukkit.towny.object.Resident;
+import me.cocolennon.townyspawnmenu.utils.Localization;
 import me.cocolennon.townyspawnmenu.utils.Metadata;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -19,26 +21,39 @@ public class MetadataNations implements TabExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Resident res = TownyAPI.getInstance().getResident((Player)sender);
         assert res != null;
-        if(!sender.hasPermission("townyspawnmenu.set.nation") || !sender.hasPermission("townyspawnmenu.set.admin")) { sender.sendMessage("§6[Towny Spawn Menu] §cYou can't do that!"); return false; }
-        if(!res.hasNation()) { sender.sendMessage("§6[Towny Spawn Menu] §cYou aren't in a nation!"); return false; }
-        if(!res.isKing()) { sender.sendMessage("§6[Towny Spawn Menu] §cYou aren't the king of your nation!"); return false; }
+        if(!sender.hasPermission("townyspawnmenu.set.nation") || !sender.hasPermission("townyspawnmenu.set.admin")) {
+            sender.sendMessage(Localization.get(sender, "error.permission", true));
+            return false;
+        }
+        if(!res.hasNation()) {
+            sender.sendMessage(Localization.get(sender, "error.towny.not-in-nation", true));
+            return false;
+        }
+        if(!res.isKing()) {
+            sender.sendMessage(Localization.get(sender, "error.towny.not-king", true));
+            return false;
+        }
 
         Material material;
         try {
             material = Material.valueOf(args[0].replace("minecraft:", "").toUpperCase());
         }catch(IllegalArgumentException e){
-            sender.sendMessage("§6[Towny Spawn Menu] §cPlease provide a valid item or block name!");
-            sender.sendMessage("§cExample: nether_star (Case insensitive)");
+            sender.sendMessage(Localization.get(sender, "error.invalid.item", true));
             return false;
         }
 
         if(args.length > 1) {
-            if(!sender.hasPermission("townyspawnmenu.set.admin")) { sender.sendMessage("§4You can't do that!"); return false; }
-            Metadata.setBlockInMenu(Objects.requireNonNull(TownyAPI.getInstance().getNation(args[1])), material.name());
-            sender.sendMessage("§6[Towny Spawn Menu] §3This nation's item/block in the menu now is: " + material.name().toLowerCase());
+            if(!sender.hasPermission("townyspawnmenu.set.admin")) {
+                sender.sendMessage(Localization.get(sender, "error.permission", true));
+                return false;
+            }
+            Nation nation = TownyAPI.getInstance().getNation(args[1]);
+            Metadata.setBlockInMenu(Objects.requireNonNull(nation), material.name());
+            sender.sendMessage(Localization.get(sender, "success.set-menu-item", true, nation.getName(), material.name().toLowerCase()));
         }else{
-            Metadata.setBlockInMenu(Objects.requireNonNull(res.getNationOrNull()), material.name());
-            sender.sendMessage("§6[Towny Spawn Menu] §3Your nation's item/block in the menu now is: " + material.name().toLowerCase());
+            Nation nation = res.getNationOrNull();
+            Metadata.setBlockInMenu(Objects.requireNonNull(nation), material.name());
+            sender.sendMessage(Localization.get(sender, "success.set-menu-item", true, nation.getName(), material.name().toLowerCase()));
         }
         return true;
     }

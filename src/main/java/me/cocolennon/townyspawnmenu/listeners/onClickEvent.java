@@ -2,6 +2,7 @@ package me.cocolennon.townyspawnmenu.listeners;
 
 import com.palmergames.bukkit.towny.TownyAPI;
 import me.cocolennon.townyspawnmenu.Main;
+import me.cocolennon.townyspawnmenu.utils.Localization;
 import me.cocolennon.townyspawnmenu.utils.menu.Nations;
 import me.cocolennon.townyspawnmenu.utils.menu.Towns;
 import org.bukkit.NamespacedKey;
@@ -50,7 +51,10 @@ public class onClickEvent implements Listener {
                 if(currentDName.equals("§6§lNext Page") || currentDName.equals("§6§lPrevious Page") || currentDName.equals("§6§lBack to Nations")){
                     Nations.openTownsOfNation(current, player, true, TownyAPI.getInstance().getNation(Objects.requireNonNull(Objects.requireNonNull(inv.getItem(26)).getItemMeta()).getPersistentDataContainer().get(buttonAction, PersistentDataType.STRING)));
                 }else{
-                    if(!player.hasPermission("townyspawnmenu.menu.teleport")) { player.sendMessage("§6[Towny Spawn Menu] §cYou can't do that!"); return; }
+                    if(!player.hasPermission("townyspawnmenu.menu.teleport")) {
+                        player.sendMessage(Localization.get(player, "error.permission", true));
+                        return;
+                    }
                     Towns.teleportToTown(player, currentLName);
                 }
         }

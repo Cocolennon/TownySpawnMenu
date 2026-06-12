@@ -20,7 +20,7 @@ public class MainCommand implements TabExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(!(sender instanceof Player player)) return false;
-        if(!(args.length >= 1)) return DefaultSubCommand.execute(player, label);
+        if(!(args.length >= 1)) return InfoSubCommand.execute(player);
         switch (args[0]) {
             case "info" -> {
                 return InfoSubCommand.execute(player);
@@ -35,7 +35,7 @@ public class MainCommand implements TabExecutor {
                 return HideSubCommand.execute(player, args[1]);
             }
             default -> {
-                return DefaultSubCommand.execute(player, label);
+                return InfoSubCommand.execute(player);
             }
         }
     }

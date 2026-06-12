@@ -1,5 +1,6 @@
 package me.cocolennon.townyspawnmenu;
 
+import me.cocolennon.townyspawnmenu.utils.Localization;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -15,7 +16,7 @@ public final class Config {
     public Config(Main plugin) {
         FileConfiguration config = plugin.getConfig();
         this.defaultLocale = config.getString("default-locale");
-        // Init Localization
+        Localization.init(plugin, defaultLocale);
         this.autoUpdaterEnabled = config.getBoolean("auto-updater-enabled");
         this.menuFiller = Material.valueOf(config.getString("menu-filler"));
         this.warItem = Material.valueOf(config.getString("war-item"));

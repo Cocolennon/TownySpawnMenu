@@ -1,6 +1,7 @@
 package me.cocolennon.townyspawnmenu.commands.sub;
 
 import me.cocolennon.townyspawnmenu.Main;
+import me.cocolennon.townyspawnmenu.utils.Localization;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -13,49 +14,48 @@ public class ConfigSubCommand {
 
     public static boolean execute(Player player, String[] args) {
         if(args.length == 1) {
-            player.sendMessage("§6[Towny Spawn Menu] §cYou have to provide an option!");
+            player.sendMessage(Localization.get(player, "error.invalid.option", true));
             return false;
         }else if(args.length == 2) {
-            player.sendMessage("§6[Towny Spawn Menu] §cYou must provide an item!");
+            player.sendMessage(Localization.get(player, "error.invalid.item", true));
             return false;
         }
-        String option = args[1].toLowerCase();
-        String itemName = args[2].replace("minecraft:", "").toUpperCase();
+        String itemName = args[2].replace("minecraft:", "");
         Material item = Material.getMaterial(itemName.toUpperCase());
         if(item == null) {
-            player.sendMessage("§6[Towny Spawn Menu] §cYou must provide a valid item!\");");
+            player.sendMessage(Localization.get(player, "error.invalid.item", true));
             return false;
         }
 
         Main main = Main.getInstance();
-        switch(option) {
+        switch(args[1]) {
             case "default-item" -> {
                 configSet(main, "default-item", itemName);
-                player.sendMessage("§6[Towny Spawn Menu] §3Successfully set the default item for towns!");
+                player.sendMessage(Localization.get(player, "success.default-item", true, itemName.replace("_", " ")));
                 return true;
             }
             case "menu-filler" -> {
                 configSet(main, "menu-filler", itemName);
-                player.sendMessage("§6[Towny Spawn Menu] §3Successfully set the item to fill in the empty space!");
+                player.sendMessage(Localization.get(player, "success.menu-filler", true, itemName.replace("_", " ")));
                 return true;
             }
             case "war-item" -> {
                 configSet(main, "war-item", itemName);
-                player.sendMessage("§6[Towny Spawn Menu] §3Successfully set the item for towns at war!");
+                player.sendMessage(Localization.get(player, "success.towns-at-war", true, itemName.replace("_", " ")));
                 return true;
             }
             case "no-nation" -> {
                 configSet(main, "no-nation-item", itemName);
-                player.sendMessage("§6[Towny Spawn Menu] §3Successfully set the item for towns which don't have a nation!");
+                player.sendMessage(Localization.get(player, "success.nationless", true, itemName.replace("_", " ")));
                 return true;
             }
             case "private" -> {
                 configSet(main, "private-item", itemName);
-                player.sendMessage("§6[Towny Spawn Menu] §3Successfully set the item for private towns!");
+                player.sendMessage(Localization.get(player, "success.private", true, itemName.replace("_", " ")));
                 return true;
             }
             default -> {
-                player.sendMessage("§6[Towny Spawn Menu] §cYou have to provide a valid option!");
+                player.sendMessage(Localization.get(player, "error.invalid.option", true));
                 return false;
             }
         }

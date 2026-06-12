@@ -1,0 +1,26 @@
+# Editing this file allows you to change what the plugin says!
+# You can also create other language files to support more languages, following the same file name format my plugin and Minecraft does!
+# Some nodes have "%s" inside. Those are replaced by values provided by the plugin, don't forget to put them in translations too!
+
+prefix: "<#FFAA00>[Towny Spawn Menu]"
+old-version: "<#00AAAA>You are using an older version of Towny Spawn Menu, please update to version %s"
+error:
+  permission: "<#FF5555>You can't do that!"
+  invalid:
+    option: "<#FF5555>Please provide a valid option!"
+    item: "<#FF5555>Please provide a valid item or block name!"
+    region: "<#FF5555>Please provide a valid region type!"
+  towny:
+    not-in-nation: "<#FF5555>You aren't in a nation!"
+    not-king: "<#FF5555>You aren't the king of your nation!"
+    not-in-town: "<#FF5555>You aren't in a town!"
+    not-mayor: "<#FF5555>You aren't the mayor of your town!"
+success:
+  set-menu-item: "<#FFFF55>%s<#00AAAA>'s item in the menu now is %s"
+  default-item: "<#00AAAA>The default item for towns and nations is now %s"
+  menu-filler: "<#00AAAA>The menu filler item is now %s"
+  towns-at-war: "<#00AAAA>The item for towns at war is now %s"
+  nationless: "<#00AAAA>The item for nationless towns is now %s"
+  private: "<#00AAAA>The item for private towns is now %s"
+  hide-town-nation: "<#FFFF55>%s <#00AAAA>is now hidden in the menu!"
+  show-town-nation: "<#FFFF55>%s <#00AAAA>is now visible in the menu!"

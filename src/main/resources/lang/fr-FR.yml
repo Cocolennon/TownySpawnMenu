@@ -1,0 +1,26 @@
+# Modifier ce fichier vous permettra de changer ce que le plugin dit !
+# Vous pouvez aussi créer d'autres fichiers de langue pour prendre en charge plus de langues en suivant le même format de nom que mon plugin et Minecraft
+# Certains noeuds ont "%s" dans le texte. Ils sont remplacés par des valeurs fournies par le plugin, ne les oubliez pas dans les traductions !
+
+prefix: "<#FFAA00>[Towny Spawn Menu]"
+old-version: "<#00AAAA>Vous utilisez une ancienne version de Towny Spawn Menu, veuillez mettre à jour vers la version %s"
+error:
+  permission: "<#FF5555>Vous ne pouvez pas faire ça !"
+  invalid:
+    option: "<#FF5555>Option invalide !"
+    item: "<#FF5555>Nom d'objet ou de bloc invalide !"
+    region: "<#FF5555>Type de région invalide !"
+  towny:
+    not-in-nation: "<#FF5555>Vous n'êtes pas dans une nation !"
+    not-king: "<#FF5555>Vous n'êtes pas le dirigeant de votre nation !"
+    not-in-town: "<#FF5555>Vous n'êtes pas dans une ville !"
+    not-mayor: "<#FF5555>Vous n'êtes pas le maire de votre ville !"
+success:
+  set-menu-item: "<#00AAAA>L'objet dans le menu pour <#FFFF55>%s <#00AAAA>est maintenant %s"
+  default-item: "<#00AAAA>L'objet par défaut pour les villes et les nations est maintenant %s"
+  menu-filler: "<#00AAAA>L'objet remplisseur de menu est maintenant %s"
+  towns-at-war: "<#00AAAA>L'objet pour les villes en guerre est maintenant %s"
+  nationless: "<#00AAAA>L'objet pour les villes sans nation est maintenant %s"
+  private: "<#00AAAA>L'objet pour les villes privéees est maintenant %s"
+  hide-town-nation: "<#FFFF55>%s <#00AAAA>est maintenant caché dans le menu !"
+  show-town-nation: "<#FFFF55>%s <#00AAAA>est maintenant visible dans le menu !"
