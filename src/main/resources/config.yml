@@ -1,0 +1,15 @@
+# This will be used for errors in the console and as a fallback when a user's language isn't on the server.
+default-locale: "en-US"
+# Downloads updates from Modrinth automatically
+auto-updater-enabled: true
+
+# The item used for filling empty slots in the menus
+menu-filler: BLACK_STAINED_GLASS_PANE
+# The item used for the Towns at War menu button
+war-item: PURPLE_STAINED_GLASS_PANE
+# The item used for the towns with no nation's menu button
+no-nation-item: BLUE_STAINED_GLASS_PANE
+# The item used for the private towns' menu button
+private-item: LIME_STAINED_GLASS_PANE
+# The default item used for towns in every menu
+default-item: GREEN_STAINED_GLASS_PANE

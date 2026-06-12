@@ -14,16 +14,15 @@ import me.cocolennon.townyspawnmenu.commands.metadata.MetadataTowns;
 import me.cocolennon.townyspawnmenu.listeners.onClickEvent;
 import me.cocolennon.townyspawnmenu.listeners.onPlayerJoinEvent;
 import me.cocolennon.townyspawnmenu.utils.UpdateChecker;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin {
     private static Main instance;
+    private Config config;
     public static String version;
     public static String latestVersion;
     public static boolean usingOldVersion = false;
-    private static final Version requiredTownyVersion = Version.fromString("0.99.0.8");
-    FileConfiguration config = getConfig();
+    private static final Version requiredTownyVersion = Version.fromString("0.102.0.0");
     private final Object scheduler;
 
     public Main(){
@@ -33,8 +32,8 @@ public class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+        loadConfig(false);
         checkVersion();
-        setUpConfig();
         registerCommands();
         registerListeners();
         getLogger().info("Plugin enabled!");
@@ -46,18 +45,8 @@ public class Main extends JavaPlugin {
         getLogger().info("Plugin disabled!");
     }
 
-    public void setUpConfig(){
-        config.addDefault("menu.defaultItem", "RED_STAINED_GLASS_PANE");
-        config.addDefault("menu.menuFiller", "BLACK_STAINED_GLASS_PANE");
-        config.addDefault("menu.warItem", "PURPLE_STAINED_GLASS_PANE");
-        config.addDefault("menu.noNationItem", "BLUE_STAINED_GLASS_PANE");
-        config.addDefault("menu.privateItem", "LIME_STAINED_GLASS_PANE");
-        config.options().copyDefaults(true);
-        saveConfig();
-    }
-
     public void checkVersion() {
-        new UpdateChecker(this, this, 105225).getVersion(cVersion -> {
+        new UpdateChecker(this, "towny-spawn-menu").getVersion(cVersion -> {
             version = this.getPluginMeta().getVersion();
             latestVersion = cVersion;
             if (!getVersion().equals(cVersion)) {
@@ -65,6 +54,16 @@ public class Main extends JavaPlugin {
                 usingOldVersion = true;
             }
         });
+    }
+
+    public void loadConfig(boolean reload) {
+        if(!reload) {
+            saveDefaultConfig();
+            getConfig().options().copyDefaults(true);
+            saveConfig();
+        }
+        reloadConfig();
+        config = new Config(this);
     }
 
     public void registerCommands(){
@@ -105,6 +104,7 @@ public class Main extends JavaPlugin {
         }
     }
 
+    public Config config() { return config; }
     public static Main getInstance() {
         return instance;
     }
