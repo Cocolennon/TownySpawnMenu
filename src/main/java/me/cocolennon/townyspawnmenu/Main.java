@@ -7,7 +7,6 @@ import com.palmergames.bukkit.towny.scheduling.TaskScheduler;
 import com.palmergames.bukkit.towny.scheduling.impl.BukkitTaskScheduler;
 import com.palmergames.bukkit.towny.scheduling.impl.FoliaTaskScheduler;
 import com.palmergames.bukkit.util.Version;
-import me.cocolennon.townyspawnmenu.commands.DefaultItemCommand;
 import me.cocolennon.townyspawnmenu.commands.MainCommand;
 import me.cocolennon.townyspawnmenu.commands.metadata.MetadataNations;
 import me.cocolennon.townyspawnmenu.commands.metadata.MetadataTowns;
@@ -76,7 +75,6 @@ public class Main extends JavaPlugin {
         TownyCommandAddonAPI.addSubCommand(CommandType.TOWN, "spawn-menu", new MainCommand());
         TownyCommandAddonAPI.addSubCommand(CommandType.TOWN_SET, "menu-item", new MetadataTowns());
         TownyCommandAddonAPI.addSubCommand(CommandType.NATION_SET, "menu-item", new MetadataNations());
-        TownyCommandAddonAPI.addSubCommand(CommandType.TOWNYADMIN_SET, "default-item", new DefaultItemCommand());
     }
 
     public void registerListeners(){
