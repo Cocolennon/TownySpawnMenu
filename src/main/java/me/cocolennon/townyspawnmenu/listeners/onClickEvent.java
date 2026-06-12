@@ -1,7 +1,6 @@
 package me.cocolennon.townyspawnmenu.listeners;
 
 import com.palmergames.bukkit.towny.TownyAPI;
-import io.github.townyadvanced.townymenus.gui.MenuHistory;
 import me.cocolennon.townyspawnmenu.Main;
 import me.cocolennon.townyspawnmenu.utils.menu.Nations;
 import me.cocolennon.townyspawnmenu.utils.menu.Towns;
@@ -41,9 +40,6 @@ public class onClickEvent implements Listener {
                         Nations.openTownsOfNation(current, player, true, null);
                         return;
                     case "nationMenu", "hiddenTown", "hiddenNation":
-                        return;
-                    case "BTTM":
-                        MenuHistory.last(player);
                         return;
                     default:
                         Nations.openTownsOfNation(current, player, false, null);
