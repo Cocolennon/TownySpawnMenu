@@ -10,8 +10,8 @@ import com.palmergames.bukkit.util.Version;
 import me.cocolennon.townyspawnmenu.commands.MainCommand;
 import me.cocolennon.townyspawnmenu.commands.metadata.MetadataNations;
 import me.cocolennon.townyspawnmenu.commands.metadata.MetadataTowns;
-import me.cocolennon.townyspawnmenu.listeners.onClickEvent;
-import me.cocolennon.townyspawnmenu.listeners.onPlayerJoinEvent;
+import me.cocolennon.townyspawnmenu.listeners.InventoryClickListener;
+import me.cocolennon.townyspawnmenu.listeners.PlayerJoinListener;
 import me.cocolennon.townyspawnmenu.utils.UpdateChecker;
 import me.cocolennon.townyspawnmenu.utils.Updater;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -78,8 +78,8 @@ public class Main extends JavaPlugin {
     }
 
     public void registerListeners(){
-        getServer().getPluginManager().registerEvents(new onClickEvent(), this);
-        getServer().getPluginManager().registerEvents(new onPlayerJoinEvent(), this);
+        getServer().getPluginManager().registerEvents(new InventoryClickListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
     }
 
     public static String getVersion() { return version; }
