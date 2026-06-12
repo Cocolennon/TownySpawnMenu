@@ -15,7 +15,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -23,13 +22,12 @@ import java.util.List;
 import java.util.Objects;
 
 import static me.cocolennon.townyspawnmenu.utils.menu.General.getPagesCount;
-import static org.bukkit.Bukkit.getPluginManager;
 
 public class Nations {
-    static Plugin plugin = getPluginManager().getPlugin("TownySpawnMenu");
-    public static ItemStack noNation = General.getItem(Material.getMaterial(Main.getInstance().getConfig().getString("menu.noNationItem")), "<#FF5555><bold>Nation-less Towns", "noNation");
-    public static ItemStack notPublic = General.getItem(Material.getMaterial(Main.getInstance().getConfig().getString("menu.privateItem")), "<#FF5555><bold>Private Towns", "notPublic");
-    public static ItemStack atWar = General.getItem(Material.getMaterial(Main.getInstance().getConfig().getString("menu.warItem")), "<#FF5555><bold>Towns at War", "atWar");
+    private static Main main = Main.getInstance();
+    public static ItemStack noNation = General.getItem(main.config().noNationItem, "<#FF5555><bold>Nation-less Towns", "noNation");
+    public static ItemStack notPublic = General.getItem(main.config().privateItem, "<#FF5555><bold>Private Towns", "notPublic");
+    public static ItemStack atWar = General.getItem(main.config().warItem, "<#FF5555><bold>Towns at War", "atWar");
 
     public static List<Inventory> getPages(Resident res){
         List<Nation> allNations = new LinkedList<>(TownyAPI.getInstance().getNations());
@@ -56,7 +54,7 @@ public class Nations {
                         continue;
                     }
                 }
-                Material material = Material.valueOf(plugin.getConfig().getString("menu.defaultItem"));
+                Material material = main.config().defaultItem;
                 if(MetaDataUtil.hasMeta(nation, Metadata.blockInMenu)) {
                     material = Material.valueOf(Metadata.getBlockInMenu(nation));
                 }
@@ -76,7 +74,7 @@ public class Nations {
                     newPage.setItem(21, General.getItem(Material.ARROW, "<#FFAA00><bold>Previous Page", String.valueOf(pageNumber - 1)));
                 }
             }
-            General.fillEmpty(newPage, General.getItem(Material.getMaterial(Main.getInstance().getConfig().getString("menu.menuFiller")), " ", "nationMenu"));
+            General.fillEmpty(newPage, General.getItem(main.config().menuFiller, " ", "nationMenu"));
             inventories.add(newPage);
         }
         return inventories;

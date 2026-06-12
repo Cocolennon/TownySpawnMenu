@@ -27,34 +27,30 @@ public class ConfigSubCommand {
             return false;
         }
 
+        Main main = Main.getInstance();
         switch(option) {
             case "default-item" -> {
-                instance.getConfig().set("menu.defaultItem", itemName);
-                instance.saveConfig();
+                configSet(main, "default-item", itemName);
                 player.sendMessage("§6[Towny Spawn Menu] §3Successfully set the default item for towns!");
                 return true;
             }
             case "menu-filler" -> {
-                instance.getConfig().set("menu.menuFiller", itemName);
-                instance.saveConfig();
+                configSet(main, "menu-filler", itemName);
                 player.sendMessage("§6[Towny Spawn Menu] §3Successfully set the item to fill in the empty space!");
                 return true;
             }
             case "war-item" -> {
-                instance.getConfig().set("menu.warItem", itemName);
-                instance.saveConfig();
+                configSet(main, "war-item", itemName);
                 player.sendMessage("§6[Towny Spawn Menu] §3Successfully set the item for towns at war!");
                 return true;
             }
             case "no-nation" -> {
-                instance.getConfig().set("menu.noNationItem", itemName);
-                instance.saveConfig();
+                configSet(main, "no-nation-item", itemName);
                 player.sendMessage("§6[Towny Spawn Menu] §3Successfully set the item for towns which don't have a nation!");
                 return true;
             }
             case "private" -> {
-                instance.getConfig().set("menu.privateItem", itemName);
-                instance.saveConfig();
+                configSet(main, "private-item", itemName);
                 player.sendMessage("§6[Towny Spawn Menu] §3Successfully set the item for private towns!");
                 return true;
             }
@@ -63,5 +59,11 @@ public class ConfigSubCommand {
                 return false;
             }
         }
+    }
+
+    private static void configSet(Main main, String node, Object value) {
+        main.getConfig().set(node, value);
+        main.saveConfig();
+        main.loadConfig(true);
     }
 }

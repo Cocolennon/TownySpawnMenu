@@ -9,11 +9,11 @@ import me.cocolennon.townyspawnmenu.Main;
 import me.cocolennon.townyspawnmenu.events.PlayerTeleportedToTown;
 import me.cocolennon.townyspawnmenu.utils.Metadata;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -24,9 +24,11 @@ import static me.cocolennon.townyspawnmenu.utils.menu.General.getPagesCount;
 import static org.bukkit.Bukkit.getPluginManager;
 
 public class Towns {
-    static Plugin plugin = getPluginManager().getPlugin("TownySpawnMenu");
+    private static final String reset = "<obfuscated:false><bold:false><strikethrough:false><underlined:false><italic:false><#FFFFFF>";
 
     public static List<Inventory> getPages(Resident res, Nation nation, boolean warMenu, boolean privateMenu){
+        Main main = Main.getInstance();
+        MiniMessage miniMessage = MiniMessage.miniMessage();
         List<Town> allTownsInNation;
         if(nation == null) {
             List<Town> allTowns = new LinkedList<>(TownyAPI.getInstance().getTowns());
@@ -48,13 +50,13 @@ public class Towns {
             Inventory newPage;
             if(nation == null) {
                 if(warMenu){
-                    newPage = Bukkit.createInventory(null, 27, "§6§lTowns§f§l: §3At War (" + (pageNumber+1 + "/" + (getPagesCount(allTownsCount)+1) + ")"));
+                    newPage = Bukkit.createInventory(null, 27, miniMessage.deserialize("<#FFAA00><bold>Towns" + reset + "<bold>: <#00AAAA>At War (" + (pageNumber+1 + "/" + (getPagesCount(allTownsCount)+1) + ")")));
                 }else if(privateMenu){
-                    newPage = Bukkit.createInventory(null, 27, "§6§lTowns§f§l: §3Private (" + (pageNumber+1 + "/" + (getPagesCount(allTownsCount)+1) + ")"));
+                    newPage = Bukkit.createInventory(null, 27, miniMessage.deserialize("<#FFAA00><bold>Towns" + reset + "<bold>: <#00AAAA>Private (" + (pageNumber+1 + "/" + (getPagesCount(allTownsCount)+1) + ")")));
                 }else{
-                    newPage = Bukkit.createInventory(null, 27, "§6§lTowns§f§l: §3Nation-less (" + (pageNumber+1 + "/" + (getPagesCount(allTownsCount)+1) + ")"));
+                    newPage = Bukkit.createInventory(null, 27, miniMessage.deserialize("<#FFAA00><bold>Towns" + reset + "<bold>: <#00AAAA>Nation-less (" + (pageNumber+1 + "/" + (getPagesCount(allTownsCount)+1) + ")")));
                 }
-            }else{ newPage = Bukkit.createInventory(null, 27, "§6§l" + nation.getName() + "§f§l: §3Towns (" + (pageNumber+1 + "/" + (getPagesCount(allTownsCount)+1) + ")")); }
+            }else{ newPage = Bukkit.createInventory(null, 27, miniMessage.deserialize("<#FFAA00><bold>" + nation.getName() + reset + "<bold>: <#00AAAA>Towns (" + (pageNumber+1 + "/" + (getPagesCount(allTownsCount)+1) + ")"))); }
             List<Town> townsInCurrentPage = new LinkedList<>();
             if(pageNumber == getPagesCount(allTownsCount)) inventorySlots = allTownsCount - townsInPage;
             for(int j = 0; j < inventorySlots; j++){
@@ -65,39 +67,39 @@ public class Towns {
             for (Town town : townsInCurrentPage) {
                 if(Metadata.getTownHidden(town)) {
                     if(!town.hasResident(res)) {
-                        newPage.setItem(menuSlot, General.getItem(Material.RED_STAINED_GLASS_PANE, "§c§lHidden Town", "hiddenTown"));
+                        newPage.setItem(menuSlot, General.getItem(Material.RED_STAINED_GLASS_PANE, "<#FF5555><bold>Hidden Town", "hiddenTown"));
                         menuSlot++;
                         continue;
                     }
                 }
-                Material material = Material.valueOf(plugin.getConfig().getString("menu.defaultItem"));
+                Material material = Main.getInstance().config().defaultItem;
                 if (MetaDataUtil.hasMeta(town, Metadata.blockInMenu)) {
                     material = Material.valueOf(Metadata.getBlockInMenu(town));
                 }
-                newPage.setItem(menuSlot, General.getItem(material, "§c§l" + town.getName(), town.getName(), setGlobalLore(town)));
+                newPage.setItem(menuSlot, General.getItem(material, "<#FF5555><bold>" + town.getName(), town.getName(), setGlobalLore(town)));
                 menuSlot++;
             }
             if(getPagesCount(allTownsCount) > 0){
                 if(pageNumber == 0){
-                    newPage.setItem(23, General.getItem(Material.ARROW, "§6§lNext Page", String.valueOf(pageNumber + 1)));
+                    newPage.setItem(23, General.getItem(Material.ARROW, "<#FFAA00><bold>Next Page", String.valueOf(pageNumber + 1)));
                 }else if(pageNumber == getPagesCount(allTownsCount)){
-                    newPage.setItem(21, General.getItem(Material.ARROW, "§6§lPrevious Page", String.valueOf(pageNumber - 1)));
+                    newPage.setItem(21, General.getItem(Material.ARROW, "<#FFAA00><bold>Previous Page", String.valueOf(pageNumber - 1)));
                 }else{
-                    newPage.setItem(23, General.getItem(Material.ARROW, "§6§lNext Page", String.valueOf(pageNumber + 1)));
-                    newPage.setItem(21, General.getItem(Material.ARROW, "§6§lPrevious Page", String.valueOf(pageNumber - 1)));
+                    newPage.setItem(23, General.getItem(Material.ARROW, "<#FFAA00><bold>Next Page", String.valueOf(pageNumber + 1)));
+                    newPage.setItem(21, General.getItem(Material.ARROW, "<#FFAA00><bold>Previous Page", String.valueOf(pageNumber - 1)));
                 }
             }
-            newPage.setItem(22, General.getItem(Material.ARROW, "§6§lBack to Nations", "0"));
+            newPage.setItem(22, General.getItem(Material.ARROW, "<#FFAA00><bold>Back to Nations", "0"));
             if(nation == null){
                 if(warMenu){
-                    newPage.setItem(26, General.getItem(Material.getMaterial(Main.getInstance().getConfig().getString("menu.menuFiller")), " ", "atWar"));
+                    newPage.setItem(26, General.getItem(main.config().menuFiller, " ", "atWar"));
                 }else if(privateMenu){
-                    newPage.setItem(26, General.getItem(Material.getMaterial(Main.getInstance().getConfig().getString("menu.menuFiller")), " ", "notPublic"));
+                    newPage.setItem(26, General.getItem(main.config().menuFiller, " ", "notPublic"));
                 }else{
-                    newPage.setItem(26, General.getItem(Material.getMaterial(Main.getInstance().getConfig().getString("menu.menuFiller")), " ", "noNation"));
+                    newPage.setItem(26, General.getItem(main.config().menuFiller, " ", "noNation"));
                 }
-            }else{ newPage.setItem(26, General.getItem(Material.getMaterial(Main.getInstance().getConfig().getString("menu.menuFiller")), " ", nation.getName())); }
-            General.fillEmpty(newPage, General.getItem(Material.getMaterial(Main.getInstance().getConfig().getString("menu.menuFiller")), " ", "townMenu"));
+            }else{ newPage.setItem(26, General.getItem(main.config().menuFiller, " ", nation.getName())); }
+            General.fillEmpty(newPage, General.getItem(main.config().menuFiller, " ", "townMenu"));
             inventories.add(newPage);
         }
         return inventories;
@@ -107,17 +109,19 @@ public class Towns {
         String spawnCost = String.valueOf(town.getSpawnCost());
         if(!town.isPublic()) spawnCost = "Private";
 
+        MiniMessage miniMessage = MiniMessage.miniMessage();
         ArrayList<Component> itemlore = new ArrayList<>();
-        if(town.hasNation()) itemlore.add(Component.text("§6§lNation§f§l: §3" + Objects.requireNonNull(town.getNationOrNull()).getName()));
-        itemlore.add(Component.text("\"§6§lMayor§f§l: §2\" + town.getMayor().getName()"));
-        itemlore.add(Component.text("§6§lResidents§f§l: §d" + town.getResidents().size()));
-        itemlore.add(Component.text("§6§lSpawn Cost§f§l: §c" + spawnCost));
+        if(town.hasNation()) itemlore.add(miniMessage.deserialize("<#FFAA00><bold>Nation" + reset + "<bold>: <#00AAAA>" + Objects.requireNonNull(town.getNationOrNull()).getName()));
+        itemlore.add(miniMessage.deserialize("\"<#FFAA00><bold>Mayor" + reset + "<bold>: <#00AA00>\" + town.getMayor().getName()"));
+        itemlore.add(miniMessage.deserialize("<#FFAA00><bold>Residents" + reset + "<bold>: <#FF55FF>" + town.getResidents().size()));
+        itemlore.add(miniMessage.deserialize("<#FFAA00><bold>Spawn Cost" + reset + "<bold>: <#FF5555>" + spawnCost));
         return itemlore;
     }
 
     public static void teleportToTown(Player player, String townName){
+        MiniMessage miniMessage = MiniMessage.miniMessage();
         if(!player.hasPermission("townyspawnmenu.menu.teleport")) {
-            player.sendMessage("§6[Towny Spawn Menu] §cYou can't do that!");
+            player.sendMessage(miniMessage.deserialize("<#FFAA00>[Towny Spawn Menu] <#FF5555>You can't do that!"));
             return;
         }
         Town town = TownyAPI.getInstance().getTown(townName);

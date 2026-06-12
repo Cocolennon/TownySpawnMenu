@@ -1,20 +1,17 @@
 package me.cocolennon.townyspawnmenu.commands;
 
-import org.bukkit.Bukkit;
+import me.cocolennon.townyspawnmenu.Main;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
 public class DefaultItemCommand implements TabExecutor {
-    static Plugin plugin = Bukkit.getPluginManager().getPlugin("TownySpawnMenu");
-
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(!sender.hasPermission("townyspawnmenu.set.default")) { sender.sendMessage("§6[Towny Spawn Menu] §cYou can't do that!"); return false; }
@@ -27,8 +24,10 @@ public class DefaultItemCommand implements TabExecutor {
             sender.sendMessage("§cExample: nether_star (Case insensitive, spaces must be replaced by underscores)");
             return false;
         }
-        plugin.getConfig().set("menu.defaultItem", material.name());
-        plugin.saveConfig();
+        Main main = Main.getInstance();
+        main.getConfig().set("default-item", material.name());
+        main.saveConfig();
+        main.loadConfig(true);
         sender.sendMessage("§6[Towny Spawn Menu] §3The default item for towns and nations in the menu now is: " + args[0].replace("minecraft:", ""));
         return true;
     }
