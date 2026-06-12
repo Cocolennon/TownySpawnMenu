@@ -14,6 +14,7 @@ import me.cocolennon.townyspawnmenu.commands.metadata.MetadataTowns;
 import me.cocolennon.townyspawnmenu.listeners.onClickEvent;
 import me.cocolennon.townyspawnmenu.listeners.onPlayerJoinEvent;
 import me.cocolennon.townyspawnmenu.utils.UpdateChecker;
+import me.cocolennon.townyspawnmenu.utils.Updater;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin {
@@ -54,6 +55,10 @@ public class Main extends JavaPlugin {
                 usingOldVersion = true;
             }
         });
+        if(config.autoUpdaterEnabled) {
+            Updater updater = new Updater(this, "towny-spawn-menu", getFile(), Updater.UpdateType.CHECK_DOWNLOAD, true);
+            if(updater.getResult().equals(Updater.Result.SUCCESS)) getLogger().info("Update will be applied after next restart!");
+        }
     }
 
     public void loadConfig(boolean reload) {
