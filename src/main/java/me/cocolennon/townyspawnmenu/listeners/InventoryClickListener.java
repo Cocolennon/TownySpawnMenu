@@ -19,7 +19,7 @@ public class InventoryClickListener implements Listener {
     @EventHandler
     public void onClick(InventoryClickEvent event) {
         Inventory inventory = event.getClickedInventory();
-        if(!(inventory.getHolder() instanceof SpawnMenuInventoryHolder invHolder)) return;
+        if(inventory == null || !(inventory.getHolder() instanceof SpawnMenuInventoryHolder invHolder)) return;
         TownyAPI townyAPI = TownyAPI.getInstance();
         Player player = (Player) event.getWhoClicked();
         Resident resident = townyAPI.getResident(player);
@@ -43,7 +43,7 @@ public class InventoryClickListener implements Listener {
                     default -> {}
                 }
             }
-            case TOWNS -> {
+            case TOWNS, NATIONLESS, PRIVATE, AT_WAR -> {
                 switch(buttonAction) {
                     case "town" -> {
                         Town town = townyAPI.getTown(invHolder.getNationName(current));
