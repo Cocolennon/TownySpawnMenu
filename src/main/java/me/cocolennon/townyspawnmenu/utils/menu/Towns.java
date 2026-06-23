@@ -10,6 +10,7 @@ import me.cocolennon.townyspawnmenu.utils.Localization;
 import me.cocolennon.townyspawnmenu.utils.Metadata;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -68,6 +69,7 @@ public class Towns {
         }
         Town town = TownyAPI.getInstance().getTown(townName);
         if(!town.isPublic()) return;
+        player.playSound(player, Sound.ENTITY_ENDERMAN_TELEPORT, 1.5f, 2f);
         player.performCommand("t spawn " + townName + " -ignore");
         PlayerTeleportedToTown playerTeleportedToTown = new PlayerTeleportedToTown(player, town);
         Bukkit.getPluginManager().callEvent(playerTeleportedToTown);

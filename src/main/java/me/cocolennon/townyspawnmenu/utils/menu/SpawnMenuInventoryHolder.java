@@ -14,6 +14,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -180,7 +181,8 @@ public class SpawnMenuInventoryHolder implements InventoryHolder {
         return nation;
     }
 
-    public void openInventory(Player player) {
+    public void openInventory(Player player, boolean playDing) {
+        if(playDing) player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
         player.openInventory(inventory);
     }
 

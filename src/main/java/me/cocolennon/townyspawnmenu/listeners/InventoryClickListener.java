@@ -8,6 +8,7 @@ import me.cocolennon.townyspawnmenu.utils.menu.MenuType;
 import me.cocolennon.townyspawnmenu.utils.menu.Nations;
 import me.cocolennon.townyspawnmenu.utils.menu.SpawnMenuInventoryHolder;
 import me.cocolennon.townyspawnmenu.utils.menu.Towns;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -31,16 +32,16 @@ public class InventoryClickListener implements Listener {
                 switch(buttonAction) {
                     case "nation" -> {
                         Nation nation = townyAPI.getNation(invHolder.getNationName(current));
-                        Towns.getPages(resident, nation, MenuType.TOWNS).getFirst().openInventory(player);
+                        Towns.getPages(resident, nation, MenuType.TOWNS).getFirst().openInventory(player, true);
                     }
-                    case "noNation" -> Towns.getPages(resident, null, MenuType.NATIONLESS).getFirst().openInventory(player);
-                    case "atWar" -> Towns.getPages(resident, null, MenuType.AT_WAR).getFirst().openInventory(player);
-                    case "notPublic" -> Towns.getPages(resident, null, MenuType.PRIVATE).getFirst().openInventory(player);
+                    case "noNation" -> Towns.getPages(resident, null, MenuType.NATIONLESS).getFirst().openInventory(player, true);
+                    case "atWar" -> Towns.getPages(resident, null, MenuType.AT_WAR).getFirst().openInventory(player, true);
+                    case "notPublic" -> Towns.getPages(resident, null, MenuType.PRIVATE).getFirst().openInventory(player, true);
                     case "nextPage", "previousPage" -> {
                         int pageNumber = invHolder.getPageNumber(current);
-                        Nations.getPages(resident).get(pageNumber).openInventory(player);
+                        Nations.getPages(resident).get(pageNumber).openInventory(player, true);
                     }
-                    default -> {}
+                    default -> player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
                 }
             }
             case TOWNS, NATIONLESS, PRIVATE, AT_WAR -> {
@@ -51,13 +52,13 @@ public class InventoryClickListener implements Listener {
                     }
                     case "nextPage", "previousPage" -> {
                         int pageNumber = invHolder.getPageNumber(current);
-                        Towns.getPages(resident, invHolder.getNation(), invHolder.getType()).get(pageNumber).openInventory(player);
+                        Towns.getPages(resident, invHolder.getNation(), invHolder.getType()).get(pageNumber).openInventory(player, true);
                     }
                     case "backToNations" -> {
                         int pageNumber = invHolder.getPageNumber(current);
-                        Nations.getPages(resident).get(pageNumber).openInventory(player);
+                        Nations.getPages(resident).get(pageNumber).openInventory(player, true);
                     }
-                    default -> {}
+                    default -> player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
                 }
             }
         }
