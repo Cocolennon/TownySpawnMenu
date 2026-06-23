@@ -5,10 +5,6 @@ import me.cocolennon.townyspawnmenu.events.PlayerOpenedMenu;
 import me.cocolennon.townyspawnmenu.utils.Localization;
 import me.cocolennon.townyspawnmenu.utils.menu.Nations;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-
-import java.util.LinkedList;
-import java.util.List;
 
 import static org.bukkit.Bukkit.getPluginManager;
 
@@ -18,8 +14,7 @@ public class MenuSubCommand {
             player.sendMessage(Localization.get(player, "error.permission", true));
             return false;
         }
-        List<Inventory> inventories = new LinkedList<>(Nations.getPages(TownyAPI.getInstance().getResident(player)));
-        player.openInventory(inventories.getFirst());
+        Nations.getPages(TownyAPI.getInstance().getResident(player)).getFirst().openInventory(player);
         PlayerOpenedMenu playerOpenedMenu = new PlayerOpenedMenu(player);
         getPluginManager().callEvent(playerOpenedMenu);
         return true;

@@ -13,8 +13,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MainCommand implements TabExecutor {
-    private final String townyVersion = Towny.getPlugin().getVersion();
-
     private static final List<String> autoComplete = Arrays.asList("menu", "config", "info", "hide");
 
     @Override
