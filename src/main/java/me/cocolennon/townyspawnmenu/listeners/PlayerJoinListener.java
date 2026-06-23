@@ -12,6 +12,6 @@ public class PlayerJoinListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event){
         Player player = event.getPlayer();
         if(!player.hasPermission("townyspawnui.*")) return;
-        if(Main.getUsingOldVersion()) player.sendMessage(Localization.get(player, "old-version", true, Main.getLatestVersion()));
+        if(Main.getInstance().getUsingOldVersion()) player.sendMessage(Localization.get(player, "old-version", true, Main.getInstance().getLatestVersion()));
     }
 }
