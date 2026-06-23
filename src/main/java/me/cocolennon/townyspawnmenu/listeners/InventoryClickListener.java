@@ -18,7 +18,7 @@ import org.bukkit.inventory.ItemStack;
 public class InventoryClickListener implements Listener {
     @EventHandler
     public void onClick(InventoryClickEvent event) {
-        Inventory inventory = event.getInventory();
+        Inventory inventory = event.getClickedInventory();
         if(!(inventory.getHolder() instanceof SpawnMenuInventoryHolder invHolder)) return;
         TownyAPI townyAPI = TownyAPI.getInstance();
         Player player = (Player) event.getWhoClicked();
