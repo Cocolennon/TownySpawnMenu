@@ -11,8 +11,8 @@ public enum MenuType {
     NATIONS((nation, api) -> api.getTowns()),
     TOWNS((nation, api) -> nation.getTowns()),
     NATIONLESS((nation, api) -> api.getTownsWithoutNation()),
-    PRIVATE((nation, api) -> nation.getTowns().stream().filter(town -> !town.isPublic()).toList()),
-    AT_WAR((nation, api) -> nation.getTowns().stream().filter(Town::hasActiveWar).toList());
+    PRIVATE((nation, api) -> api.getTowns().stream().filter(town -> !town.isPublic()).toList()),
+    AT_WAR((nation, api) -> api.getTowns().stream().filter(Town::hasActiveWar).toList());
 
     private final BiFunction<Nation, TownyAPI, List<Town>> townSupplier;
 
