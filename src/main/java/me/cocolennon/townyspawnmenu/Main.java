@@ -12,7 +12,6 @@ import me.cocolennon.townyspawnmenu.commands.metadata.MetadataNations;
 import me.cocolennon.townyspawnmenu.commands.metadata.MetadataTowns;
 import me.cocolennon.townyspawnmenu.listeners.InventoryClickListener;
 import me.cocolennon.townyspawnmenu.listeners.PlayerJoinListener;
-import me.cocolennon.townyspawnmenu.utils.UpdateChecker;
 import me.cocolennon.townyspawnmenu.utils.Updater;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -46,18 +45,23 @@ public class Main extends JavaPlugin {
     }
 
     public void checkVersion() {
-        new UpdateChecker(this, "towny-spawn-menu").getVersion(cVersion -> {
-            version = this.getPluginMeta().getVersion();
-            latestVersion = cVersion;
-            if (!getVersion().equals(cVersion)) {
-                getLogger().info("You are using an older version of Towny Spawn Menu, please update to version " + cVersion);
-                usingOldVersion = true;
+        getServer().getScheduler().runTaskAsynchronously(this, () -> {
+            Updater updater = new Updater(this, "towny-spawn-menu", getFile(), config.autoUpdaterEnabled ? Updater.UpdateType.CHECK_DOWNLOAD : Updater.UpdateType.VERSION_CHECK, false);
+            switch(updater.getResult()) {
+                case SUCCESS -> {
+                    usingOldVersion = true;
+                    getLogger().info("Update will be applied after next restart!");
+                }
+                case UPDATE_FOUND -> {
+                    usingOldVersion = true;
+                    getLogger().info("You are using an older version of Filtering Hoppers, please update to version " + updater.getVersion());
+                }
+                case FAILED ->  {
+                    usingOldVersion = true;
+                    getLogger().warning("An update was found, but the updater failed to download it automatically. You might need to update manually!");
+                }
             }
         });
-        if(config.autoUpdaterEnabled) {
-            Updater updater = new Updater(this, "towny-spawn-menu", getFile(), Updater.UpdateType.CHECK_DOWNLOAD, true);
-            if(updater.getResult().equals(Updater.Result.SUCCESS)) getLogger().info("Update will be applied after next restart!");
-        }
     }
 
     public void loadConfig(boolean reload) {
@@ -82,11 +86,11 @@ public class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
     }
 
-    public static String getVersion() { return version; }
-    public static String getLatestVersion(){
+    public String getVersion() { return version; }
+    public String getLatestVersion(){
         return latestVersion;
     }
-    public static boolean getUsingOldVersion() {
+    public boolean getUsingOldVersion() {
         return usingOldVersion;
     }
 
