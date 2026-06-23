@@ -18,10 +18,10 @@ public final class Config {
         this.defaultLocale = config.getString("default-locale");
         Localization.init(plugin, defaultLocale);
         this.autoUpdaterEnabled = config.getBoolean("auto-updater-enabled");
-        this.menuFiller = Material.valueOf(config.getString("menu-filler"));
-        this.warItem = Material.valueOf(config.getString("war-item"));
-        this.noNationItem = Material.valueOf(config.getString("no-nation-item"));
-        this.privateItem = Material.valueOf(config.getString("private-item"));
-        this.defaultItem = Material.valueOf(config.getString("default-item"));
+        this.menuFiller = Material.matchMaterial(config.getString("menu-filler"));
+        this.warItem = Material.matchMaterial(config.getString("war-item"));
+        this.noNationItem = Material.matchMaterial(config.getString("no-nation-item"));
+        this.privateItem = Material.matchMaterial(config.getString("private-item"));
+        this.defaultItem = Material.matchMaterial(config.getString("default-item"));
     }
 }

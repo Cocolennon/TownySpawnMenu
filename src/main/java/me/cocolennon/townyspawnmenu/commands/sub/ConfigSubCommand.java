@@ -9,7 +9,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ConfigSubCommand {
-    private static final Main instance = Main.getInstance();
     public static List<String> autoComplete = Arrays.asList("default-item", "menu-filler", "war-item", "no-nation", "private");
 
     public static boolean execute(Player player, String[] args) {
@@ -20,38 +19,39 @@ public class ConfigSubCommand {
             player.sendMessage(Localization.get(player, "error.invalid.item", true));
             return false;
         }
-        String itemName = args[2].replace("minecraft:", "");
-        Material item = Material.getMaterial(itemName.toUpperCase());
-        if(item == null) {
+        String materialName = args[2].replace("minecraft:", "");
+        Material material = Material.matchMaterial(materialName);
+        if(material == null) {
             player.sendMessage(Localization.get(player, "error.invalid.item", true));
             return false;
         }
 
         Main main = Main.getInstance();
+        String formattedMaterial = materialName.toLowerCase().replace("_", " ");
         switch(args[1]) {
             case "default-item" -> {
-                configSet(main, "default-item", itemName);
-                player.sendMessage(Localization.get(player, "success.default-item", true, itemName.replace("_", " ")));
+                configSet(main, "default-item", materialName);
+                player.sendMessage(Localization.get(player, "success.default-item", true, formattedMaterial));
                 return true;
             }
             case "menu-filler" -> {
-                configSet(main, "menu-filler", itemName);
-                player.sendMessage(Localization.get(player, "success.menu-filler", true, itemName.replace("_", " ")));
+                configSet(main, "menu-filler", materialName);
+                player.sendMessage(Localization.get(player, "success.menu-filler", true, formattedMaterial));
                 return true;
             }
             case "war-item" -> {
-                configSet(main, "war-item", itemName);
-                player.sendMessage(Localization.get(player, "success.towns-at-war", true, itemName.replace("_", " ")));
+                configSet(main, "war-item", materialName);
+                player.sendMessage(Localization.get(player, "success.towns-at-war", true, formattedMaterial));
                 return true;
             }
             case "no-nation" -> {
-                configSet(main, "no-nation-item", itemName);
-                player.sendMessage(Localization.get(player, "success.nationless", true, itemName.replace("_", " ")));
+                configSet(main, "no-nation-item", materialName);
+                player.sendMessage(Localization.get(player, "success.nationless", true, formattedMaterial));
                 return true;
             }
             case "private" -> {
-                configSet(main, "private-item", itemName);
-                player.sendMessage(Localization.get(player, "success.private", true, itemName.replace("_", " ")));
+                configSet(main, "private-item", materialName);
+                player.sendMessage(Localization.get(player, "success.private", true, formattedMaterial));
                 return true;
             }
             default -> {

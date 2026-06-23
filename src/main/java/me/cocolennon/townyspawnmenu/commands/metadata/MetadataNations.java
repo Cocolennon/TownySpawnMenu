@@ -14,47 +14,32 @@ import org.bukkit.entity.Player;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 public class MetadataNations implements TabExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        Resident res = TownyAPI.getInstance().getResident((Player)sender);
-        assert res != null;
-        if(!sender.hasPermission("townyspawnmenu.set.nation") || !sender.hasPermission("townyspawnmenu.set.admin")) {
+        Resident resident = TownyAPI.getInstance().getResident((Player) sender);
+        assert resident != null;
+        if(!sender.hasPermission("townyspawnmenu.set.nation")) {
             sender.sendMessage(Localization.get(sender, "error.permission", true));
             return false;
         }
-        if(!res.hasNation()) {
+        if(!resident.hasNation()) {
             sender.sendMessage(Localization.get(sender, "error.towny.not-in-nation", true));
             return false;
         }
-        if(!res.isKing()) {
+        if(!resident.isKing()) {
             sender.sendMessage(Localization.get(sender, "error.towny.not-king", true));
             return false;
         }
-
-        Material material;
-        try {
-            material = Material.valueOf(args[0].replace("minecraft:", "").toUpperCase());
-        }catch(IllegalArgumentException e){
+        Material material = Material.matchMaterial(args[0]);
+        if (material == null) {
             sender.sendMessage(Localization.get(sender, "error.invalid.item", true));
             return false;
         }
-
-        if(args.length > 1) {
-            if(!sender.hasPermission("townyspawnmenu.set.admin")) {
-                sender.sendMessage(Localization.get(sender, "error.permission", true));
-                return false;
-            }
-            Nation nation = TownyAPI.getInstance().getNation(args[1]);
-            Metadata.setBlockInMenu(Objects.requireNonNull(nation), material.name());
-            sender.sendMessage(Localization.get(sender, "success.set-menu-item", true, nation.getName(), material.name().toLowerCase()));
-        }else{
-            Nation nation = res.getNationOrNull();
-            Metadata.setBlockInMenu(Objects.requireNonNull(nation), material.name());
-            sender.sendMessage(Localization.get(sender, "success.set-menu-item", true, nation.getName(), material.name().toLowerCase()));
-        }
+        Nation nation = resident.getNationOrNull();
+        Metadata.setBlockInMenu(nation, material.name());
+        sender.sendMessage(Localization.get(sender, "success.set-menu-item", true, nation.getName(), material.name().toLowerCase()));
         return true;
     }
 
@@ -64,8 +49,8 @@ public class MetadataNations implements TabExecutor {
         if(args.length == 1) {
             List<Material> allMaterials = new LinkedList<>(Arrays.stream(Material.values()).toList());
             List<String> materials = new LinkedList<>();
-            for (Material current : allMaterials) {
-                if (current.name().startsWith("LEGACY_")) break;
+            for(Material current : allMaterials) {
+                if(current.name().startsWith("LEGACY_")) break;
                 materials.add("minecraft:" + current.name().toLowerCase());
             }
             return materials;
