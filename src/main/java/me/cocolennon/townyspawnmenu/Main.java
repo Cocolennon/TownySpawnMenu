@@ -39,6 +39,7 @@ public class Main extends JavaPlugin {
     }
 
     public void checkVersion() {
+        version = getPluginMeta().getVersion();
         getServer().getScheduler().runTaskAsynchronously(this, () -> {
             Updater updater = new Updater(this, "towny-spawn-menu", getFile(), config.autoUpdaterEnabled ? Updater.UpdateType.CHECK_DOWNLOAD : Updater.UpdateType.VERSION_CHECK, false);
             switch(updater.getResult()) {
