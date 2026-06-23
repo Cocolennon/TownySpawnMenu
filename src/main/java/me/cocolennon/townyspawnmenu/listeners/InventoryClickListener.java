@@ -1,62 +1,65 @@
 package me.cocolennon.townyspawnmenu.listeners;
 
 import com.palmergames.bukkit.towny.TownyAPI;
-import me.cocolennon.townyspawnmenu.Main;
-import me.cocolennon.townyspawnmenu.utils.Localization;
+import com.palmergames.bukkit.towny.object.Nation;
+import com.palmergames.bukkit.towny.object.Resident;
+import com.palmergames.bukkit.towny.object.Town;
+import me.cocolennon.townyspawnmenu.utils.menu.MenuType;
 import me.cocolennon.townyspawnmenu.utils.menu.Nations;
+import me.cocolennon.townyspawnmenu.utils.menu.SpawnMenuInventoryHolder;
 import me.cocolennon.townyspawnmenu.utils.menu.Towns;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
-
-import java.util.Objects;
 
 public class InventoryClickListener implements Listener {
     @EventHandler
     public void onClick(InventoryClickEvent event) {
-        Inventory inv = event.getInventory();
-        Player player = (Player)event.getWhoClicked();
+        Inventory inventory = event.getInventory();
+        if(!(inventory.getHolder() instanceof SpawnMenuInventoryHolder invHolder)) return;
+        TownyAPI townyAPI = TownyAPI.getInstance();
+        Player player = (Player) event.getWhoClicked();
+        Resident resident = townyAPI.getResident(player);
         ItemStack current = event.getCurrentItem();
-
-        if(inv.getItem(0) == null) return;
-        if(current == null) return;
-        if(!current.hasItemMeta()) return;
-        NamespacedKey buttonAction = new NamespacedKey(Main.getInstance(), "buttonAction");
-        PersistentDataContainer pdc = current.getItemMeta().getPersistentDataContainer();
-        if(!pdc.has(buttonAction, PersistentDataType.STRING)) return;
-
         event.setCancelled(true);
-        String currentDName = current.getItemMeta().displayName().toString();
-        String currentLName = pdc.get(buttonAction, PersistentDataType.STRING);
-        switch(inv.getItem(0).getItemMeta().getPersistentDataContainer().get(buttonAction, PersistentDataType.STRING)){
-            case "nationMenu":
-                switch(currentLName){
-                    case "noNation", "atWar":
-                        Nations.openTownsOfNation(current, player, true, null);
-                        return;
-                    case "nationMenu", "hiddenTown", "hiddenNation":
-                        return;
-                    default:
-                        Nations.openTownsOfNation(current, player, false, null);
-                        return;
-                }
-            case "townMenu":
-                if(currentLName.equals("townMenu") || currentLName.equals("hiddenTown")) return;
-                if(currentDName.equals("§6§lNext Page") || currentDName.equals("§6§lPrevious Page") || currentDName.equals("§6§lBack to Nations")){
-                    Nations.openTownsOfNation(current, player, true, TownyAPI.getInstance().getNation(Objects.requireNonNull(Objects.requireNonNull(inv.getItem(26)).getItemMeta()).getPersistentDataContainer().get(buttonAction, PersistentDataType.STRING)));
-                }else{
-                    if(!player.hasPermission("townyspawnmenu.menu.teleport")) {
-                        player.sendMessage(Localization.get(player, "error.permission", true));
-                        return;
+        String buttonAction = invHolder.getButtonAction(current);
+        switch(invHolder.getType()) {
+            case NATIONS -> {
+                switch(buttonAction) {
+                    case "nation" -> {
+                        Nation nation = townyAPI.getNation(invHolder.getNationName(current));
+                        Towns.getPages(resident, nation, MenuType.TOWNS).getFirst().openInventory(player);
                     }
-                    Towns.teleportToTown(player, currentLName);
+                    case "noNation" -> Towns.getPages(resident, null, MenuType.NATIONLESS).getFirst().openInventory(player);
+                    case "atWar" -> Towns.getPages(resident, null, MenuType.AT_WAR).getFirst().openInventory(player);
+                    case "notPublic" -> Towns.getPages(resident, null, MenuType.PRIVATE).getFirst().openInventory(player);
+                    case "nextPage", "previousPage" -> {
+                        int pageNumber = invHolder.getPageNumber(current);
+                        Nations.getPages(resident).get(pageNumber).openInventory(player);
+                    }
+                    default -> {}
                 }
+            }
+            case TOWNS -> {
+                switch(buttonAction) {
+                    case "town" -> {
+                        Town town = townyAPI.getTown(invHolder.getNationName(current));
+                        Towns.teleportToTown(player, town.getName());
+                    }
+                    case "nextPage", "previousPage" -> {
+                        int pageNumber = invHolder.getPageNumber(current);
+                        Towns.getPages(resident, invHolder.getNation(), invHolder.getType()).get(pageNumber).openInventory(player);
+                    }
+                    case "backToNations" -> {
+                        int pageNumber = invHolder.getPageNumber(current);
+                        Nations.getPages(resident).get(pageNumber).openInventory(player);
+                    }
+                    default -> {}
+                }
+            }
         }
     }
 }
