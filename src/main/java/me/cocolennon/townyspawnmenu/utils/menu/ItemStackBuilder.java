@@ -17,7 +17,9 @@ public class ItemStackBuilder {
     }
 
     public ItemStackBuilder displayName(Component displayName) {
-        itemStack.getItemMeta().displayName(displayName);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.displayName(displayName);
+        itemStack.setItemMeta(itemMeta);
         return this;
     }
 
