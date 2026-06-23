@@ -1,5 +1,6 @@
 package me.cocolennon.townyspawnmenu.utils;
 
+import com.palmergames.bukkit.towny.object.Resident;
 import me.cocolennon.townyspawnmenu.Main;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -65,6 +66,10 @@ public final class Localization {
             String locale = file.getName().replace(".yml", "");
             locales.put(locale, YamlConfiguration.loadConfiguration(file));
         }
+    }
+
+    public static Component get(Resident resident, String path, boolean prefixed, Object... values) {
+        return get(resident.getPlayer(), path, prefixed, values);
     }
 
     public static Component get(CommandSender sender, String path, boolean prefixed, Object... values) {

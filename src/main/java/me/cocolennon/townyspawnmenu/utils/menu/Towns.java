@@ -8,6 +8,7 @@ import me.cocolennon.townyspawnmenu.Main;
 import me.cocolennon.townyspawnmenu.events.PlayerTeleportedToTown;
 import me.cocolennon.townyspawnmenu.utils.Localization;
 import me.cocolennon.townyspawnmenu.utils.Metadata;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -26,14 +27,15 @@ public class Towns {
         List<SpawnMenuInventoryHolder> inventories = new ArrayList<>();
         int pageCount = allTownsCount / inventorySlots;
         for(int pageNumber = 0; pageNumber <= pageCount; pageNumber++){
-            String title = switch(type) {
-                case TOWNS -> nation.getName();
-                case NATIONLESS -> "Nation-less";
-                case PRIVATE -> "Private";
-                case AT_WAR -> "At War";
-                default -> "Error";
+            String localeNode = "menu.title.towns." + switch(type) {
+                case TOWNS -> "main";
+                case NATIONLESS -> "nationless";
+                case PRIVATE -> "private";
+                case AT_WAR -> "at-war";
+                default -> "error";
             };
-            SpawnMenuInventoryHolder newPage = new SpawnMenuInventoryHolder(27, "<#FFAA00><bold>Towns<#FFFFFF>: <#00AAAA>" + title + "(" + (pageNumber + 1) + "/" + (pageCount + 1) + ")", type, nation);
+            Component title = type.equals(MenuType.TOWNS) ? Localization.get(resident, localeNode, false, nation.getName(), pageNumber + 1, pageCount + 1) : Localization.get(resident, localeNode, false, pageNumber + 1, pageCount + 1);
+            SpawnMenuInventoryHolder newPage = new SpawnMenuInventoryHolder(resident, 27, title, type, nation);
             List<Town> townsInCurrentPage = new ArrayList<>();
             if(pageNumber == pageCount) inventorySlots = allTownsCount - townsInPage;
             for(int j = 0; j < inventorySlots; j++){

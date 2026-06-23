@@ -24,3 +24,31 @@ success:
   private: "<#00AAAA>The item for private towns is now %s"
   hide-town-nation: "<#FFFF55>%s <#00AAAA>is now hidden in the menu!"
   show-town-nation: "<#FFFF55>%s <#00AAAA>is now visible in the menu!"
+menu:
+  title:
+    nations: "<#FFAA00><bold>Towny<#FFFFFF>: <#00AAAA>Nations (%s/%s)"
+    towns:
+      main: "<#FFAA00><bold>Towns<#FFFFFF>: <#00AAAA>%s (%s/%s)"
+      nationless: "<#FFAA00><bold>Towns<#FFFFFF>: <#00AAAA>Nationless (%s/%s)"
+      private: "<#FFAA00><bold>Towns<#FFFFFF>: <#00AAAA>Private (%s/%s)"
+      at-war: "<#FFAA00><bold>Towns<#FFFFFF>: <#00AAAA>At War (%s/%s)"
+  lore-lines:
+    leader: "<#FFAA00><bold>Leader<#FFFFFF>: <#00AAAA>%s"
+    capital: "<#FFAA00><bold>Capital<#FFFFFF>: <#00AA00>%s"
+    towns: "<#FFAA00><bold>Towns<#FFFFFF>: <#5555FF>%s"
+    residents: "<#FFAA00><bold>Residents<#FFFFFF>: <#FF55FF>%s"
+    nation: "<#FFAA00><bold>Nation<#FFFFFF>: <#00AAAA>%s"
+    mayor: "<#FFAA00><bold>Mayor<#FFFFFF>: <#00AA00>%s"
+    spawn-cost:
+      public: "<#FFAA00><bold>Spawn Cost<#FFFFFF>: <#FF5555>%s"
+      private: "<#FFAA00><bold>Spawn Cost<#FFFFFF>: <#FF5555>Private"
+  towns:
+    nationless: "<#FF5555><bold>Nation-less Towns"
+    private: "<#FF5555><bold>Private Towns"
+    at-war: "<#FF5555><bold>Towns at War"
+  hidden:
+    nations: "<#FF5555><bold>Hidden Nation"
+    towns: "<#FF5555><bold>Hidden Town"
+  next-page: "<#FFAA00><bold>Next Page"
+  previous-page: "<#FFAA00><bold>Previous Page"
+  back-to-nations: "<#FFAA00><bold>Back to Nations"

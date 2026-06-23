@@ -24,3 +24,31 @@ success:
   private: "<#00AAAA>L'objet pour les villes privéees est maintenant %s"
   hide-town-nation: "<#FFFF55>%s <#00AAAA>est maintenant caché dans le menu !"
   show-town-nation: "<#FFFF55>%s <#00AAAA>est maintenant visible dans le menu !"
+menu:
+  title:
+    nations: "<#FFAA00><bold>Towny<#FFFFFF>: <#00AAAA>Nations (%s/%s)"
+    towns:
+      main: "<#FFAA00><bold>Villes<#FFFFFF>: <#00AAAA>%s (%s/%s)"
+      nationless: "<#FFAA00><bold>Villes<#FFFFFF>: <#00AAAA>Sans nation (%s/%s)"
+      private: "<#FFAA00><bold>Villes<#FFFFFF>: <#00AAAA>Privées (%s/%s)"
+      at-war: "<#FFAA00><bold>Villes<#FFFFFF>: <#00AAAA>En Guerre (%s/%s)"
+  lore-lines:
+    leader: "<#FFAA00><bold>Dirigeant<#FFFFFF>: <#00AAAA>%s"
+    capital: "<#FFAA00><bold>Capitale<#FFFFFF>: <#00AA00>%s"
+    towns: "<#FFAA00><bold>Villes<#FFFFFF>: <#5555FF>%s"
+    residents: "<#FFAA00><bold>Résidents<#FFFFFF>: <#FF55FF>%s"
+    nation: "<#FFAA00><bold>Nation<#FFFFFF>: <#00AAAA>%s"
+    mayor: "<#FFAA00><bold>Maire<#FFFFFF>: <#00AA00>%s"
+    spawn-cost:
+      public: "<#FFAA00><bold>Prix de téléportation<#FFFFFF>: <#FF5555>%s"
+      private: "<#FFAA00><bold>Prix de téléportation<#FFFFFF>: <#FF5555>Ville privée"
+  towns:
+    nationless: "<#FF5555><bold>Villes sans nation"
+    private: "<#FF5555><bold>Villes privées"
+    at-war: "<#FF5555><bold>Villes en guerre"
+  hidden:
+    nations: "<#FF5555><bold>Nation cachée"
+    towns: "<#FF5555><bold>Ville cachée"
+  next-page: "<#FFAA00><bold>Page suivante"
+  previous-page: "<#FFAA00><bold>Page précédente"
+  back-to-nations: "<#FFAA00><bold>Retour aux Nations"

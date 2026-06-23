@@ -4,6 +4,7 @@ import com.palmergames.bukkit.towny.TownyAPI;
 import com.palmergames.bukkit.towny.object.Nation;
 import com.palmergames.bukkit.towny.object.Resident;
 import me.cocolennon.townyspawnmenu.Main;
+import me.cocolennon.townyspawnmenu.utils.Localization;
 import me.cocolennon.townyspawnmenu.utils.Metadata;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public class Nations {
         List<SpawnMenuInventoryHolder> inventories = new ArrayList<>();
         int pageCount = allNationsCount / inventorySlots;
         for(int pageNumber = 0; pageNumber <= pageCount; pageNumber++){
-            SpawnMenuInventoryHolder newPage = new SpawnMenuInventoryHolder(27, "<#FFAA00><bold>Towny<#FFFFFF>: <#00AAAA>Nations (" + (pageNumber+1) + "/" + (pageCount+1) + ")", MenuType.NATIONS, null);
+            SpawnMenuInventoryHolder newPage = new SpawnMenuInventoryHolder(resident, 27, Localization.get(resident, "menu.title.nations", false, pageNumber + 1, pageCount + 1), MenuType.NATIONS, null);
             List<Nation> nationsInCurrentPage = new ArrayList<>();
             if(pageNumber == pageCount) inventorySlots = allNationsCount - nationsCount;
             for(int i = 0; i < inventorySlots; i++){

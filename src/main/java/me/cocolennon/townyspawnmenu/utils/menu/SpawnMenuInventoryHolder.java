@@ -2,9 +2,11 @@ package me.cocolennon.townyspawnmenu.utils.menu;
 
 import com.palmergames.bukkit.towny.TownyAPI;
 import com.palmergames.bukkit.towny.object.Nation;
+import com.palmergames.bukkit.towny.object.Resident;
 import com.palmergames.bukkit.towny.object.Town;
 import com.palmergames.bukkit.towny.utils.MetaDataUtil;
 import me.cocolennon.townyspawnmenu.Main;
+import me.cocolennon.townyspawnmenu.utils.Localization;
 import me.cocolennon.townyspawnmenu.utils.Metadata;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -23,22 +25,28 @@ public class SpawnMenuInventoryHolder implements InventoryHolder {
     private Main main;
     private MiniMessage miniMessage;
     private Inventory inventory;
+    private Resident resident;
     private int size;
     private MenuType type;
     private Nation nation;
 
-    NamespacedKey buttonKey = new NamespacedKey(main, "buttonAction");
-    NamespacedKey nationKey = new NamespacedKey(main, "nationName");
-    NamespacedKey townKey = new NamespacedKey(main, "townName");
-    NamespacedKey pageNumberKey = new NamespacedKey(main, "pageNumber");
+    NamespacedKey buttonKey;
+    NamespacedKey nationKey;
+    NamespacedKey townKey;
+    NamespacedKey pageNumberKey;
 
-    public SpawnMenuInventoryHolder(int size, String title, MenuType type, Nation nation) {
+    public SpawnMenuInventoryHolder(Resident resident, int size, Component title, MenuType type, Nation nation) {
         this.main = Main.getInstance();
         this.miniMessage = MiniMessage.miniMessage();
+        this.inventory = Bukkit.createInventory(this, size, title);
+        this.resident = resident;
         this.size = size;
         this.type = type;
         this.nation = nation;
-        this.inventory = Bukkit.createInventory(this, size, MiniMessage.miniMessage().deserialize(title));
+        this.buttonKey = new NamespacedKey(main, "buttonAction");
+        this.nationKey = new NamespacedKey(main, "nationName");
+        this.townKey = new NamespacedKey(main, "townName");
+        this.pageNumberKey = new NamespacedKey(main, "pageNumber");
     }
 
     public void addNationItem(Nation nation, int slot) {
@@ -53,7 +61,7 @@ public class SpawnMenuInventoryHolder implements InventoryHolder {
 
     public void addHiddenNationItem(int slot) {
         ItemStack itemStack = new ItemStackBuilder(Material.RED_STAINED_GLASS_PANE, 1)
-                .displayName(miniMessage.deserialize("<#FF5555><bold>Hidden Nation"))
+                .displayName(Localization.get(resident, "menu.hidden.nations", false))
                 .setKeyValue(buttonKey, PersistentDataType.STRING, "hiddenNation").get();
         setItem(slot, itemStack);
     }
@@ -70,14 +78,14 @@ public class SpawnMenuInventoryHolder implements InventoryHolder {
 
     public void addHiddenTownItem(int slot) {
         ItemStack itemStack = new ItemStackBuilder(Material.RED_STAINED_GLASS_PANE, 1)
-                .displayName(miniMessage.deserialize("<#FF5555><bold>Hidden Town"))
+                .displayName(Localization.get(resident, "menu.hidden.towns", false))
                 .setKeyValue(buttonKey, PersistentDataType.STRING, "hiddenTown").get();
         setItem(slot, itemStack);
     }
 
     public void addPageItem(String context, int page, int slot) {
         ItemStack itemStack = new ItemStackBuilder(Material.ARROW, 1)
-                .displayName(miniMessage.deserialize("<#FFAA00><bold>" + context + "Page"))
+                .displayName(Localization.get(resident, "menu." + context.toLowerCase() + "-page", false))
                 .setKeyValue(buttonKey, PersistentDataType.STRING, context.toLowerCase() + "Page")
                 .setKeyValue(pageNumberKey, PersistentDataType.INTEGER, page).get();
         setItem(slot, itemStack);
@@ -85,7 +93,7 @@ public class SpawnMenuInventoryHolder implements InventoryHolder {
 
     public void addBackToNationsItem(int page) {
         ItemStack itemStack = new ItemStackBuilder(Material.ARROW, 1)
-                .displayName(miniMessage.deserialize("<#FFAA00><bold>Back to Nations"))
+                .displayName(Localization.get(resident, "menu.back-to-nations", false))
                 .setKeyValue(buttonKey, PersistentDataType.STRING, "backToNations")
                 .setKeyValue(pageNumberKey, PersistentDataType.INTEGER, page).get();
         setItem(22, itemStack);
@@ -94,13 +102,13 @@ public class SpawnMenuInventoryHolder implements InventoryHolder {
     public void addMiscTownItems() {
         TownyAPI townyAPI = TownyAPI.getInstance();
         ItemStack noNation = new ItemStackBuilder(main.config().noNationItem, 1)
-                .displayName(miniMessage.deserialize("<#FF5555><bold>Nation-less Towns"))
+                .displayName(Localization.get(resident, "menu.towns.nationless", false))
                 .setKeyValue(buttonKey, PersistentDataType.STRING, "noNation").get();
         ItemStack notPublic = new ItemStackBuilder(main.config().privateItem, 1)
-                .displayName(miniMessage.deserialize("<#FF5555><bold>Private Towns"))
+                .displayName(Localization.get(resident, "menu.towns.private", false))
                 .setKeyValue(buttonKey, PersistentDataType.STRING, "notPublic").get();
         ItemStack atWar = new ItemStackBuilder(main.config().warItem, 1)
-                .displayName(miniMessage.deserialize("<#FF5555><bold>Towns at War Towns"))
+                .displayName(Localization.get(resident, "menu.towns.at-war", false))
                 .setKeyValue(buttonKey, PersistentDataType.STRING, "atWar").get();
         int privateTowns = 0;
         int townsAtWar = 0;
@@ -113,21 +121,22 @@ public class SpawnMenuInventoryHolder implements InventoryHolder {
         if(townsAtWar > 0) inventory.setItem(26, atWar);
     }
 
-    public static ArrayList<Component> getNationLore(Nation nation) {
+    public ArrayList<Component> getNationLore(Nation nation) {
         ArrayList<Component> itemLore = new ArrayList<>();
-        itemLore.add(Component.text("<#FFAA00><bold>Leader<#FFFFFF>: <#00AAAA>" + nation.getKing().getName()));
-        itemLore.add(Component.text("<#FFAA00><bold>Capital<#FFFFFF>: <#00AA00>" + nation.getCapital().getName()));
-        itemLore.add(Component.text("<#FFAA00><bold>Towns<#FFFFFF>: <#5555FF>" + nation.getTowns().size()));
-        itemLore.add(Component.text("<#FFAA00><bold>Total Residents<#FFFFFF>: <#FF55FF>" + nation.getResidents().size()));
+        itemLore.add(Localization.get(resident, "menu.lore-lines.leader", false, nation.getKing().getName()));
+        itemLore.add(Localization.get(resident, "menu.lore-lines.capital", false, nation.getCapital().getName()));
+        itemLore.add(Localization.get(resident, "menu.lore-lines.towns", false, nation.getTowns().size()));
+        itemLore.add(Localization.get(resident, "menu.lore-lines.residents", false, nation.getResidents().size()));
         return itemLore;
     }
 
     public ArrayList<Component> getTownLore(Town town) {
         ArrayList<Component> itemLore = new ArrayList<>();
-        if(town.hasNation()) itemLore.add(miniMessage.deserialize("<#FFAA00><bold>Nation<#FFFFFF>: <#00AAAA>" + town.getNationOrNull().getName()));
-        itemLore.add(miniMessage.deserialize("<#FFAA00><bold>Mayor<#FFFFFF>: <#00AA00>" + town.getMayor().getName()));
-        itemLore.add(miniMessage.deserialize("<#FFAA00><bold>Residents<#FFFFFF>: <#FF55FF>" + town.getResidents().size()));
-        itemLore.add(miniMessage.deserialize("<#FFAA00><bold>Spawn Cost<#FFFFFF>: <#FF5555>" + (town.isPublic() ? town.getSpawnCost() : "Private")));
+        if(town.hasNation()) itemLore.add(Localization.get(resident, "menu.lore-lines.nation", false, town.getNationOrNull().getName()));
+        itemLore.add(Localization.get(resident, "menu.lore-lines.mayor", false, town.getMayor().getName()));
+        itemLore.add(Localization.get(resident, "menu.lore-lines.residents", false, town.getResidents().size()));
+        if(town.isPublic()) itemLore.add(Localization.get(resident, "menu.lore-lines.spawn-cost.public", false, town.getSpawnCost()));
+        else itemLore.add(Localization.get(resident, "menu.lore-lines.spawn-cost.private", false));
         return itemLore;
     }
 
