@@ -12,18 +12,15 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MainCommand implements TabExecutor {
-    private static final List<String> autoComplete = Arrays.asList("menu", "config", "info", "hide");
+    private static final List<String> autoComplete = Arrays.asList("config", "info", "hide");
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(!(sender instanceof Player player)) return false;
-        if(!(args.length >= 1)) return InfoSubCommand.execute(player);
+        if(!(args.length >= 1)) return MenuSubCommand.execute(player);
         switch (args[0]) {
             case "info" -> {
                 return InfoSubCommand.execute(player);
-            }
-            case "menu" -> {
-                return MenuSubCommand.execute(player);
             }
             case "config", "cfg" -> {
                 return ConfigSubCommand.execute(player, args);
