@@ -3,6 +3,7 @@ package me.cocolennon.townyspawnmenu.utils;
 import com.palmergames.bukkit.towny.object.Resident;
 import me.cocolennon.townyspawnmenu.Main;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -79,11 +80,7 @@ public final class Localization {
 
     public static Component get(Player player, String path, boolean prefixed, Object... values) {
         String localeTag = normalizeLocale(player.locale().toString());
-        FileConfiguration locale =  locales.get(localeTag);
-        if(locale == null) locale = locales.get(fallback);
-        String prefix = prefixed ? getLocalizedString(locale, "prefix") + " " : "";
-        String message = getLocalizedString(locale, path);
-        return miniMessage.deserialize(prefix + message.formatted(values));
+        return get(localeTag, path, prefixed, values);
     }
 
     public static Component get(String localeString, String path, boolean prefixed, Object... values) {
@@ -92,7 +89,7 @@ public final class Localization {
         if(locale == null) locale = locales.get(fallback);
         String prefix = prefixed ? getLocalizedString(locale, "prefix") + " " : "";
         String message = getLocalizedString(locale, path);
-        return miniMessage.deserialize(prefix + message.formatted(values));
+        return miniMessage.deserialize(prefix + message.formatted(values)).decoration(TextDecoration.ITALIC, false);
     }
 
     public static String console(String path, Object... values) {

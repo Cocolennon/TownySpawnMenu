@@ -9,6 +9,7 @@ import me.cocolennon.townyspawnmenu.Main;
 import me.cocolennon.townyspawnmenu.utils.Localization;
 import me.cocolennon.townyspawnmenu.utils.Metadata;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -52,7 +53,7 @@ public class SpawnMenuInventoryHolder implements InventoryHolder {
     public void addNationItem(Nation nation, int slot) {
         Material material = MetaDataUtil.hasMeta(nation, Metadata.blockInMenu) ? Material.matchMaterial(Metadata.getBlockInMenu(nation)) : main.config().defaultItem;
         ItemStack itemStack = new ItemStackBuilder(material, 1)
-                .displayName(miniMessage.deserialize("<#FF5555><bold>" + nation.getName()))
+                .displayName(miniMessage.deserialize("<#FF5555><bold>" + nation.getName()).decoration(TextDecoration.ITALIC, false))
                 .setKeyValue(buttonKey, PersistentDataType.STRING, "nation")
                 .setKeyValue(nationKey, PersistentDataType.STRING, nation.getName())
                 .lore(getNationLore(nation)).get();
@@ -69,7 +70,7 @@ public class SpawnMenuInventoryHolder implements InventoryHolder {
     public void addTownItem(Town town, int slot) {
         Material material = MetaDataUtil.hasMeta(town, Metadata.blockInMenu) ? Material.matchMaterial(Metadata.getBlockInMenu(town)) : main.config().defaultItem;
         ItemStack itemStack = new ItemStackBuilder(material, 1)
-                .displayName(miniMessage.deserialize("<#FF5555><bold>" + town.getName()))
+                .displayName(miniMessage.deserialize("<#FF5555><bold>" + town.getName()).decoration(TextDecoration.ITALIC, false))
                 .setKeyValue(buttonKey, PersistentDataType.STRING, "town")
                 .setKeyValue(townKey, PersistentDataType.STRING, town.getName())
                 .lore(getTownLore(town)).get();
