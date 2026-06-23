@@ -3,9 +3,6 @@ package me.cocolennon.townyspawnmenu;
 import com.palmergames.bukkit.towny.Towny;
 import com.palmergames.bukkit.towny.TownyCommandAddonAPI;
 import com.palmergames.bukkit.towny.TownyCommandAddonAPI.CommandType;
-import com.palmergames.bukkit.towny.scheduling.TaskScheduler;
-import com.palmergames.bukkit.towny.scheduling.impl.BukkitTaskScheduler;
-import com.palmergames.bukkit.towny.scheduling.impl.FoliaTaskScheduler;
 import com.palmergames.bukkit.util.Version;
 import me.cocolennon.townyspawnmenu.commands.MainCommand;
 import me.cocolennon.townyspawnmenu.commands.metadata.MetadataNations;
@@ -22,11 +19,6 @@ public class Main extends JavaPlugin {
     public static String latestVersion;
     public static boolean usingOldVersion = false;
     private static final Version requiredTownyVersion = Version.fromString("0.102.0.0");
-    private final Object scheduler;
-
-    public Main(){
-        this.scheduler = townyVersionCheck() ? isFoliaClassPresent() ? new FoliaTaskScheduler(this) : new BukkitTaskScheduler(this) : null;
-    }
 
     @Override
     public void onEnable() {
@@ -40,6 +32,8 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        instance = null;
+        this.config = null;
         saveConfig();
         getLogger().info("Plugin disabled!");
     }
@@ -61,6 +55,7 @@ public class Main extends JavaPlugin {
                     getLogger().warning("An update was found, but the updater failed to download it automatically. You might need to update manually!");
                 }
             }
+            latestVersion = updater.getVersion();
         });
     }
 
@@ -96,19 +91,6 @@ public class Main extends JavaPlugin {
 
     private boolean townyVersionCheck() {
         return Version.fromString(Towny.getPlugin().getVersion()).compareTo(requiredTownyVersion) >= 0;
-    }
-
-    public TaskScheduler getScheduler() {
-        return (TaskScheduler) this.scheduler;
-    }
-
-    public boolean isFoliaClassPresent() {
-        try {
-            Class.forName("io.papermc.paper.threadedregions.RegionizedServer");
-            return true;
-        } catch (ClassNotFoundException e) {
-            return false;
-        }
     }
 
     public Config config() { return config; }
