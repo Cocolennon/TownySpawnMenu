@@ -151,7 +151,7 @@ public class SpawnMenuInventoryHolder implements InventoryHolder {
     }
 
     public String getTownName(ItemStack itemStack) {
-        return itemStack.getItemMeta().getPersistentDataContainer().get(nationKey, PersistentDataType.STRING);
+        return itemStack.getItemMeta().getPersistentDataContainer().get(townKey, PersistentDataType.STRING);
     }
 
     public int getPageNumber(ItemStack itemStack) {

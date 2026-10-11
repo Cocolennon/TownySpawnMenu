@@ -47,7 +47,7 @@ public class InventoryClickListener implements Listener {
             case TOWNS, NATIONLESS, PRIVATE, AT_WAR -> {
                 switch(buttonAction) {
                     case "town" -> {
-                        Town town = townyAPI.getTown(invHolder.getNationName(current));
+                        Town town = townyAPI.getTown(invHolder.getTownName(current));
                         Towns.teleportToTown(player, town.getName());
                     }
                     case "nextPage", "previousPage" -> {
